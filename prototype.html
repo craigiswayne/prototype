@@ -1,0 +1,29 @@
+<html>
+<head>
+<script>
+var XKittenPrototype = Object.create(HTMLInputElement.prototype);
+
+XKittenPrototype.createdCallback = function() {
+    var width  = this.attributes.width.value,
+        height = this.attributes.height.value;
+
+    this.style.width  = width  + 'px';
+    this.style.height = height + 'px';
+
+    this.style.backgroundImage = 'url(http://placekitten.com/' + width + '/' + height + ')';
+    this.style.display = 'block';
+};
+
+if (document.register && !document.registerElement)
+    document.registerElement = document.register;
+
+var XKitten = document.registerElement('x-kitten', {
+    prototype: XKittenPrototype
+});
+</script>
+</head>
+<body>
+<x-kitten width="200" height="200"></x-kitten>
+hello world
+</body>
+</html>
