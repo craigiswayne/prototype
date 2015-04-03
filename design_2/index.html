@@ -1,128 +1,131 @@
-<<<<<<< HEAD
-<title>Prototype</title>
+<html>
 
-<link rel="icon" type="image/png" href="nexus_prototype.png">
-<link rel="stylesheet" href="nexus_prototype.css">
-<link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
-<script src="nexus_prototype.js"></script>
+  <head>
+    <title>Prototype</title>
+    <link rel="icon" type="image/png" href="nexus_prototype.png">
+    <link rel="stylesheet" href="nexus_prototype.css">
+    <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
+    <script src="nexus_prototype.js"></script>
+    <!--<script src="http://code.jquery.com/jquery-1.11.2.js"></script>-->
+    <script src="jquery-1.11.2.js"></script>
+  </head>
 
-<!--<script src="http://code.jquery.com/jquery-1.11.2.js"></script>-->
-<script src="jquery-1.11.2.js"></script>
+  <body>
+    <header class=no_select>
+    <span class="fa fa-bars menu_toggle" onclick="$('.main .menu').toggleClass('active'); $(this).toggleClass('fa-bars fa-times')"></span>
+      <label>Prototype</label>
+      <input id=filename type=text value="prototype.html">
+      <span class="fa fa-share pull-right share_toggle"></span>
+    </header>
 
-<header class=no_select>
-<span class="fa fa-bars menu_toggle" onclick="$('.main .menu').toggleClass('active'); $(this).toggleClass('fa-bars fa-times')"></span>
-  <label>Prototype</label>
-  <input id=filename type=text value="prototype.html">
-  <span class="fa fa-share pull-right share_toggle"></span>
-</header>
+    <form class="main">
 
-<form class="main">
+    <nav class="menu accordion">
+    <details>
+    <summary>File</summary>
+    <label>Open<input type="file" style="display:none;" multiple="" accept=".html"></label>
+    <a id="download_button" href="" download onclick="save_code_as();">Save</a>
+    </details>
 
-<nav class="menu accordion">
-<details>
-<summary>File</summary>
-<label>Open<input type="file" style="display:none;" multiple="" accept=".html"></label>
-<a id="download_button" href="" download onclick="save_code_as();">Save</a>
-</details>
+    <input type=reset>
 
-<input type=reset>
+    <details>
+    <summary>Settings</summary>
+    </details>
 
-<details>
-<summary>Settings</summary>
-</details>
+    <details>
+    <summary>Help</summary>
+    </details>
 
-<details>
-<summary>Help</summary>
-</details>
+    <details>
+    <summary>Github</summary>
+    </details>
 
-<details>
-<summary>Github</summary>
-</details>
+    <details>
+    <summary>About</summary>
+    </details>
+    </nav>
 
-<details>
-<summary>About</summary>
-</details>
-</nav>
+    <div class="workspace">
 
-<div class="workspace">
+    <div class="editor">
+    <div class="code_box"><label class=action>HTML<input type=checkbox checked=checked></label><textarea class="code_area html"></textarea></div>
+    <div class="code_box"><label class=action>CSS<input type=checkbox checked=checked></label><textarea class="code_area css"></textarea></div>
+    <div class="code_box"><label class=action>JS<input type=checkbox checked=checked></label><textarea class="code_area js"></textarea></div>
+    <div class="resizer no_select"><span class="fa fa-step-backward" onclick="editor_width_min();"></span><span class="fa fa-ellipsis-v"></span><span class="fa fa-step-forward" onclick="editor_width_max();"></span></div>
+    </div>
 
-<div class="editor">
-<div class="code_box"><label class=action>HTML<input type=checkbox checked=checked></label><textarea class="code_area html"></textarea></div>
-<div class="code_box"><label class=action>CSS<input type=checkbox checked=checked></label><textarea class="code_area css"></textarea></div>
-<div class="code_box"><label class=action>JS<input type=checkbox checked=checked></label><textarea class="code_area js"></textarea></div>
-<div class="resizer no_select"><span class="fa fa-step-backward" onclick="editor_width_min();"></span><span class="fa fa-ellipsis-v"></span><span class="fa fa-step-forward" onclick="editor_width_max();"></span></div>
-</div>
+    <iframe class=preview src="about:blank" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
 
-<iframe class=preview src="about:blank" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+    </div>
+    </form>
 
-</div>
-</form>
+    <footer class="status_bar">
+    <a href="mailto:craig.wayne01@gmail.com?subject=Prototype">
+    &copy; The Nexus Gen
+    </a>
+    </footer>
+    =======
+    <title>Prototype</title>
 
-<footer class="status_bar">
-<a href="mailto:craig.wayne01@gmail.com?subject=Prototype">
-&copy; The Nexus Gen
-</a>
-</footer>
-=======
-<title>Prototype</title>
+    <link rel="icon" type="image/png" href="nexus_prototype.png">
+    <link rel="stylesheet" type="text/css" href="nexus_prototype.css">
+    <script src="nexus_prototype.js"></script>
 
-<link rel="icon" type="image/png" href="nexus_prototype.png">
-<link rel="stylesheet" type="text/css" href="nexus_prototype.css">
-<script src="nexus_prototype.js"></script>
+    <!--<script src="http://code.jquery.com/jquery-1.11.2.js"></script>-->
 
-<!--<script src="http://code.jquery.com/jquery-1.11.2.js"></script>-->
+    <header class=no_select>
+    <span class="fa fa-bars menu_toggle" onclick="$('.main .menu').toggleClass('active'); $(this).toggleClass('fa-bars fa-times')"></span><label>Prototype</label><input type=text value="filename.html"><span class="fa fa-share pull-right share_toggle"></span>
+    </header>
 
-<header class=no_select>
-<span class="fa fa-bars menu_toggle" onclick="$('.main .menu').toggleClass('active'); $(this).toggleClass('fa-bars fa-times')"></span><label>Prototype</label><input type=text value="filename.html"><span class="fa fa-share pull-right share_toggle"></span>
-</header>
+    <form class="main">
 
-<form class="main">
+    <nav class="menu accordion">
+    <details>
+    <summary>File</summary>
+    <input type=button value="Open">
+    <input type=button value="Save">
+    </details>
 
-<nav class="menu accordion">
-<details>
-<summary>File</summary>
-<input type=button value="Open">
-<input type=button value="Save">
-</details>
+    <input type=reset>
 
-<input type=reset>
+    <details>
+    <summary>File</summary>
+    <input type=button value="Open">
+    <input type=button value="Save">
+    </details>
 
-<details>
-<summary>File</summary>
-<input type=button value="Open">
-<input type=button value="Save">
-</details>
+    <details>
+    <summary>Help</summary>
+    </details>
 
-<details>
-<summary>Help</summary>
-</details>
+    <details>
+    <summary>Github</summary>
+    </details>
 
-<details>
-<summary>Github</summary>
-</details>
+    <details>
+    <summary>About</summary>
+    </details>
+    </nav>
 
-<details>
-<summary>About</summary>
-</details>
-</nav>
+    <div class="workspace">
 
-<div class="workspace">
+    <div class="editor">
+    <div class="code_box"><label class=action>HTML<input type=checkbox></label><textarea class="code_area html"></textarea></div>
+    <div class="code_box"><label class=action>CSS<input type=checkbox></label><textarea class="code_area css"></textarea></div>
+    <div class="code_box"><label class=action>JS<input type=checkbox></label><textarea class="code_area js"></textarea></div>
+    <div class="resizer no_select"><span class="fa fa-step-backward" onclick="editor_width_min();"></span><span class="fa fa-ellipsis-v"></span><span class="fa fa-step-forward" onclick="editor_width_max();"></span></div>
+    </div>
 
-<div class="editor">
-<div class="code_box"><label class=action>HTML<input type=checkbox></label><textarea class="code_area html"></textarea></div>
-<div class="code_box"><label class=action>CSS<input type=checkbox></label><textarea class="code_area css"></textarea></div>
-<div class="code_box"><label class=action>JS<input type=checkbox></label><textarea class="code_area js"></textarea></div>
-<div class="resizer no_select"><span class="fa fa-step-backward" onclick="editor_width_min();"></span><span class="fa fa-ellipsis-v"></span><span class="fa fa-step-forward" onclick="editor_width_max();"></span></div>
-</div>
+    <iframe class=preview src="about:blank" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
 
-<iframe class=preview src="about:blank" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+    </div>
+    </form>
 
-</div>
-</form>
-
-<footer class="status_bar">
-<a href="mailto:craig.wayne01@gmail.com?subject=Prototype">
-&copy; The Nexus Gen
-</a>
-</footer>
->>>>>>> origin/master
+    <footer class="status_bar">
+    <a href="mailto:craig.wayne01@gmail.com?subject=Prototype">
+    &copy; The Nexus Gen
+    </a>
+    </footer>
+  </body>
+</html>
