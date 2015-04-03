@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <title>Prototype</title>
 
 <link rel="icon" type="image/png" href="nexus_prototype.png">
@@ -62,3 +63,66 @@
 &copy; The Nexus Gen
 </a>
 </footer>
+=======
+<title>Prototype</title>
+
+<link rel="icon" type="image/png" href="nexus_prototype.png">
+<link rel="stylesheet" type="text/css" href="nexus_prototype.css">
+<script src="nexus_prototype.js"></script>
+
+<!--<script src="http://code.jquery.com/jquery-1.11.2.js"></script>-->
+
+<header class=no_select>
+<span class="fa fa-bars menu_toggle" onclick="$('.main .menu').toggleClass('active'); $(this).toggleClass('fa-bars fa-times')"></span><label>Prototype</label><input type=text value="filename.html"><span class="fa fa-share pull-right share_toggle"></span>
+</header>
+
+<form class="main">
+
+<nav class="menu accordion">
+<details>
+<summary>File</summary>
+<input type=button value="Open">
+<input type=button value="Save">
+</details>
+
+<input type=reset>
+
+<details>
+<summary>File</summary>
+<input type=button value="Open">
+<input type=button value="Save">
+</details>
+
+<details>
+<summary>Help</summary>
+</details>
+
+<details>
+<summary>Github</summary>
+</details>
+
+<details>
+<summary>About</summary>
+</details>
+</nav>
+
+<div class="workspace">
+
+<div class="editor">
+<div class="code_box"><label class=action>HTML<input type=checkbox></label><textarea class="code_area html"></textarea></div>
+<div class="code_box"><label class=action>CSS<input type=checkbox></label><textarea class="code_area css"></textarea></div>
+<div class="code_box"><label class=action>JS<input type=checkbox></label><textarea class="code_area js"></textarea></div>
+<div class="resizer no_select"><span class="fa fa-step-backward" onclick="editor_width_min();"></span><span class="fa fa-ellipsis-v"></span><span class="fa fa-step-forward" onclick="editor_width_max();"></span></div>
+</div>
+
+<iframe class=preview src="about:blank" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+
+</div>
+</form>
+
+<footer class="status_bar">
+<a href="mailto:craig.wayne01@gmail.com?subject=Prototype">
+&copy; The Nexus Gen
+</a>
+</footer>
+>>>>>>> origin/master
