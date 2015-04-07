@@ -99,6 +99,7 @@ header input{
 	position: relative;
 	z-index: 2;
 	transition:margin-left 0.2s ease;
+	-webkit-transition:margin-left 0.2s ease;
 	text-align:left;
 	font-weight:bold;
 	overflow:auto;
@@ -186,6 +187,7 @@ header input{
 
 .main .workspace .editor[data-resizing="false"]{
 	transition:width 0.3s ease;
+	-webkit-transition:width 0.3s ease;
 }
 
 .main .workspace .editor .resizer{
@@ -240,10 +242,13 @@ header input{
 
   min-height: 25px;
   transition: height 0.3s ease;
+  -webkit-transition: height 0.3s ease;
   margin: 0px;
 	position:relative;
 
 	display:block;
+
+	padding-top:25px;
 }
 
 .main .workspace .editor .code_box[data-showing=false] {
@@ -256,6 +261,7 @@ header input{
 	background-color:#52DB62;
 	background-color:#3CA2A2;
 	background-image:-webkit-linear-gradient(top,rgba(255, 255, 255, 0.3),rgba(0, 0, 0, 0));
+	background-image:linear-gradient(to bottom,rgba(255, 255, 255, 0.3),rgba(0, 0, 0, 0));
 	color:white;
 	display:inline-block;
 	padding:0 10px;
@@ -264,6 +270,9 @@ header input{
 	height:25px;
 	overflow: hidden;
 	box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
+	position:absolute;
+	top:0;
+	left:0;
 }
 
 .main .workspace .editor .code_box label input[type=checkbox]{
@@ -273,9 +282,9 @@ header input{
 }
 
 .main .workspace .editor .code_area{
-	height:calc(100% - 25px);
-
-	background:repeating-linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 17px, #87CEEB 18px);
+	height:100%;
+	background: -webkit-repeating-linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 17px, #87CEEB 18px);
+	background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 17px, #87CEEB 18px);
 	background-color:#FCFCFC;
 	padding:0 10px;
 
@@ -337,7 +346,7 @@ text-decoration:inherit;
 	width:100% !important;
 }
 
-.share_toggle{
+header .share.toggle{
 	position: absolute;
 	right: 0px;
 	top: 0px;
@@ -350,40 +359,40 @@ text-decoration:inherit;
 	color: inherit;
 }
 
-.share_toggle:focus,
-.share_toggle:active{
+header .share.toggle:focus,
+header .share.toggle:active{
 	outline:none;
 }
 
-.share_toggle:hover{
+header .share.toggle:hover{
 	border-left: 1px solid rgb(255, 255, 255);
 	background-color: rgba(229, 166, 46, 0.9);
 	box-shadow: 0 0 4px 0 rgb(0, 0, 0);
 }
 
 
-header .share_toggle .menu{
+header .share.toggle + .share.menu{
 	font-size: 0.8em;
 	z-index: 1;
-	position: relative;
+	position: fixed;
+	top:32px;
 	font-weight: bold;
 	list-style: none;
-	right:-100%;
+	right:-100px;
 	width: 100px;
 	text-align: left;
 	background-color:inherit;
-	transition:right 0.2s ease;
+	transition:all 0.2s ease;
+	-webkit-transition:all 0.2s ease;
 	color:transparent;
 }
 
-
-.share_toggle:hover .menu,
-.menu:hover{
-	right:56px;
+header .share.toggle:hover + .share.menu{
+	right:0;
 	color:inherit;
 }
 
-header .menu li {
+header .share.menu li {
 	padding: 0 0 0 10px;
 	background-color:inherit;
 }

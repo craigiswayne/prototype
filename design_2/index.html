@@ -21,13 +21,12 @@
       <span class="fa fa-bars menu_toggle" onclick="show_menu();"></span>
       <label>Prototype</label>
       <input id=filename type=text value="prototype.html">
-      <button class="fa fa-share action share_toggle">
-        <ul class="menu">
+      <button class="fa fa-share action share toggle"></button>
+       <ul class="share menu">
           <li class="action" id="export_codepen">CodePen</li>
           <li class="action" id="export_email">Email</li>
           <li class="action" id="export_url">URL</li>
         </ul>
-      </button>
     </header>
 
     <form class="main">
@@ -67,9 +66,9 @@
       <div class="workspace">
 
         <div id="editor" class="editor">
-          <div class="code_box"><label class=action>HTML<input type=checkbox checked=checked></label><textarea id="code_area_html" class="code_area html"></textarea></div>
-          <div class="code_box"><label class=action>CSS<input type=checkbox checked=checked></label><textarea id="code_area_css" class="code_area css"></textarea></div>
-          <div class="code_box"><label class=action>JS<input type=checkbox checked=checked></label><textarea id="code_area_js" class="code_area js"></textarea></div>
+          <div class="code_box"><label class="action no_select">HTML<input type=checkbox checked=checked></label><textarea id="code_area_html" class="code_area html"></textarea></div>
+          <div class="code_box"><label class="action no_select">CSS<input type=checkbox checked=checked></label><textarea id="code_area_css" class="code_area css"></textarea></div>
+          <div class="code_box"><label class="action no_select">JS<input type=checkbox checked=checked></label><textarea id="code_area_js" class="code_area js"></textarea></div>
           <div class="resizer no_select"><span class="fa fa-step-backward" onclick="editor_width_min();"></span><span class="fa fa-ellipsis-v"></span><span class="fa fa-step-forward" onclick="editor_width_max();"></span></div>
         </div>
 
