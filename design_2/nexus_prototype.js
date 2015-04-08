@@ -184,7 +184,7 @@ function upload_files(){
 									document.querySelector(".code_area.html").value = this.result;
 									document.querySelector(".menu input[type=file]").value = null;
 									show_preview();
-									hide_menu();
+									toggle_main_menu();
 								};
 
 								reader.readAsText(file);
@@ -235,16 +235,52 @@ function reset(){
 	show_preview();
 }
 
-function show_menu(){
-	$('.main .menu').toggleClass('active');
-	$('header .menu_toggle').toggleClass('fa-bars fa-times');
-	document.querySelector('.workspace').setAttribute("onclick","hide_menu();");
+function hide_all_menus(){
+	$("#main_menu").removeClass('active');
+	$("#main_menu").removeClass('share_active');
+	document.querySelector("#main_menu_toggle").className = "fa fa-bars toggle";
+	document.querySelector("#share_menu_toggle").className = "fa fa-share toggle";
+	hide_mask();
 }
 
-function hide_menu(){
-	$("header .menu_toggle").toggleClass('fa-times fa-bars');
-	$(".main .menu").removeClass("active");
+function toggle_main_menu(){
+	$('#main_menu_toggle').toggleClass('fa-bars fa-times');
+	document.querySelector("#share_menu_toggle").className = "fa fa-share toggle";
+	
+	$('#main_menu').toggleClass('active');
+	$('#main_menu').removeClass('share_active');
+	
+	if(document.querySelector("#main_menu_toggle.fa-times")){
+		show_mask();
+	}
+	else{
+		hide_mask();
+	}
 }
+
+function toggle_share_menu(){
+	document.querySelector("#main_menu_toggle").className = "fa fa-bars toggle";
+	$('#main_menu').toggleClass('share_active');
+	$('#main_menu').removeClass('active');
+	$('#share_menu_toggle').toggleClass('fa-share fa-times');
+
+	if(document.querySelector("#share_menu_toggle.fa-times")){
+		show_mask();
+	}
+	else{
+		hide_mask();
+	}
+}
+
+function show_mask(){
+	document.querySelector("#mask").className = "active";
+}
+
+function hide_mask(){
+	document.querySelector("#mask").className = "";
+}
+
+
 
 function catch_tab_key(ev){
 		var keyCode = ev.keyCode || ev.which;
