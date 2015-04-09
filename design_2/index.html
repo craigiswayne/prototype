@@ -18,10 +18,11 @@
 
   <body>
     <header class=no_select>
-      <button id="main_menu_toggle" class="fa fa-bars toggle" onclick="toggle_main_menu();"></button>
+      <a id="main_menu_toggle" class="fa fa-bars toggle" onclick="toggle_main_menu();"></a>
       <label>Prototype</label>
       <input id=filename type=text value="prototype.html">
-      <button id="share_menu_toggle" class="fa fa-share toggle" onclick="toggle_share_menu();"></button>
+      <a id="share_menu_toggle" class="fa fa-share toggle" onclick="toggle_share_menu();"></a>
+
     </header>
 
     <form id="main">
@@ -35,7 +36,7 @@
 
         <span class="fa fa-cog">Settings</span>
 
-        <button class="fa fa-question">Help</button>
+        <a class="fa fa-question">Help</a>
 
         <span class="fa fa-github">Github</span>
 
@@ -44,7 +45,6 @@
           <li>Credit to <a href="www.jQuery.com">jQuery</a> for... well everything</li>
           <li>Credit to <a href="www.github.com">GitHub</a> for their amazing functionality and constant improvements!</li>
           <li>Credit to <a href="ace.cloud9.io">Ace Editor</a> for their brilliant editors</li>
-
         </ul>
 
       </nav>
@@ -61,12 +61,11 @@
         <iframe id="preview" class=preview src="about:blank" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
       </div>
 
-      <aside class="menu" id="share_menu">
-          <button class="fa fa-codepen" id="export_codepen">CodePen</button>
+      <div class="menu" id="share_menu">
+          <a class="fa fa-codepen" id="export_codepen">CodePen</a>
           <a href="mailto:?subject=" class="fa fa-envelope-o" id="export_email">Email</a>
-          <button class="fa fa-globe"id="export_url">URL (buggy)</button>
-        </ul>
-      </aside>
+          <a class="fa fa-globe"id="export_url">URL (buggy)</a>
+      </div>
 
     </form>
 

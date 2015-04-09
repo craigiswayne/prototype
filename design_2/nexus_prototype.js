@@ -8,7 +8,7 @@ var nexus_prototype = new Object({
 		document.querySelector("#export_codepen").setAttribute("onclick","nexus_prototype.export_to_codepen();");
 
 		document.querySelector("#export_email").onclick = function(){
-			this.href="mailto:?subject=Prototype&body=data:application/xml;charset=utf-8," + encodeURIComponent(get_preview_code());
+			this.href="mailto:?subject=Prototype&body=" + encodeURIComponent(get_preview_code());
 		};
 		this.code_boxes = document.querySelectorAll(".code_box");
 	},
@@ -94,6 +94,7 @@ var preview;
 var code_boxes;
 var preview_doc;
 //resize events
+
 document.addEventListener("DOMContentLoaded",function(){
 
 	window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
@@ -225,10 +226,8 @@ function upload_files(){
 	var files = this.files;
 	window.requestFileSystem(window.TEMPORARY, 1024*1024, function(fs) {
 		for (var i = 0, file; file = files[i]; ++i) {
-			//document.querySelector("#download_button").download = get_filename();
-			//document.querySelector("#filename").value = files
+			console.log(file.name);
 			(function(f){
-				window["craig"] = fs;
 				fs.root.getFile("test.html", {create: true, exclusive: false}, function(fileEntry){
 					fileEntry.createWriter(function(fileWriter){
 						fileWriter.write(f);
@@ -285,7 +284,9 @@ function catch_query_strings(){
 	nexus_prototype.show_preview();
 }
 
-function local_functionality_notice(){alert("Only available online","test");}
+function local_functionality_notice(){
+	//alert("Only available online","test");
+}
 
 function toggle_main_menu(){
 	$('#main_menu_toggle').toggleClass('fa-bars fa-times');
