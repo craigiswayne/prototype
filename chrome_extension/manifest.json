@@ -1,0 +1,26 @@
+{
+
+	"name": "Prototype",
+	"short_name": "Proto",
+	"description": "Front-End Prototyping Tool.",
+	"author": "Craig Wayne",
+
+	"manifest_version": 2,
+
+	"icons": {
+		"128": "128.png"
+	},
+
+	"version": "1",
+
+	"app": {
+		"launch": {
+			"local_path": "index.html"
+		}
+	},
+
+	"offline_enabled": true,
+
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+	"permissions": [ "unlimitedStorage", "http://*/", "https://*/" ]
+}

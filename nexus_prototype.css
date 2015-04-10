@@ -302,6 +302,8 @@ header .toggle:active{
 
 	padding-top:25px;
 	z-index:2;
+	box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.5);
+	-webkit-box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.5);
 }
 
 #main #workspace .editor .code_box[data-showing=false] {

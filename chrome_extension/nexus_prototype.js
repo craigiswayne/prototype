@@ -49,11 +49,11 @@ var nexus_prototype = new Object({
 	},
 
 	show_preview: function(){
-		//var tmp_preview = document.querySelector("#preview");
-		//var tmp_preview_doc = tmp_preview.contentDocument || tmp_preview.contentWindow.document;
-		//tmp_preview_doc.open();
-		//tmp_preview_doc.write(get_preview_code());
-		//tmp_preview_doc.close();
+		var tmp_preview = document.querySelector("#preview");
+		var tmp_preview_doc = tmp_preview.contentDocument || tmp_preview.contentWindow.document;
+		tmp_preview_doc.open();
+		tmp_preview_doc.write(get_preview_code());
+		tmp_preview_doc.close();
 	},
 
 	reset:function(){
@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded",function(){
 	nexus_prototype.init();
 },false);
 
-//window.onbeforeunload = function(){return "All your work will be erased!";}
+window.onbeforeunload = function(){return "All your work will be erased!";}
 
 var resizer;
 var workspace;
