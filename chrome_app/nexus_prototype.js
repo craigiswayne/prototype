@@ -26,6 +26,7 @@ var nexus_prototype = new Object({
 		}, false);
 
 		this.mask = document.querySelector("#mask");
+		this.mask.addEventListener("click",nexus_prototype.hide_all_menus,false);;
 		this.mask.onclick = this.hide_all_menus;
 		this.catch_query_strings();
 	},
@@ -34,26 +35,33 @@ var nexus_prototype = new Object({
 
 		var content = "<textarea style='font-size: 1.5em;width: 30%;height: 30%;text-align: left;padding: 5px;'>"+document.location.href + "?html="+encodeURIComponent(get_html_code())+ "&css=" +encodeURIComponent(get_css_code()) + "&js=" + encodeURIComponent(get_js_code()) +"</textarea>";
 		//content += "<script>function stopProp(e){if (e && e.stopPropogation)e.stopPropogation();else if (window.event && window.event.cancelBubble)window.event.cancelBubble = true;}</script>";
-		this.show_mask(content);
-		//this.mask.removeAttribute("onclick");
+		nexus_prototype.show_mask(content);
+		//nexus_prototype.mask.parentElement.replaceChild(nexus_prototype.mask.cloneNode(true),nexus_prototype.mask);
+		//nexus_prototype.mask = document.querySelector("#mask");
 	},
 
 	mask:null,
-
 
 	show_mask: function(content){
 		content = content || "";
 		this.mask.innerHTML = "<table><tr><td>"+content+"</td></tr></table>";
 		this.mask.className = "active";
-		this.mask.addEventListener("click",nexus_prototype.hide_all_menus,false);;
+		//TODO this event listener must only activate if the actual mask is clicked and not
+		//if anything else in the mask is clicked
 	},
 
 	show_preview: function(){
-		//var tmp_preview = document.querySelector("#preview");
-		//var tmp_preview_doc = tmp_preview.contentDocument || tmp_preview.contentWindow.document;
-		//tmp_preview_doc.open();
-		//tmp_preview_doc.write(get_preview_code());
-		//tmp_preview_doc.close();
+
+		//set some sort of delay with this
+		//figure out how you're gonna get the js to work, maybe will have to eval this beyotch
+		//what to do with the preview code?
+
+		chrome.storage.local.set({
+			"html":get_html_code(),
+			"css":get_css_code(),
+			"js":get_js_code(),
+			"preview":get_preview_code()
+		});
 	},
 
 	reset:function(){
@@ -145,8 +153,7 @@ var nexus_prototype = new Object({
 				}
 			}
 			return false;
-	}
-
+	},
 
 });
 
@@ -242,7 +249,7 @@ function get_css_code(){return document.querySelector(".code_area.css").value;}
 function get_preview_code(){
 	var html = '<html>\n';
 	html += "<head>\n"
-	html += "\t<title>"+nexus_prototype.get_filename()+"</title>\n";
+	html += "<title>"+nexus_prototype.get_filename()+"</title>\n";
 
 	if(get_css_code() != ""){
 		html += "\n<style>\n\n"+get_css_code()+"\n\n</style>\n";
