@@ -209,7 +209,7 @@ header .toggle:active{
 }
 
 #main #workspace .editor{
-	box-shadow: 0 0 10px;
+	box-shadow: 0 0 10px black;
 	position:relative;
 	min-width:15px;
 	max-width:100%;
@@ -417,6 +417,7 @@ text-decoration:inherit;
 	border:none;
 	overflow:hidden;
 	z-index:1;
+	padding-right:15px;
 }
 
 

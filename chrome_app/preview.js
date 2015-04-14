@@ -14,4 +14,12 @@ chrome.storage.onChanged.addListener(function(changes){
     }
   }
 
+  if(changes.js){
+    if(changes.js.newValue){
+      document.querySelector("#nexus_prototype_scripts").innerHTML = changes.js.newValue;
+      console.debug(changes.js.newValue);
+      eval(changes.js.newValue);
+    }
+  }
+
 });

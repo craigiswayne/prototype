@@ -285,6 +285,8 @@ function save_code_as(){
 }
 
 function upload_files(){
+	sessionStorage.clear();
+	//localStorage.clear();
 	var files = this.files;
 	window.requestFileSystem(window.TEMPORARY, 1024*1024, function(fs) {
 		for (var i = 0, file; file = files[i]; ++i) {
@@ -298,6 +300,8 @@ function upload_files(){
 								var reader = new FileReader();
 								this.result = "";
 								reader.onloadend = function(e){
+									console.debug(e);
+									console.debug(this);
 									nexus_prototype.reset();
 									document.querySelector(".code_area.html").value = this.result;
 									document.querySelector("#file_upload").value = null;
