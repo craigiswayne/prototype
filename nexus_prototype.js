@@ -22,6 +22,8 @@ var nexus_prototype = new Object({
 			}
 		}, false);
 
+		document.querySelector("#about_button").addEventListener("click",nexus_prototype.show_about,false);
+
 		this.mask = document.querySelector("#mask");
 		this.catch_query_strings();
 	},
@@ -91,15 +93,15 @@ var nexus_prototype = new Object({
 			}
 		}
 		var not_showing = code_boxes.length - showing_code_boxes.length;
-		for(var i=0; i<showing_code_boxes.length; i++)
-		{
-			showing_code_boxes[i].style.height = "calc((100% - 25px*"+not_showing+")/"+showing_code_boxes.length+")";
+		for(var i=0; i<showing_code_boxes.length; i++){
+			showing_code_boxes[i].style.height = "calc((100% - 25px*"+not_showing+")/"+showing_code_boxes.length+")";	
+			
 		}
 	},
 
 	hide_all_menus:function(){
 		$("#main_menu").removeClass('active');
-		$("#main_menu").removeClass('share_active');
+		$("#share_menu").removeClass('active');
 		document.querySelector("#main_menu_toggle").className = "fa fa-bars toggle";
 		document.querySelector("#share_menu_toggle").className = "fa fa-share toggle";
 		this.hide_mask();
@@ -141,6 +143,18 @@ var nexus_prototype = new Object({
 				}
 			}
 			return false;
+	},
+
+	show_about: function(){
+
+		nexus_prototype.hide_all_menus();
+		nexus_prototype.show_mask();
+		$.ajax({
+		  url: "about.html",
+		  context: nexus_prototype.mask.querySelector("td")
+		}).done(function() {
+		  
+		});
 	}
 
 
@@ -336,7 +350,7 @@ function toggle_main_menu(){
 	document.querySelector("#share_menu_toggle").className = "fa fa-share toggle";
 
 	$('#main_menu').toggleClass('active');
-	$('#main_menu').removeClass('share_active');
+	$('#share_menu').removeClass('active');
 
 	if(document.querySelector("#main_menu_toggle.fa-times")){
 		nexus_prototype.show_mask();
@@ -348,7 +362,7 @@ function toggle_main_menu(){
 
 function toggle_share_menu(){
 	document.querySelector("#main_menu_toggle").className = "fa fa-bars toggle";
-	$('#main_menu').toggleClass('share_active');
+	$('#share_menu').toggleClass('active');
 	$('#main_menu').removeClass('active');
 	$('#share_menu_toggle').toggleClass('fa-share fa-times');
 
