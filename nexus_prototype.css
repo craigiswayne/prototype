@@ -137,6 +137,7 @@ header .toggle:active{
 	text-align:left;
 	overflow-x: hidden;
 	overflow-y: auto;
+	left:1px;
 }
 
 #main .menu *{
@@ -333,8 +334,68 @@ header .toggle:active{
 
 #main #workspace .editor .code_box label input[type=checkbox]{
 	position:absolute;
-	right:5px;
-	top:4px;
+	cursor:pointer;
+	display:inline-block;
+	vertical-align:top;
+	right:25px;
+	top:5px;
+}
+
+#main #workspace .editor .code_box label input[type=checkbox]:before{
+	content:"";
+	position:relative;
+	left:-2px;
+	top:-2px;
+	width:30px;
+	height:15px;
+	border:2px solid;
+	display:block;
+	border-radius:15px;
+	transition:all 0.1s 0.1s linear;
+}
+
+
+#main #workspace .editor .code_box label input[type=checkbox]:after{
+	content:"";
+	width:15px;
+	height:15px;
+	border-radius:15px;
+	border:2px solid;
+	display:block;
+	position:absolute;
+	top:-2px;
+	left:-2px;
+	transition:left 0.2s ease;
+	box-shadow:1px 0 2px 0 rgba(10,10,10,0.2);
+	-webkit-box-shadow:1px 0 2px 0 rgba(10,10,10,0.2);
+}
+
+
+#main #workspace .editor .code_box label input[type=checkbox]:before,
+#main #workspace .editor .code_box label input[type=checkbox]:after{
+	border-color:#C1C1C1;
+}
+
+#main #workspace .editor .code_box label input[type=checkbox]:before,
+#main #workspace .editor .code_box label input[type=checkbox]:after{
+	background-color:white;
+}
+
+
+/*CHECKED STYLES*/
+#main #workspace .editor .code_box label input[type=checkbox]:checked:after{
+	left:13px;
+	box-shadow:-1px 0 2px 0 rgba(10,10,10,0.2);
+	-webkit-box-shadow:-1px 0 2px 0 rgba(10,10,10,0.2);
+}
+
+#main #workspace .editor .code_box label input[type=checkbox]:checked:before{
+	background-color:rgb(229, 166, 46);
+}
+
+#main #workspace .editor .code_box label input[type=checkbox]:checked:before,
+#main #workspace .editor .code_box label input[type=checkbox]:checked:after{
+	border-color:rgb(229, 166, 46);
 }
 
 #main #workspace .editor .code_area{
