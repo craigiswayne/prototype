@@ -18,11 +18,13 @@
 
   <body>
     <header class=no_select>
-      <a id="main_menu_toggle" class="fa fa-bars toggle" onclick="toggle_main_menu();"></a>
+      <a id="main_menu_toggle" class="fa fa-bars action" onclick="toggle_main_menu();"></a>
       <label>Prototype</label>
       <input id=filename type=text value="prototype.html">
-      <a id="toggle_grid" class="fa fa-table"></a>
-      <a id="share_menu_toggle" class="fa fa-share toggle" onclick="toggle_share_menu();"></a>
+      <div id=quick_actions>
+        <a id="toggle_grid" class="fa fa-table action"></a>
+        <a id="share_menu_toggle" class="fa fa-share action" onclick="toggle_share_menu();"></a>
+      </div>
 
     </header>
 
@@ -51,7 +53,11 @@
           <div class="code_box"><label class="action no_select">CSS<input type=checkbox checked=checked></label><textarea id="code_area_css" class="code_area css"></textarea></div>
           <div class="code_box"><label class="action no_select">JS<input type=checkbox checked=checked></label><textarea id="code_area_js" class="code_area js"></textarea></div>
           <div class="resizer no_select"><span class="fa fa-step-backward" onclick="editor_width_min();"></span><span class="fa fa-ellipsis-v"></span><span class="fa fa-step-forward" onclick="editor_width_max();"></span></div>
-          <iframe id="easter_egg" src="easter_egg.html" title="From: http://codepen.io/vavik96/pen/QwmjMX"></iframe>
+
+          <div id="easter_egg">
+            <iframe class="easter_egg" src="easter_egg.html" title="From: http://codepen.io/vavik96/pen/QwmjMX"></iframe>
+            <div id="easter_egg_mask"></div>
+          </div>
 
         </div>
         <div id="preview">
@@ -62,7 +68,7 @@
             <div id="grid_mask"></div>
           </div>
         </div>
-        
+
       </div>
 
       <div class="menu" id="share_menu">

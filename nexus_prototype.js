@@ -353,7 +353,7 @@ function local_functionality_notice(){
 
 function toggle_main_menu(){
 	$('#main_menu_toggle').toggleClass('fa-bars fa-times');
-	document.querySelector("#share_menu_toggle").className = "fa fa-share toggle";
+	document.querySelector("#share_menu_toggle").className = "fa fa-share action";
 
 	$('#main_menu').toggleClass('active');
 	$('#share_menu').removeClass('active');
@@ -367,7 +367,7 @@ function toggle_main_menu(){
 }
 
 function toggle_share_menu(){
-	document.querySelector("#main_menu_toggle").className = "fa fa-bars toggle";
+	document.querySelector("#main_menu_toggle").className = "fa fa-bars action";
 	$('#share_menu').toggleClass('active');
 	$('#main_menu').removeClass('active');
 	$('#share_menu_toggle').toggleClass('fa-share fa-times');

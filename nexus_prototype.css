@@ -56,7 +56,6 @@ border:none;
 header{
 	width:100%;
 	height:32px;
-	background-color:#AEE239;
 	background-color:#215A6D;
 	padding:0;
 	line-height:28px;
@@ -68,20 +67,22 @@ header{
 	z-index:4;
 }
 
-header .toggle{
+header .action{
 	height: 100%;
 	line-height: 32px;
 	text-align: center;
-	padding:0 10px;
+	padding:0;
+	float:left;
+	width:35px;
 }
 
-header .toggle:hover{
+header .action:hover{
 	background-color: rgba(229, 166, 46, 0.9);
 	box-shadow: 0 0 4px 0 rgb(0, 0, 0);
 }
 
-header .toggle:focus,
-header .toggle:active{
+header .action:focus,
+header .action:active{
 	outline:none;
 }
 
@@ -89,15 +90,6 @@ header .toggle:active{
 	margin-right:5px;
 }
 
-#share_menu_toggle{
-	position: absolute;
-	right: 0px;
-	top: 0px;
-}
-
-#share_menu_toggle:hover{
-	border-left: 1px solid rgb(255, 255, 255);
-}
 
 #filename{
 	border:none;
@@ -208,7 +200,7 @@ header .toggle:active{
 	position:relative;
 }
 
-#main #workspace .editor, 
+#main #workspace .editor,
 #main #workspace #preview{
 	width:50%;
 	height:100%;
@@ -490,10 +482,28 @@ text-decoration:inherit;
 	position:absolute;
 	left:0;
 	top:0;
-	border:none;
 	overflow:hidden;
 	z-index:1;
 	padding-right:15px;
+}
+
+#easter_egg iframe.easter_egg{
+	height:100%;
+	width:100%;
+	border:none;
+}
+
+#easter_egg #easter_egg_mask{
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	z-index:-1;
+}
+
+body.resizing #easter_egg #easter_egg_mask{
+	z-index:1;
 }
 
 
@@ -519,9 +529,16 @@ body.grid #grid{
 	z-index:1;
 }
 
-#toggle_grid{
-	font-size: 23px;
+
+#quick_actions {
+	display: inline-block;
 	position: absolute;
-	right: 44px;
-	top: 5px;
+	right: 0;
+}
+
+header .action:hover{
+	border-width:1px;
+	border-color:rgb(255, 255, 255);
+	border-left-style:solid;
+	border-right-style: solid;
 }
