@@ -208,12 +208,16 @@ header .toggle:active{
 	position:relative;
 }
 
-#main #workspace .editor, #main #workspace iframe.preview{
+#main #workspace .editor, 
+#main #workspace #preview{
 	width:50%;
 	height:100%;
 	display:inline-block;
 	border:none;
 	float:left;
+	position:relative;
+	box-sizing: border-box;
+  	-moz-box-sizing: border-box;
 }
 
 #main #workspace .editor{
@@ -224,27 +228,27 @@ header .toggle:active{
 	padding-right:15px;
 }
 
-#main #workspace .editor:after {
+#preview_mask {
     content: "";
     position: absolute;
-    top: 0px;
-    left:100%;
-    width:100vw;
+    top: 0;
+    left:0;
+    width:100%;
     height:100%;
     background-color:rgba(0, 0, 0, 0.8);
     z-index:-1;
 }
 
-#main #workspace .editor[data-resizing="true"]:after{
-	z-index:1;
+body.resizing #preview_mask{
+	z-index:2;
 }
 
-#main #workspace .editor[data-resizing="true"] .code_box{
+body.resizing .code_box{
 	-webkit-user-select:none;
 	user-select:none;
 }
 
-#main #workspace .editor[data-resizing="false"]{
+body:not(.resizing) .editor{
 	transition:width 0.3s ease;
 	-webkit-transition:width 0.3s ease;
 }
@@ -258,7 +262,7 @@ header .toggle:active{
 	background-color:#52DB62;
 	background-color:#92C7A3;
 	background-image:-webkit-linear-gradient(left,rgba(255, 255, 255, 0.3),rgba(0, 0, 0, 0));
-	cursor:col-resize;
+	cursor:ew-resize;
 	font-size:13px;
 	padding:10px 0;
 	text-align:center;
@@ -428,10 +432,15 @@ header .toggle:active{
 }
 
 
-#workspace iframe.preview{
-background-color:#EFEFEF;
+#workspace #preview{
 min-width:0px;
 max-width:calc(100% - 15px);
+}
+
+#workspace #preview iframe{
+	width:100%;
+	height:100%;
+	border:none;
 }
 
 
@@ -491,4 +500,28 @@ text-decoration:inherit;
 .menu,
 .fa-times{
 	background-color:rgba(229, 166, 46, 0.9) !important;
+}
+
+#grid{
+	position:absolute;
+	top:0;
+	left:0;
+	z-index:-1;
+	height:100%;
+	width:100%;
+}
+
+body.grid #preview{
+	padding:20px;
+}
+
+body.grid #grid{
+	z-index:1;
+}
+
+#toggle_grid{
+	font-size: 23px;
+	position: absolute;
+	right: 44px;
+	top: 5px;
 }

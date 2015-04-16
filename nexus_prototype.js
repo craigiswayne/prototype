@@ -23,6 +23,9 @@ var nexus_prototype = new Object({
 		}, false);
 
 		document.querySelector("#about_button").addEventListener("click",nexus_prototype.show_about,false);
+		document.querySelector("#toggle_grid").addEventListener("click",function(){
+			$(document.body).toggleClass("grid");
+		},false);
 
 		this.mask = document.querySelector("#mask");
 		this.catch_query_strings();
@@ -47,7 +50,7 @@ var nexus_prototype = new Object({
 	},
 
 	show_preview: function(){
-		var tmp_preview = document.querySelector("#preview");
+		var tmp_preview = document.querySelector("#preview iframe");
 		var tmp_preview_doc = tmp_preview.contentDocument || tmp_preview.contentWindow.document;
 		tmp_preview_doc.open();
 		tmp_preview_doc.write(get_preview_code());
@@ -58,6 +61,9 @@ var nexus_prototype = new Object({
 		document.forms[0].reset();
 		this.show_preview();
 		this.hide_all_menus();
+		this.resize_code_boxes();
+		document.querySelector("#editor").removeAttribute("style");
+		document.querySelector("#preview").removeAttribute("style");
 	},
 
 	form:null,
@@ -178,8 +184,9 @@ var preview_doc;
 document.addEventListener("DOMContentLoaded",function(){
 
 	window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
-	preview = document.querySelector(".preview");
-	preview_doc = preview.contentDocument || preview.contentWindow.document;
+	preview = document.querySelector("#preview");
+	var preview_pane = preview.querySelector("iframe.preview");
+	preview_doc = preview_pane.contentDocument || preview_pane.contentWindow.document;
 	workspace = document.querySelector(".main");
 	resizer = document.querySelector(".resizer");
 	editor 	= document.querySelector(".editor");
@@ -199,21 +206,21 @@ document.addEventListener("DOMContentLoaded",function(){
 	document.querySelector("#file_upload").onchange = upload_files;
 
 	resizer.addEventListener("mousedown",function(event){
-		editor.dataset.resizing = true;
+		$(document.body).addClass("resizing");
 		resize_start = event.clientX;
 		editor_width = window.getComputedStyle(editor).width;
 	},false);
 
-	resizer.addEventListener("contextmenu",function(){editor.dataset.resizing=false;},false);
+	resizer.addEventListener("contextmenu",function(){$(document.body).removeClass("resizing");},false);
 
 	//dont need this, just check if the src element is the resizer
-	document.addEventListener("mouseup",function(){editor.dataset.resizing = false;},false);
+	document.addEventListener("mouseup",function(){$(document.body).removeClass("resizing");},false);
 
 	document.addEventListener("mousemove",function(event){
 		//NOTE: the new_width is a percentage of the container not in pixels (px)
 		editor = editor || document.querySelector("#editor");
 		workspace = workspace || document.querySelector("#workspace");
-		if(editor.dataset.resizing=="true"){
+		if(document.querySelector("body.resizing")){
 			var workspace_width = parseInt(window.getComputedStyle(workspace).width);
 
 			var resizer_width = parseInt(window.getComputedStyle(resizer).width);
