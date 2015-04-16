@@ -1,58 +1,60 @@
 <script src="http://code.jquery.com/jquery-1.11.2.js"></script>
-	<div id="workspace" role="main">
-		<div id="horizontalRuler" class="ruler">
-			<b id="hMarker" class="marker"></b>
-		</div>
-		<div id="verticalRuler" class="ruler">
-			<b id="vMarker" class="marker"></b>
-		</div>
-		<canvas id="canvas" class="grid" width="480" height="360"></canvas>
-
-		<div class="tool-box" id="statusBar"></div>
+<div id="workspace" role="main">
+	<div id="horizontalRuler" class="ruler">
+		<b id="hMarker" class="marker"></b>
 	</div>
+	<div id="verticalRuler" class="ruler">
+		<b id="vMarker" class="marker"></b>
+	</div>
+	<canvas id="canvas" class="grid" width="480" height="360"></canvas>
+
+	<div class="tool-box" id="statusBar"></div>
+</div>
 </div>
 
-</style>
-* { -moz-box-sizing:border-box; -webkit-box-sizing:border-box; box-sizing:border-box }
-
-body{
-margin:0;
-padding:0;
+<style>
+* { 																																																											-moz-box-sizing:border-box;
+	-webkit-box-sizing:border-box;
+	box-sizing:border-box;
 }
 
 body {
-font-family:Tahoma,Arial;
-font-size:12px;
-background:#232425;
-padding:10px;
-height:100%;
--webkit-user-select:none; 
--moz-user-select:none;
--ms-user-select:none;
-user-select:none;
+	margin:0;
+	padding:0;
+	font-family:Tahoma,Arial;
+	font-size:12px;
+	background:#232425;
+	height:100%;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
 }
 
-#workspace { position:relative }
+#workspace {
+	position:relative;
+	width:100%;
+	height:100%;
+	padding:21px 0 0 21px;
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+}
 
-canvas { margin:21px 0 0 21px;}
-
-canvas.grid {
+canvas{
+	background:red;
+	width:100%;
+	height:100%;
 	background-size:100px 100px, 100px 100px, 20px 20px, 20px 20px;
 	background-position:-1px -1px, -1px -1px, -1px -1px, -1px -1px;
-	background-image:
-		linear-gradient(rgba(0,0,0,.3) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(0,0,0,.3) 1px, transparent 1px),
-		linear-gradient(rgba(0,0,0,.1) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(0,0,0,.1) 1px, transparent 1px);
+	background-image:linear-gradient(rgba(0,0,0,.3) 1px, transparent 1px),linear-gradient(90deg, rgba(0,0,0,.3) 1px, transparent 1px),linear-gradient(rgba(0,0,0,.1) 1px, transparent 1px),linear-gradient(90deg, rgba(0,0,0,.1) 1px, transparent 1px);
 }
 
-
-/* ruler styles */
 .ruler {
 	position:absolute;
 	background:#333435;
 	background-size:100px 100px;
 	background-position:-1px -1px;
+
 }
 .ruler:after {
 	content:'';
@@ -62,8 +64,10 @@ canvas.grid {
 	background-position:-1px -1px;
 }
 #horizontalRuler {
-	height:20px; width:300px;
-	top:0; left:21px;
+	height:20px;
+	width:100% !important;
+	top:0;
+	left:21px;
 	background-image:linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px);
 }
 #horizontalRuler:after {
@@ -71,16 +75,23 @@ canvas.grid {
 	width:100%; height:50%;
 	background-image:linear-gradient(90deg, rgba(255,255,255,.2) 1px, transparent 1px);
 }
+
 #verticalRuler {
-	height:200px; width:20px;
-	top:21px; left:0;
+	height:100% !important;
+	width:20px;
+	top:21px;
+	left:0;
 	background-image:linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px);
 }
+
 #verticalRuler:after {
-	top:0; left:50%;
-	width:50%; height:100%;
+	top:0;
+	left:50%;
+	width:50%;
+	height:100%;
 	background-image:linear-gradient(rgba(255,255,255,.2) 1px, transparent 1px);
 }
+
 #workspace ul { list-style:none; padding:0; margin:0; color:#999 }
 .ruler li { position:absolute }
 #horizontalRuler li { top:-1px }
@@ -104,7 +115,6 @@ canvas.grid {
 	border:1px solid #535655;
 }
 .tool-box label { padding:0 .5em }
-
 #statusBar {
 	display:block;
 	width:480px; height:16px;
@@ -115,3 +125,159 @@ canvas.grid {
 }
 
 </style>
+<script>
+document.addEventListener("DOMContentLoadedf",function(){
+	$(function() {
+
+		var _win		= $(window),
+		_canvas 	= $('#canvas'),
+		_ctx 		= _canvas[0].getContext('2d'),
+
+		_color		= '#000',
+		_fill		= '#000',
+		_stroke 	= 1,
+
+		_cWidth 	= +_canvas.attr('width'),
+		_cHeight	= +_canvas.attr('Height'),
+		_cPos 		= {
+			x: _canvas.offset().left,
+			y: _canvas.offset().top
+		},
+
+		_mPos = { x:0, y:0 },
+		_mOldPos = { x:0, y:0 },
+		_mStartPos = { x:0, y:0 },
+		isDrag		= false;
+
+		// setup the rulers with counters and markers
+		var hRuler 	= $('#horizontalRuler'),
+		vRuler 	= $('#verticalRuler'),
+		status 	= $('#statusBar'),
+		hMarker	= $('#hMarker'),
+		vMarker	= $('#vMarker');
+
+		function setupRulers() {
+			var hCount = (_cWidth + 1) / 100,
+			vCount = (_cHeight + 1) / 100,
+			hList = $('<ul/>'),
+			vList = $('<ul/>'),
+			i = 0, k;
+
+			// clear out the counter first
+			hRuler.find('ul').remove();
+			vRuler.find('ul').remove();
+
+			// add the coordinates list
+			for ( ; i < hCount; i++) {
+				k = i * 100;
+				hList.append( $('<li>' + k + '</li>').css('left', k) );
+			}
+			hRuler.css('width', _cWidth).append(hList);
+
+			for (i = 0; i < vCount; i++) {
+				k = i * 100;
+				vList.append( $('<li>' + k + '</li>').css('top', k) );
+			}
+			vRuler.css('height', _cHeight).append(vList);
+		}
+		setupRulers();
+
+		// the main move event
+		_canvas.on('mousemove', function(e) {
+			var delta, dx, dy;
+
+			_mPos.x = e.pageX - _cPos.x;
+			_mPos.y = e.pageY - _cPos.y;
+
+			// move the markers
+			hMarker.css('left', _mPos.x);
+			vMarker.css('top', _mPos.y);
+
+			// update status
+			status.empty().append(
+			'<label title="cursor position">X ' + _mPos.x
+				+ ' Y ' + _mPos.y + '</label>'
+				);
+
+				if (isDrag) {
+					delta = dist(_mPos, _mStartPos).delta;
+					status.append(
+					'<label>X<sub>1</sub> ' + _mStartPos.x
+						+ ' Y<sub>1</sub> ' + _mStartPos.y + '</label>'
+						+ '<label>&Delta; ' + delta + '</label>'
+						);
+					}
+
+					// record the position for next frame
+					_mOldPos = _mPos;
+				});
+
+				_canvas.on('mousedown', function(e) {
+					if (!isDrag) {
+						isDrag = true;
+						_mStartPos.x = e.pageX - _cPos.x;
+						_mStartPos.y = e.pageY - _cPos.y;
+					}
+				});
+
+				_canvas.on('mouseup', function(e) {
+					if (isDrag) {
+						isDrag = false;
+					}
+				});
+
+				// modify canvas size
+				var setSizePanel = $('#set_cSize'),
+				toolBox = $('#toolBox');
+
+				$('#set_cWidth').val(_cWidth);
+				$('#set_cHeight').val(_cHeight);
+				setSizePanel.on('change', 'input', function() {
+					var that = $(this), val = that.val();
+					if (val <= 100 || val > 1200) {
+						val = val <= 100 ? 100 : 1200;
+						that.val(val);
+					}
+
+					if (that.attr('id') == 'set_cWidth') {
+						_cWidth = +val;
+						_canvas.attr('width', _cWidth);
+
+						status.css('width', _cWidth);
+						setSizePanel.css('width', _cWidth >= 300 ? _cWidth : 300);
+						toolBox.css('left', _cWidth >= 300 ? _cWidth + 35 : 335);
+					}
+					else if (that.attr('id') == 'set_cHeight') {
+						_cHeight = +val;
+						_canvas.attr('height', _cHeight);
+						toolBox.css('height', _cHeight + 70);
+					}
+
+					// update rulers
+					setupRulers();
+
+					// reset the markers
+					hMarker.css('left', 0);
+					vMarker.css('top', 0);
+				}).css('width', _cWidth);
+
+				// toggle grid
+				$('#gridOn').on('click', function(e) {
+					if ($(this).prop('checked')) {
+						_canvas.addClass('grid');
+					}
+					else {
+						_canvas.removeClass('grid');
+					}
+				});
+
+			});
+
+			function dist(p1, p2) {
+				var dx = p2.x - p1.x,
+				dy = p2.y - p1.y;
+
+				return { delta: Math.sqrt( dx*dx + dy*dy ) | 0, x: dx, y: dy };
+			}
+		},false);
+</script>

@@ -94,8 +94,8 @@ var nexus_prototype = new Object({
 		}
 		var not_showing = code_boxes.length - showing_code_boxes.length;
 		for(var i=0; i<showing_code_boxes.length; i++){
-			showing_code_boxes[i].style.height = "calc((100% - 25px*"+not_showing+")/"+showing_code_boxes.length+")";	
-			
+			showing_code_boxes[i].style.height = "calc((100% - 25px*"+not_showing+")/"+showing_code_boxes.length+")";
+
 		}
 	},
 
@@ -150,10 +150,9 @@ var nexus_prototype = new Object({
 		nexus_prototype.hide_all_menus();
 		nexus_prototype.show_mask();
 		$.ajax({
-		  url: "about.html",
-		  context: nexus_prototype.mask.querySelector("td")
-		}).done(function() {
-		  
+		  url: "about.html"
+		}).done(function(r) {
+			nexus_prototype.mask.querySelector("td").innerHTML = r;
 		});
 	}
 
