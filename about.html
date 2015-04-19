@@ -1,46 +1,9 @@
-<div id=about_popup class="animate popup">
-
-<div class=image_container><img class=poster src="http://thewowstyle.com/wp-content/uploads/2015/04/my-neighbor-totoro-poster-variant-olly-moss-mondo.jpg">
-</div>
-
-<div class=content>
-<h2 class=title>About</h2>
-
-<a href="http://www.colourlovers.com">
-Credit to
-ColourLovers
-for their great APIs
-</a>
-
-<a href="https://jquery.com/">
-Credit to
-jQuery
-for... well everything
-</a>
-
-<a href="https://github.com/">
-Credit to
-GitHub
-for their amazing functionality and constant improvements!
-</a>
-
-<a href="http://codepen.io/craig-wayne01/">
-Not to forget CodePen! the originals in this :)
-</a>
-
-<a href="http://codepen.io/iliadraznin/pen/LJlno">
-Credit to Ilia @CodePen for his amazing take on grids
-<a/>
-
-<a href="http://devhammer.net/blog/visualizing-layout-in-html5-canvas-with-gridlines">
-And to DevHammer for their inspirational work on canvas grids
-</a>
-
-</div>
-
-</div>
+<html>
+<head>
+	<title>about.html</title>
 
 <style>
+
 body{
 font-family:Tahoma,Arial;
 }
@@ -90,15 +53,19 @@ max-width:100%;
 }
 
 #about_popup .content{
-text-align:right;
 padding:10px;
 color:white;
 }
 
-#about_popup .content .title{
+#about_popup .content header{
 border-bottom:1px solid white;
 width:100%;
 margin:0 0 30px 0;
+}
+	
+#about_popup .content header .title{
+	text-align:right;
+	margin:0;
 }
 
 #about_popup .content a{
@@ -122,8 +89,61 @@ color:inherit;
   70%{transform:scale(1.1);}
   100%{transform:scale(1);}
 }
+
 </style>
+</head>
+<body>
+
+<head>
+	<title>about.html</title>
+</head>
+
+<div id=about_popup class="animate popup">
+
+<div class=image_container><img class=poster src="http://thewowstyle.com/wp-content/uploads/2015/04/my-neighbor-totoro-poster-variant-olly-moss-mondo.jpg">
+</div>
+
+<div class=content>
+<header>
+	<h2 class=title>About</h2>
+	<p>Prototype (by Nexus)</p>
+	<p>Version 0.7</p>
+</header>
+
+<a href="http://www.colourlovers.com">
+Credit to
+ColourLovers
+for their great APIs
+</a>
 	
-	<style>
-	#dummy{background:blue;}
-	</style>
+
+<a href="https://jquery.com/">
+Credit to
+jQuery
+for... well everything
+</a>
+
+<a href="https://github.com/">
+Credit to
+GitHub
+for their amazing functionality and constant improvements!
+</a>
+
+<a href="http://codepen.io/craig-wayne01/">
+Not to forget CodePen! the originals in this :)
+</a>
+
+<a href="http://codepen.io/iliadraznin/pen/LJlno">
+Credit to Ilia @CodePen for his amazing take on grids
+<a/>
+
+<a href="http://devhammer.net/blog/visualizing-layout-in-html5-canvas-with-gridlines">
+And to DevHammer for their inspirational work on canvas grids
+</a>
+
+</div>
+
+</div>
+
+</body>
+</html>
