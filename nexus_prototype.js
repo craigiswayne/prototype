@@ -1,46 +1,14 @@
-var nexus_prototype = new Object({
-
-	init:function(){
-		//console.debug(this);
-		//this.form = document.forms[0];
-		document.querySelector(".reset").setAttribute("onclick","nexus_prototype.reset();");
-
-		document.querySelector("#export_codepen").setAttribute("onclick","nexus_prototype.export_to_codepen();");
-		document.querySelector("#export_url").setAttribute("onclick","nexus_prototype.generate_share_url()");
-
-		document.querySelector("#export_email").onclick = function(){
-			this.href="mailto:?subject=Prototype&body=" + encodeURIComponent(get_preview_code());
-		};
-		this.code_boxes = document.querySelectorAll(".code_box");
-
-		//catch save functions
-		document.addEventListener("keydown", function(e){
-			if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
-				e.preventDefault();
-				save_code_as();
-				document.querySelector(".menu a[download]").click();
-			}
-		}, false);
-
-		document.querySelector("#about_button").addEventListener("click",nexus_prototype.show_about,false);
-		document.querySelector("#toggle_grid").addEventListener("click",function(){
-			$(document.body).toggleClass("grid");
-		},false);
-
-		this.mask = document.querySelector("#mask");
-		this.catch_query_strings();
-	},
-
-	generate_share_url: function(){
-
-		var content = "<textarea style='font-size: 1.5em;width: 30%;height: 30%;text-align: left;padding: 5px;'>"+document.location.href + "?html="+encodeURIComponent(get_html_code())+ "&css=" +encodeURIComponent(get_css_code()) + "&js=" + encodeURIComponent(get_js_code()) +"</textarea>";
-		//content += "<script>function stopProp(e){if (e && e.stopPropogation)e.stopPropogation();else if (window.event && window.event.cancelBubble)window.event.cancelBubble = true;}</script>";
-		this.show_mask(content);
-		this.mask.removeAttribute("onclick");
+var nexus_prototype = {
+	
+	get_html_code : function () {return document.querySelector(".code_area.html").value; },
+	
+	generate_share_url: function () {
+		var content = "<textarea style='font-size: 1.5em;width: 30%;height: 30%;text-align: left;padding: 5px;'>" + document.location.href + "?html=" + encodeURIComponent(nexus_prototype.get_html_code())+ "&css=" +encodeURIComponent(get_css_code()) + "&js=" + encodeURIComponent(get_js_code()) +"</textarea>";
+		nexus_prototype.show_mask(content);
+		nexus_prototype.mask.removeAttribute("onclick");
 	},
 
 	mask:null,
-
 
 	show_mask: function(content){
 		content = content || "";
@@ -59,9 +27,9 @@ var nexus_prototype = new Object({
 
 	reset:function(){
 		document.forms[0].reset();
-		this.show_preview();
-		this.hide_all_menus();
-		this.resize_code_boxes();
+		nexus_prototype.show_preview();
+		nexus_prototype.hide_all_menus();
+		nexus_prototype.resize_code_boxes();
 		document.querySelector("#editor").removeAttribute("style");
 		document.querySelector("#preview").removeAttribute("style");
 	},
@@ -72,6 +40,55 @@ var nexus_prototype = new Object({
 	code_areas:function(){
 		return document.querySelectorAll(".code_area");
 	},
+    
+    upload_files:function(){
+        var files = document.getElementById('file_upload').files;
+        var file  = files[0];
+        nexus_prototype.set_filename(file.name);
+        var reader = new FileReader();
+        reader.onloadend = function(evt) {
+          if (evt.target.readyState == FileReader.DONE) {
+			
+			var file_contents = evt.target.result;
+			//strip css
+			var tag = "style";
+			var opening_tag_index; 
+			var closing_tag_index;
+			while(file_contents.indexOf("<"+tag+">") != -1 && file_contents.indexOf("</"+tag+">") !=-1){
+		    	opening_tag_index  = file_contents.indexOf("<"+tag+">");
+		    	closing_tag_index = file_contents.indexOf("</"+tag+">");
+				document.querySelector('.code_area.css').value  += file_contents.substring(opening_tag_index + 2 + tag.length,closing_tag_index);
+			  	file_contents = file_contents.substring(0,opening_tag_index) + file_contents.substring(closing_tag_index+tag.length+3,file_contents.length);
+			}
+			
+			//strip js
+			tag = "script";
+			while(file_contents.indexOf("<"+tag+">") != -1 && file_contents.indexOf("</"+tag+">") !=-1){
+		    	opening_tag_index  = file_contents.indexOf("<"+tag+">");
+		    	closing_tag_index = file_contents.indexOf("</"+tag+">");
+				document.querySelector('.code_area.js').value  += file_contents.substring(opening_tag_index + 2 + tag.length,closing_tag_index);
+			  	file_contents = file_contents.substring(0,opening_tag_index) + file_contents.substring(closing_tag_index+tag.length+3,file_contents.length);
+			}
+			
+			file_contents = file_contents.replace("<html>","");
+			file_contents = file_contents.replace("</html>","");
+			file_contents = file_contents.replace("<body>","");
+			file_contents = file_contents.replace("</body>","");
+			document.querySelector('.code_area.html').value = file_contents;
+			
+			  nexus_prototype.show_preview();
+
+			setTimeout(function(){
+				nexus_prototype.collapse_unused_code_boxes();
+				nexus_prototype.hide_all_menus();
+			},1000);
+          }
+        };
+
+        var blob = file.slice(0, file.size);
+        reader.readAsBinaryString(blob);
+        nexus_prototype.reset();
+    },
 
 	collapse_unused_code_boxes:function(){
 		for(var i=0; i<this.code_boxes.length; i++){
@@ -101,15 +118,14 @@ var nexus_prototype = new Object({
 		var not_showing = code_boxes.length - showing_code_boxes.length;
 		for(var i=0; i<showing_code_boxes.length; i++){
 			showing_code_boxes[i].style.height = "calc((100% - 25px*"+not_showing+")/"+showing_code_boxes.length+")";
-
 		}
 	},
 
 	hide_all_menus:function(){
 		$("#main_menu").removeClass('active');
 		$("#share_menu").removeClass('active');
-		document.querySelector("#main_menu_toggle").className = "fa fa-bars toggle";
-		document.querySelector("#share_menu_toggle").className = "fa fa-share toggle";
+		document.querySelector("#main_menu_toggle").className = "fa fa-bars action";
+		document.querySelector("#share_menu_toggle").className = "fa fa-share action";
 		this.hide_mask();
 	},
 
@@ -121,8 +137,6 @@ var nexus_prototype = new Object({
 	set_filename: function(name){
 		document.querySelector("#filename").value = name;
 	},
-
-
 
 	get_filename: function(){
 		var filename = document.querySelector("#filename").value;
@@ -160,6 +174,36 @@ var nexus_prototype = new Object({
 		}).done(function(r) {
 			nexus_prototype.mask.querySelector("td").innerHTML = r;
 		});
+	},
+	
+	init : function () {
+		document.querySelector(".reset").setAttribute("onclick", "nexus_prototype.reset();");
+
+		document.querySelector("#export_codepen").setAttribute("onclick", "nexus_prototype.export_to_codepen();");
+		document.querySelector("#export_url").setAttribute("onclick", "nexus_prototype.generate_share_url()");
+
+		document.querySelector("#export_email").onclick = function () {
+			this.href = "mailto:?subject=Prototype&body=" + encodeURIComponent(get_preview_code());
+		};
+		this.code_boxes = document.querySelectorAll(".code_box");
+
+		document.addEventListener("keydown", function(e){
+			if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+				e.preventDefault();
+				save_code_as();
+				document.querySelector(".menu a[download]").click();
+			}
+		}, false);
+
+        document.querySelector("#file_upload").onchange = nexus_prototype.upload_files;
+        
+		document.querySelector("#about_button").addEventListener("click",nexus_prototype.show_about,false);
+		document.querySelector("#toggle_grid").addEventListener("click",function(){
+			$(document.body).toggleClass("grid");
+		},false);
+
+		this.mask = document.querySelector("#mask");
+		this.catch_query_strings();
 	}
 
 
@@ -201,9 +245,6 @@ document.addEventListener("DOMContentLoaded",function(){
 
 	var export_email = document.querySelector("#export_email");
 	var export_url   = document.querySelector("#export_url");
-
-
-	document.querySelector("#file_upload").onchange = upload_files;
 
 	resizer.addEventListener("mousedown",function(event){
 		$(document.body).addClass("resizing");
@@ -249,8 +290,6 @@ document.addEventListener("DOMContentLoaded",function(){
 
 },false);
 
-function get_html_code(){return document.querySelector(".code_area.html").value;}
-
 function get_js_code(){return document.querySelector(".code_area.js").value;}
 
 function get_css_code(){return document.querySelector(".code_area.css").value;}
@@ -270,7 +309,7 @@ function get_preview_code(){
 
 	html += "</head>\n";
 	html += "<body>\n\n";
-	html += ""+get_html_code();
+	html += ""+nexus_prototype.get_html_code();
 	html += "\n\n</body>\n";
 	html += "</html>"
 	return html;
@@ -291,45 +330,6 @@ function save_code_as(){
 	var data = 'data:application/xml;charset=utf-8,' + encodeURIComponent(get_preview_code());
 	document.querySelector(".menu a[download]").download = nexus_prototype.get_filename();
 	document.querySelector(".menu a[download]").href = data;
-}
-
-function upload_files(){
-	var files = this.files;
-	window.requestFileSystem(window.TEMPORARY, 1024*1024, function(fs) {
-		for (var i = 0, file; file = files[i]; ++i) {
-			nexus_prototype.set_filename(file.name);
-			(function(f){
-				fs.root.getFile("test.html", {create: true, exclusive: false}, function(fileEntry){
-					fileEntry.createWriter(function(fileWriter){
-						fileWriter.write(f);
-						fs.root.getFile("test.html", {}, function(fileEntry) {
-							fileEntry.file(function(file){
-								var reader = new FileReader();
-								this.result = "";
-								reader.onloadend = function(e){
-									nexus_prototype.reset();
-									document.querySelector(".code_area.html").value = this.result;
-									document.querySelector("#file_upload").value = null;
-									nexus_prototype.show_preview();
-
-									setTimeout(function(){
-										nexus_prototype.collapse_unused_code_boxes();
-										nexus_prototype.hide_all_menus();
-									},1000)
-								};
-
-								reader.readAsText(file);
-							}, errorHandler);
-						}, errorHandler);
-					}, errorHandler);
-				}, errorHandler);
-			})(file);
-		}
-	}, errorHandler);
-}
-
-function errorHandler(e){
-	console.error(e);
 }
 
 function get_functionality(){
@@ -428,7 +428,7 @@ function export_to_codepen(){
 	//set the name as the same name as the download OR! nexus prototype export
 	var data_obj = {
 		"title":nexus_prototype.get_filename(),
-		"html":get_html_code(),
+		"html":nexus_prototype.get_html_code(),
 		"css":get_css_code(),
 		"js":get_js_code()
 	}
@@ -436,8 +436,6 @@ function export_to_codepen(){
 
 	form.submit();
 }
-
-
 
 //ace editor integration
 /*
