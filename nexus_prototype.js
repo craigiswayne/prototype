@@ -207,7 +207,7 @@ var nexus_prototype = {
 	}
 
 
-});
+};
 
 document.addEventListener("DOMContentLoaded",function(){
 	nexus_prototype.init();
