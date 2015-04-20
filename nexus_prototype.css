@@ -12,6 +12,13 @@ color6: rgb(107, 155, 113);;
 /*@import url(http://fortawesome.github.io/Font-Awesome/assets/font-awesome/css/font-awesome.css);*/
 @import url(OpenSans.css);
 
+*{
+box-sizing:border-box;
+padding:0;
+margin:0;
+}
+
+
 html,body{
 	height:100%;
 }
@@ -25,11 +32,15 @@ body{
     padding:32px 0 18px 0;
 }
 
-
-*{
-box-sizing:border-box;
-padding:0;
-margin:0;
+body.initializing:before {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.99);
+    content: "initializing....";
+    z-index: 100;
 }
 
 .no_select{
@@ -105,26 +116,22 @@ header .action:active{
 	height:100%;
 	white-space:nowrap;
 	overflow:hidden;
-}
-
-#main>*{
-	margin-left:-4px;
+	position:relative;
 }
 
 
 #main .menu{
 	width:200px;
 	height:100%;
-	background-color:rgb(146, 199, 163);
-	display:inline-block;
+	display:block;
 	font-size:0.9rem;
 	font-family:inherit;
-	position: relative;
 	z-index: 4;
 	text-align:left;
 	overflow-x: hidden;
 	overflow-y: auto;
-	left:0;
+	position:absolute;
+	top:0;
 }
 
 #main .menu *{
@@ -168,25 +175,32 @@ header .action:active{
 }
 
 #main_menu{
-	transition:margin-left 0.2s ease;
-	-webkit-transition:margin-left 0.2s ease;
-	margin-left:-200px;
+	transition:left 0.2s ease;
+	-webkit-transition:left 0.2s ease;
+	left:-200px;
 	box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.1);
 }
 
 #main_menu.active{
-	margin-left:0;
+	left:0;
+}
+
+#main_menu.active + #workspace{
+	margin-left:200px;
 }
 
 #share_menu{
-	margin-left:1px;
-	transition:left 0.2s ease;
-	-webkit-transition:left 0.2s ease;
+	
+	transition:right 0.2s ease;
+	-webkit-transition:right 0.2s ease;
+	right:-200px;
 }
 
 #share_menu.active{
-	left:-200px;
+	right:0;
 	box-shadow: -10px 0px 10px 10px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: -10px 0px 10px 10px rgba(0, 0, 0, 0.1);
 }
 
 #main #workspace{
@@ -194,6 +208,8 @@ header .action:active{
 	height:100%;
 	display:inline-block;
 	position:relative;
+	transition:margin-left 0.2s ease;
+	-webkit-transition:margin-left 0.2s ease;
 }
 
 #main #workspace .editor,
@@ -280,7 +296,7 @@ body:not(.resizing) .editor{
 
 #main #workspace .editor .code_box{
 	width:100%;
-	height:33.3%;
+	height:0;
 	overflow:hidden;
 
 	display: -moz-box;

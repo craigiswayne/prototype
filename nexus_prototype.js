@@ -1,5 +1,9 @@
-var nexus_prototype = {
-	
+ nexus_prototype = {
+	 
+	mask:null,
+	form:null,
+	code_boxes:null,
+	 
 	get_html_code : function () {return document.querySelector(".code_area.html").value; },
 	
 	generate_share_url: function () {
@@ -7,8 +11,6 @@ var nexus_prototype = {
 		nexus_prototype.show_mask(content);
 		nexus_prototype.mask.removeAttribute("onclick");
 	},
-
-	mask:null,
 
 	show_mask: function(content){
 		content = content || "";
@@ -26,7 +28,10 @@ var nexus_prototype = {
 	},
 
 	reset:function(){
-		document.forms[0].reset();
+		nexus_prototype.form.reset();
+		for(var i=0; i<this.code_boxes.length; i++){
+			this.code_boxes[i].querySelector('label input[type=checkbox]').removeAttribute('checked');
+		}
 		nexus_prototype.show_preview();
 		nexus_prototype.hide_all_menus();
 		nexus_prototype.resize_code_boxes();
@@ -34,88 +39,38 @@ var nexus_prototype = {
 		document.querySelector("#preview").removeAttribute("style");
 	},
 
-	form:null,
-	code_boxes:null,
-
 	code_areas:function(){
 		return document.querySelectorAll(".code_area");
 	},
     
-    upload_files:function(){
-        var files = document.getElementById('file_upload').files;
-        var file  = files[0];
-        nexus_prototype.set_filename(file.name);
-        var reader = new FileReader();
-        reader.onloadend = function(evt) {
-          if (evt.target.readyState == FileReader.DONE) {
-			
-			var file_contents = evt.target.result;
-			//strip css
-			var tag = "style";
-			var opening_tag_index; 
-			var closing_tag_index;
-			while(file_contents.indexOf("<"+tag+">") != -1 && file_contents.indexOf("</"+tag+">") !=-1){
-		    	opening_tag_index  = file_contents.indexOf("<"+tag+">");
-		    	closing_tag_index = file_contents.indexOf("</"+tag+">");
-				document.querySelector('.code_area.css').value  += file_contents.substring(opening_tag_index + 2 + tag.length,closing_tag_index);
-			  	file_contents = file_contents.substring(0,opening_tag_index) + file_contents.substring(closing_tag_index+tag.length+3,file_contents.length);
-			}
-			
-			//strip js
-			tag = "script";
-			while(file_contents.indexOf("<"+tag+">") != -1 && file_contents.indexOf("</"+tag+">") !=-1){
-		    	opening_tag_index  = file_contents.indexOf("<"+tag+">");
-		    	closing_tag_index = file_contents.indexOf("</"+tag+">");
-				document.querySelector('.code_area.js').value  += file_contents.substring(opening_tag_index + 2 + tag.length,closing_tag_index);
-			  	file_contents = file_contents.substring(0,opening_tag_index) + file_contents.substring(closing_tag_index+tag.length+3,file_contents.length);
-			}
-			
-			file_contents = file_contents.replace("<html>","");
-			file_contents = file_contents.replace("</html>","");
-			file_contents = file_contents.replace("<body>","");
-			file_contents = file_contents.replace("</body>","");
-			document.querySelector('.code_area.html').value = file_contents;
-			
-			  nexus_prototype.show_preview();
-
-			setTimeout(function(){
-				nexus_prototype.collapse_unused_code_boxes();
-				nexus_prototype.hide_all_menus();
-			},1000);
-          }
-        };
-
-        var blob = file.slice(0, file.size);
-        reader.readAsBinaryString(blob);
-        nexus_prototype.reset();
-    },
-
 	collapse_unused_code_boxes:function(){
 		for(var i=0; i<this.code_boxes.length; i++){
 			var code_box = this.code_boxes[i];
-			if(code_box.querySelector(".code_area").value.trim() == ""){
+			if(code_box.querySelector(".code_area").value.trim() == "" && !code_box.querySelector("label input[type=checkbox][checked=checked]")){
 				code_box.querySelector("label input[type=checkbox]").checked = false;
 			}
+			else{
+				code_box.querySelector("label input[type=checkbox]").checked = true;
+			}
 		}
-		this.resize_code_boxes();
+			nexus_prototype.resize_code_boxes();
 	},
 
 	resize_code_boxes:function(){
+		
 		var showing_code_boxes = new Array();
-		for(var i=0; i<code_boxes.length; i++)
+		for(var i=0; i<nexus_prototype.code_boxes.length; i++)
 		{
-			if(!code_boxes[i].querySelector("label input[type=checkbox]").checked)
-			{
-				code_boxes[i].dataset.showing = false;
-				code_boxes[i].style.height = "";
+			if(!nexus_prototype.code_boxes[i].querySelector("label input[type=checkbox]").checked){
+				//nexus_prototype.code_boxes[i].dataset.showing = false;
+				nexus_prototype.code_boxes[i].style.height = "";
 			}
-			else
-			{
-				code_boxes[i].dataset.showing = true;
-				showing_code_boxes.push(code_boxes[i]);
+			else{
+				//nexus_prototype.code_boxes[i].dataset.showing = true;
+				showing_code_boxes.push(nexus_prototype.code_boxes[i]);
 			}
 		}
-		var not_showing = code_boxes.length - showing_code_boxes.length;
+		var not_showing = nexus_prototype.code_boxes.length - showing_code_boxes.length;
 		for(var i=0; i<showing_code_boxes.length; i++){
 			showing_code_boxes[i].style.height = "calc((100% - 25px*"+not_showing+")/"+showing_code_boxes.length+")";
 		}
@@ -132,7 +87,6 @@ var nexus_prototype = {
 	hide_mask: function(){
 		document.querySelector("#mask").className = "";
 	},
-
 
 	set_filename: function(name){
 		document.querySelector("#filename").value = name;
@@ -176,6 +130,122 @@ var nexus_prototype = {
 		});
 	},
 	
+	export_to_codepen : function () {
+		var form = document.createElement("form");
+		form.style.display="none";
+		form.target = "_blank";
+		form.method = "POST";
+		form.action = "http://codepen.io/pen/define";
+
+		var data = form.appendChild(document.createElement("input"));
+		data.type = "hidden";
+		data.name = "data";
+
+		//set the name as the same name as the download OR! nexus prototype export
+		var data_obj = {
+			"title":nexus_prototype.get_filename(),
+			"html":nexus_prototype.get_html_code(),
+			"css":get_css_code(),
+			"js":get_js_code()
+		}
+		data.value = JSON.stringify(data_obj).replace(/"/g, "&quot;").replace(/'/g,"&apos;");
+
+		form.submit();
+	},
+	
+	catch_save : function () {
+		document.addEventListener("keydown", function(e){
+			if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+				e.preventDefault();
+				nexus_prototype.save();
+				document.querySelector(".menu a[download]").click();
+			}
+		}, false);
+	},
+	 
+	catch_open : function () {
+		document.addEventListener("keydown", function(e){
+			if (e.keyCode == 79 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
+				e.preventDefault();
+				document.querySelector("#open_button").click();
+			}
+		}, false);
+	},
+	 
+	save : function () {
+		var data = 'data:application/xml;charset=utf-8,' + encodeURIComponent(get_preview_code());
+		document.querySelector(".menu a[download]").download = nexus_prototype.get_filename();
+		document.querySelector(".menu a[download]").href = data;
+	},
+	 
+	open : function(){
+		var files = document.querySelector('#open_button').files;
+		var file  = files[0];
+		nexus_prototype.set_filename(file.name);
+		var reader = new FileReader();
+		reader.onloadend = function(evt) {
+			if (evt.target.readyState == FileReader.DONE) {
+				
+				var file_contents = evt.target.result;
+				
+				switch(file.type){
+					case "text/css":
+						document.querySelector('.code_area.css').value = file_contents;
+						break;
+					
+						
+					case "text/javascript":
+						document.querySelector('.code_area.js').value = file_contents;
+						break;
+					
+						
+					default:
+					//strip css
+					var tag = "style";
+					var opening_tag_index; 
+					var closing_tag_index;
+					while(file_contents.indexOf("<"+tag+">") != -1 && file_contents.indexOf("</"+tag+">") !=-1){
+						opening_tag_index  = file_contents.indexOf("<"+tag+">");
+						closing_tag_index = file_contents.indexOf("</"+tag+">");
+						document.querySelector('.code_area.css').value  += file_contents.substring(opening_tag_index + 2 + tag.length,closing_tag_index);
+						file_contents = file_contents.substring(0,opening_tag_index) + file_contents.substring(closing_tag_index+tag.length+3,file_contents.length);
+					}
+
+					//strip js
+					tag = "script";
+					while(file_contents.indexOf("<"+tag+">") != -1 && file_contents.indexOf("</"+tag+">") !=-1){
+						opening_tag_index  = file_contents.indexOf("<"+tag+">");
+						closing_tag_index = file_contents.indexOf("</"+tag+">");
+						document.querySelector('.code_area.js').value  += file_contents.substring(opening_tag_index + 2 + tag.length,closing_tag_index);
+						file_contents = file_contents.substring(0,opening_tag_index) + file_contents.substring(closing_tag_index+tag.length+3,file_contents.length);
+					}
+
+					file_contents = file_contents.replace("<html>","");
+					file_contents = file_contents.replace("</html>","");
+					file_contents = file_contents.replace("<body>","");
+					file_contents = file_contents.replace("</body>","");
+					document.querySelector('.code_area.html').value = file_contents;
+					
+				}
+				
+				nexus_prototype.show_preview();
+
+				setTimeout(function(){
+					nexus_prototype.collapse_unused_code_boxes();
+					nexus_prototype.hide_all_menus();
+				},300);
+			}
+		};
+
+		var blob = file.slice(0, file.size);
+		reader.readAsBinaryString(blob);
+		nexus_prototype.reset();
+	},
+
+	settings : {
+		
+	},
+	 
 	init : function () {
 		document.querySelector(".reset").setAttribute("onclick", "nexus_prototype.reset();");
 
@@ -187,25 +257,25 @@ var nexus_prototype = {
 		};
 		this.code_boxes = document.querySelectorAll(".code_box");
 
-		document.addEventListener("keydown", function(e){
-			if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
-				e.preventDefault();
-				save_code_as();
-				document.querySelector(".menu a[download]").click();
-			}
-		}, false);
+		this.catch_save();
+		this.catch_open();
 
-        document.querySelector("#file_upload").onchange = nexus_prototype.upload_files;
+        document.querySelector("#open_button").onchange = nexus_prototype.open;
         
 		document.querySelector("#about_button").addEventListener("click",nexus_prototype.show_about,false);
 		document.querySelector("#toggle_grid").addEventListener("click",function(){
 			$(document.body).toggleClass("grid");
 		},false);
-
-		this.mask = document.querySelector("#mask");
+		
+		this.code_boxes = document.querySelectorAll(".code_box");
+		this.form		= document.querySelector("#main");
+		this.mask 		= document.querySelector("#mask");
 		this.catch_query_strings();
+		
+		this.collapse_unused_code_boxes();
+				 
+		$(document.body).removeClass("initializing");
 	}
-
 
 };
 
@@ -221,13 +291,13 @@ var editor;
 var resize_start;
 var editor_width;
 var preview;
-var code_boxes;
+//var code_boxes;
 var preview_doc;
 //resize events
 
 document.addEventListener("DOMContentLoaded",function(){
 
-	window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
+	//window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
 	preview = document.querySelector("#preview");
 	var preview_pane = preview.querySelector("iframe.preview");
 	preview_doc = preview_pane.contentDocument || preview_pane.contentWindow.document;
@@ -276,16 +346,14 @@ document.addEventListener("DOMContentLoaded",function(){
 		}
 	},false);
 
-	code_boxes = document.querySelectorAll(".code_box");
+	//code_boxes = document.querySelectorAll(".code_box");
 
-	for(var i=0; i<code_boxes.length; i++){
-		code_boxes[i].querySelector(".code_area").addEventListener("keyup",nexus_prototype.show_preview,false);
-		code_boxes[i].querySelector(".code_area").addEventListener("scroll",function(){this.style.backgroundPositionY = (0-this.scrollTop)+"px";},false);
-		code_boxes[i].querySelector("label input[type=checkbox]").addEventListener("change",nexus_prototype.resize_code_boxes);
+	for(var i=0; i<nexus_prototype.code_boxes.length; i++){
+		nexus_prototype.code_boxes[i].querySelector(".code_area").addEventListener("keyup",nexus_prototype.show_preview,false);
+		nexus_prototype.code_boxes[i].querySelector(".code_area").addEventListener("scroll",function(){this.style.backgroundPositionY = (0-this.scrollTop)+"px";},false);
+		nexus_prototype.code_boxes[i].querySelector("label input[type=checkbox]").addEventListener("change",nexus_prototype.resize_code_boxes);
 	}
 
-
-	//document.forms[0].addEventListener("reset",nexus_prototype.reset,false);
 	get_functionality();
 
 },false);
@@ -315,7 +383,6 @@ function get_preview_code(){
 	return html;
 }
 
-
 function editor_width_min(){
 	document.querySelector('.editor').style.width='0';
 	preview.style.width	= "calc(100% - "+editor.style.width+")";
@@ -326,15 +393,9 @@ function editor_width_max(){
 	preview.style.width	= "calc(100% - "+editor.style.width+")";
 }
 
-function save_code_as(){
-	var data = 'data:application/xml;charset=utf-8,' + encodeURIComponent(get_preview_code());
-	document.querySelector(".menu a[download]").download = nexus_prototype.get_filename();
-	document.querySelector(".menu a[download]").href = data;
-}
-
 function get_functionality(){
 
-	var upload_button = document.querySelector("#file_upload");
+	var upload_button = document.querySelector("#open_button");
 	var codepen_export_button = document.querySelector("#export_codepen");
 	if(!document.domain){
 		codepen_export_button.addEventListener("click",local_functionality_notice,false);
@@ -342,7 +403,7 @@ function get_functionality(){
 		upload_button.addEventListener("click",local_functionality_notice,false);
 	}
 	else{
-		codepen_export_button.addEventListener("click",export_to_codepen,false);
+		codepen_export_button.addEventListener("click",nexus_prototype.export_to_codepen,false);
 	}
 
 }
@@ -380,7 +441,6 @@ function toggle_share_menu(){
 	}
 }
 
-
 function catch_tab_key(ev){
 		var keyCode = ev.keyCode || ev.which;
 
@@ -413,44 +473,3 @@ function catch_tab_key(ev){
 			this.selectionEnd = end + count;
 		}
 }
-
-function export_to_codepen(){
-	var form = document.createElement("form");
-	form.style.display="none";
-	form.target = "_blank";
-	form.method = "POST";
-	form.action = "http://codepen.io/pen/define";
-
-	var data = form.appendChild(document.createElement("input"));
-	data.type = "hidden";
-	data.name = "data";
-
-	//set the name as the same name as the download OR! nexus prototype export
-	var data_obj = {
-		"title":nexus_prototype.get_filename(),
-		"html":nexus_prototype.get_html_code(),
-		"css":get_css_code(),
-		"js":get_js_code()
-	}
-	data.value = JSON.stringify(data_obj).replace(/"/g, "&quot;").replace(/'/g,"&apos;");
-
-	form.submit();
-}
-
-//ace editor integration
-/*
-document.addEventListener("DOMContentLoaded",function(){
-var code_area_html = ace.edit("code_area_html");
-code_area_html.setTheme("ace/theme/monokai");
-code_area_html.getSession().setMode("ace/mode/html");
-
-var code_area_css = ace.edit("code_area_css");
-code_area_css.setTheme("ace/theme/monokai");
-code_area_css.getSession().setMode("ace/mode/css");
-
-
-var code_area_js = ace.edit("code_area_js");
-code_area_js.setTheme("ace/theme/monokai");
-code_area_js.getSession().setMode("ace/mode/javascript");
-},false);
-*/

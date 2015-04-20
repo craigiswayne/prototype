@@ -8,15 +8,14 @@
     <link rel="icon" type="image/png" href="nexus_prototype.png">
     <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
     <script src="nexus_prototype.js"></script>
-    <!--<script src="http://code.jquery.com/jquery-1.11.2.js"></script>-->
-    <script src="jquery-1.11.2.js"></script>
-    <!--<script src="ace.js" type="text/javascript" charset="utf-8"></script>-->
+    <script src="jquery.js"></script>
+    <script src="jquery.cookie.js"></script>
 
 
     <link rel="stylesheet" href="nexus_prototype.css">
   </head>
 
-  <body>
+  <body class="initializing">
     <header class=no_select>
       <a id="main_menu_toggle" class="fa fa-bars action" onclick="toggle_main_menu();"></a>
       <label id="app_name">Prototype</label>
@@ -32,7 +31,7 @@
 
       <nav id="main_menu" class="menu accordion">
         <ul>File
-          <label class="fa fa-folder-open">Open<input id="file_upload" type="file" style="display:none;" accept=".html"></label>
+          <label class="fa fa-folder-open">Open<input id="open_button" type="file" style="display:none;" accept=".html,.css,.js"></label>
           <a class="fa fa-save" id="download_button" href="" download onclick="save_code_as();">Save</a>
           <span class="fa fa-eraser reset">Reset</span>
         </ul>
@@ -51,7 +50,7 @@
         <div id="editor" class="editor">
           <div class="code_box"><label class="action no_select">HTML<input type=checkbox checked=checked></label><textarea id="code_area_html" class="code_area html"></textarea></div>
           <div class="code_box"><label class="action no_select">CSS<input type=checkbox checked=checked></label><textarea id="code_area_css" class="code_area css"></textarea></div>
-          <div class="code_box"><label class="action no_select">JS<input type=checkbox checked=checked></label><textarea id="code_area_js" class="code_area js"></textarea></div>
+          <div class="code_box"><label class="action no_select">JS<input type=checkbox></label><textarea id="code_area_js" class="code_area js"></textarea></div>
           <div class="resizer no_select"><span class="fa fa-step-backward" onclick="editor_width_min();"></span><span class="fa fa-ellipsis-v"></span><span class="fa fa-step-forward" onclick="editor_width_max();"></span></div>
 
           <div id="easter_egg">
