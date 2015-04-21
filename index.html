@@ -31,8 +31,10 @@
 
       <nav id="main_menu" class="menu accordion">
         <ul>File
-          <label class="fa fa-folder-open">Open<input id="open_button" type="file" style="display:none;" accept=".html,.css,.js"></label>
-          <a class="fa fa-save" id="download_button" href="" download onclick="save_code_as();">Save</a>
+          <label class="fa fa-folder-open">Open<input id="open_btn" type="file" style="display:none;" accept=".html,.css,.js"></label>
+          <a id="import_btn" class="fa fa-cloud-download disabled">Import</a> 
+          <a class="fa fa-save" id="download_btn" href="" download onclick="save_code_as();">Save</a>
+          <a class="fa fa-share" id="share_btn">Share</a>
           <span class="fa fa-eraser reset">Reset</span>
         </ul>
 
@@ -42,7 +44,7 @@
 
         <a href="http://www.github.com/craigwayne" class="fa fa-github" target="_blank">Github</a>
 
-        <a id="about_button" class="fa fa-info">About</a>
+        <a id="about_btn" class="fa fa-info">About</a>
 
       </nav>
 

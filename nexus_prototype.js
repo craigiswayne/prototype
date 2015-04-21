@@ -3,7 +3,36 @@
 	mask:null,
 	form:null,
 	code_boxes:null,
-	 
+	supported_languages:["html","css","js"],
+	preview_frame:null,
+
+	import_from_codepen : function (url) {
+
+		url = url || window.prompt("Paste codepen url...");
+	    if(!url){sonsole.error("No URL supplied"); return;}
+
+	    var user                = url.replace("http://codepen.io/","");
+	    user                    = user.substring(0,user.indexOf("/pen"));
+	    var slug_hash           = url.substring(url.lastIndexOf('/')+1,url.length);
+
+	    var codepen_embed       = document.body.appendChild(document.createElement("iframe"));
+	    var codepen_doc         = codepen_embed.contentDocument || codepen_embed.contentWindow.document;
+	    codepen_embed.className = "cp_embed_iframe codepen";
+	    codepen_embed.id        = "cp_embed_"+slug_hash;
+	    codepen_embed.src       = "//codepen.io/"+user+"/embed/"+slug_hash+"?slug-hash="+slug_hash+"&amp;user="+user;
+	    codepen_embed.setAttribute("scrolling","no");
+	    codepen_embed.setAttribute("frameborder","0");
+	    codepen_embed.setAttribute("height",parseInt(window.getComputedStyle(nexus_prototype.preview_frame)["height"]));
+	    codepen_embed.setAttribute("style","width:100%;min-height:100%;");
+	    codepen_embed.setAttribute("allowtransparency","true");
+	    codepen_embed.setAttribute("allowfullscreen","true");
+
+	    document.querySelector(".code_area.html").value = codepen_embed.outerHTML;
+	    codepen_embed.parentNode.removeChild(codepen_embed);
+	    nexus_prototype.show_preview();
+
+	},
+
 	get_html_code : function () {return document.querySelector(".code_area.html").value; },
 	
 	generate_share_url: function () {
@@ -158,7 +187,7 @@
 			if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
 				e.preventDefault();
 				nexus_prototype.save();
-				document.querySelector(".menu a[download]").click();
+				document.querySelector("#download_btn").click();
 			}
 		}, false);
 	},
@@ -167,19 +196,19 @@
 		document.addEventListener("keydown", function(e){
 			if (e.keyCode == 79 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)){
 				e.preventDefault();
-				document.querySelector("#open_button").click();
+				document.querySelector("#open_btn").click();
 			}
 		}, false);
 	},
 	 
 	save : function () {
 		var data = 'data:application/xml;charset=utf-8,' + encodeURIComponent(get_preview_code());
-		document.querySelector(".menu a[download]").download = nexus_prototype.get_filename();
-		document.querySelector(".menu a[download]").href = data;
+		document.querySelector("#download_btn").download = nexus_prototype.get_filename();
+		document.querySelector("#download_btn").href = data;
 	},
 	 
 	open : function(){
-		var files = document.querySelector('#open_button').files;
+		var files = document.querySelector('#open_btn').files;
 		var file  = files[0];
 		nexus_prototype.set_filename(file.name);
 		var reader = new FileReader();
@@ -187,14 +216,14 @@
 			if (evt.target.readyState == FileReader.DONE) {
 				
 				var file_contents = evt.target.result;
-				
+				console.debug(file.type);
 				switch(file.type){
 					case "text/css":
 						document.querySelector('.code_area.css').value = file_contents;
 						break;
 					
 						
-					case "text/javascript":
+					case "application/javascript":
 						document.querySelector('.code_area.js').value = file_contents;
 						break;
 					
@@ -260,9 +289,10 @@
 		this.catch_save();
 		this.catch_open();
 
-        document.querySelector("#open_button").onchange = nexus_prototype.open;
+        document.querySelector("#open_btn").onchange = nexus_prototype.open;
+        document.querySelector("#share_btn").onclick = toggle_share_menu;
         
-		document.querySelector("#about_button").addEventListener("click",nexus_prototype.show_about,false);
+		document.querySelector("#about_btn").addEventListener("click",nexus_prototype.show_about,false);
 		document.querySelector("#toggle_grid").addEventListener("click",function(){
 			$(document.body).toggleClass("grid");
 		},false);
@@ -270,6 +300,7 @@
 		this.code_boxes = document.querySelectorAll(".code_box");
 		this.form		= document.querySelector("#main");
 		this.mask 		= document.querySelector("#mask");
+		this.preview_frame = document.querySelector("#preview iframe");
 		this.catch_query_strings();
 		
 		this.collapse_unused_code_boxes();
@@ -395,7 +426,7 @@ function editor_width_max(){
 
 function get_functionality(){
 
-	var upload_button = document.querySelector("#open_button");
+	var upload_button = document.querySelector("#open_btn");
 	var codepen_export_button = document.querySelector("#export_codepen");
 	if(!document.domain){
 		codepen_export_button.addEventListener("click",local_functionality_notice,false);
