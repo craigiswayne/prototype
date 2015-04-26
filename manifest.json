@@ -8,7 +8,7 @@
 	"manifest_version": 2,
 
 	"icons": {
-		"128": "128.png"
+		"128": "nexus_prototype.png"
 	},
 
 	"version": "1.0",
