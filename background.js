@@ -1,3 +1,5 @@
 chrome.app.runtime.onLaunched.addListener(function(){
-  chrome.app.window.create('index.html',{id:"prototype",state:"maximized"},function(){});
+  chrome.app.window.create('index.html',{id:"prototype",state:"maximized"},function(){
+  	console.debug("test");
+  });
 });

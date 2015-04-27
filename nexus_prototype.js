@@ -1,6 +1,7 @@
 //TODO CHROME APP
-//FONT FILES are not completely local!
-//OPTION TO LAUNCH AS CHROME APP... must be installed first... also that option must only be enabled if on chrome... maybe!?
+//OPTION TO LAUNCH AS CHROME APP... 
+//must be installed first...
+//also that option must only be enabled if on chrome... maybe!?
 var nexus_prototype = {
     mask: null,
     form: null,
@@ -57,26 +58,49 @@ var nexus_prototype = {
     },
     show_mask: function(content) {
         content = content || "";
-        nexus_prototype.mask.innerHTML = "<table><tr><td>" + content + "</td></tr></table>";
-        nexus_prototype.mask.className = "active";
-        //TODO
-        //nexus_prototype.mask.setAttribute("onclick","nexus_prototype.hide_all_menus()");
+		
+		if(content){
+       		nexus_prototype.mask.innerHTML = "<table><tr><td><div class='popup animate'>" + content + "</div></td></tr></table>";
+		}
+        $(nexus_prototype.mask).addClass("active");
     },
-    show_preview: function() {
-        if (nexus_prototype.interface == "chrome_app") {
-            chrome.storage.local.set({
-                "html": nexus_prototype.get_html_code(),
-                "css": nexus_prototype.get_css_code(),
-                "js": nexus_prototype.get_js_code(),
-                "preview": nexus_prototype.get_preview_code()
-            });
-        } else {
-            var tmp_preview = document.querySelector("#preview iframe");
-            var tmp_preview_doc = tmp_preview.contentDocument || tmp_preview.contentWindow.document;
-            tmp_preview_doc.open();
-            tmp_preview_doc.write(nexus_prototype.get_preview_code());
-            tmp_preview_doc.close();
-        }
+	show_about: function() {
+        nexus_prototype.hide_all_menus();
+        nexus_prototype.show_mask();
+        $.ajax({
+            url: "about.html"
+        }).done(function(r) {
+            nexus_prototype.show_mask(r);
+        });
+    },
+	show_settings: function(){
+		nexus_prototype.hide_all_menus();
+        nexus_prototype.show_mask();
+        $.ajax({
+            url: "settings.html"
+        }).done(function(r) {
+            nexus_prototype.show_mask(r);
+			document.querySelector("#btn_save_settings").addEventListener("click",nexus_prototype.settings.save,false);
+        });
+	},
+    show_preview: function() {	
+		
+		setTimeout(function(){
+			if (nexus_prototype.interface == "chrome_app") {
+				chrome.storage.local.set({
+					"html": nexus_prototype.get_html_code(),
+					"css": nexus_prototype.get_css_code(),
+					"js": nexus_prototype.get_js_code(),
+					"preview": nexus_prototype.get_preview_code()
+				});
+			} else {
+				var tmp_preview = document.querySelector("#preview iframe");
+				var tmp_preview_doc = tmp_preview.contentDocument || tmp_preview.contentWindow.document;
+				tmp_preview_doc.open();
+				tmp_preview_doc.write(nexus_prototype.get_preview_code());
+				tmp_preview_doc.close();
+			}
+		},(nexus_prototype.settings.preview_time*1000));
     },
     reset: function() {
         nexus_prototype.form.reset();
@@ -126,8 +150,25 @@ var nexus_prototype = {
         document.querySelector("#share_menu_toggle").className = "fa fa-share action";
         nexus_prototype.hide_mask();
     },
-    hide_mask: function() {
-        document.querySelector("#mask").className = "";
+    hide_mask: function(force) {
+		
+		force = force || false;
+		
+		var check = force;
+		
+		if(event){
+			if(event.type == "click"){
+				if(event.srcElement == nexus_prototype.mask.querySelector('td') || event.srcElement == nexus_prototype.mask || event.srcElement == nexus_prototype.mask.querySelector('table')){
+					check = true;
+				}
+			}
+		}
+		
+		if(check == true){
+			$(".mask").removeClass("active");
+			nexus_prototype.mask.innerHTML = "";
+		}
+		
     },
     set_filename: function(name) {
         document.querySelector("#filename").value = name;
@@ -160,15 +201,6 @@ var nexus_prototype = {
             }
         }
         return false;
-    },
-    show_about: function() {
-        nexus_prototype.hide_all_menus();
-        nexus_prototype.show_mask();
-        $.ajax({
-            url: "about.html"
-        }).done(function(r) {
-            nexus_prototype.mask.querySelector("td").innerHTML = r;
-        });
     },
     export_to_codepen: function() {
         var form = document.createElement("form");
@@ -256,7 +288,7 @@ var nexus_prototype = {
                 nexus_prototype.show_preview();
                 setTimeout(function() {
                     nexus_prototype.collapse_unused_code_boxes();
-                    nexus_prototype.hide_all_menus();
+                    nexus_prototype.hide_mask(true);
                 }, 300);
             }
         };
@@ -264,7 +296,13 @@ var nexus_prototype = {
         reader.readAsBinaryString(blob);
         nexus_prototype.reset();
     },
-    settings: {},
+    settings: {
+		save: function(){
+			console.debug("save called");
+			nexus_prototype.settings.preview_time = document.querySelector("[name=preview_time]") ? parseInt(document.querySelector("[name=preview_time]").value) : 0;
+		},
+		preview_time: 0
+	},
     send_via: {
         email: function() {
             document.querySelector("#export_email").href = "mailto:?subject=Prototype&body=" + encodeURIComponent(nexus_prototype.get_preview_code());
@@ -316,6 +354,7 @@ var nexus_prototype = {
         document.querySelector("#open_btn").onchange = nexus_prototype.open;
         document.querySelector("#share_btn").addEventListener("click", toggle_share_menu, false);
         document.querySelector("#about_btn").addEventListener("click", nexus_prototype.show_about, false);
+        document.querySelector("#settings_btn").addEventListener("click", nexus_prototype.show_settings, false);
         document.querySelector("#toggle_grid").addEventListener("click", function() {
             $(document.body).toggleClass("grid");
         }, false);
