@@ -112,6 +112,7 @@ var nexus_prototype = {
         nexus_prototype.resize_code_boxes();
         document.querySelector("#editor").removeAttribute("style");
         document.querySelector("#preview").removeAttribute("style");
+        nexus_prototype.hide_mask();
     },
     code_areas: function() {
         return document.querySelectorAll(".code_area");
@@ -148,7 +149,7 @@ var nexus_prototype = {
         $("#share_menu").removeClass('active');
         document.querySelector("#main_menu_toggle").className = "fa fa-bars action";
         document.querySelector("#share_menu_toggle").className = "fa fa-share action";
-        nexus_prototype.hide_mask();
+        nexus_prototype.hide_mask(true);
     },
     hide_mask: function(force) {
 		

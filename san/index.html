@@ -1,0 +1,85 @@
+<script src="ods.js"></script>
+<script src="jszip.js"></script>
+<script src="shim.js"></script>
+<script src="xlsx.js"></script>
+
+<title>Excel to Google Maps</title>
+
+<fieldset class=step>
+    <legend>Step 1: Select your XLS(X) file</legend>
+    <input type="file" name="xlfile"></p>
+</fieldset>
+
+<fieldset class=step>
+    <legend>Step 2: Read Data</legend>
+    <input type=button onclick="nexus.file.read()" value="Process">
+</fieldset>
+
+<fieldset>
+    <legend>Step 3: Tabular Result</legend>
+</fieldset>
+
+<pre id="out"></pre>
+
+<script>
+
+var nexus = {
+    file:{
+        read:function(){
+            
+            //so far this is only catering for xlsx to json
+            var files = document.querySelector("input[type=file]").files;
+            var f = files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                var data = e.target.result;
+                var worker = new Worker('./xlsxworker2.js');
+                worker.onmessage = function(e) {
+                    switch(e.data.t) {
+                        case 'ready': break;
+
+                        case 'e': console.error(e.data.d); break;
+                        default: 
+
+                            var o = "", l = 0, w = 10240;
+                            for(; l<e.data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint16Array(e.data.slice(l*w,l*w+w)));
+                            o+=String.fromCharCode.apply(null, new Uint16Array(e.data.slice(l*w)));
+
+                            xx=o.replace(/\n/g,"\\n").replace(/\r/g,"\\r"); 
+                            
+                            var temp_2 = JSON.parse(xx);
+                            var temp_1 = {};
+                            temp_2.SheetNames.forEach(function(sheetName) {
+                                var roa = XLSX.utils.sheet_to_row_object_array(temp_2.Sheets[sheetName]);
+                                if(roa.length > 0){
+                                    temp_1[sheetName] = roa;
+                                }
+                            });
+                            
+                            var output = JSON.stringify(temp_1, 2, 2);
+                            out.innerText = output;
+                            break;
+                    }
+                };
+
+                var b = new ArrayBuffer(data.length*2), v = new Uint16Array(b);
+                for (var i=0; i != data.length; ++i) v[i] = data.charCodeAt(i);
+                var val =  [v, b];
+
+                worker.postMessage(val[1], [val[1]]);
+            };
+            reader.readAsBinaryString(f);
+        }
+        
+    },
+    json:{
+    
+        to_table:function(params){
+            
+        }
+    
+    }
+};    
+    
+
+</script>
