@@ -1,61 +1,4 @@
-<html class="nexus demo">
-<!--<link rel=stylesheet href="http://craigwayne.github.io/nexus/css/nexus.css">-->
-<link rel=stylesheet href="nexus.css">
-<link rel="stylesheet" href="../font-awesome-4.3.0/css/font-awesome.min.css">
 
-<script src="ods.js"></script>
-<script src="jszip.js"></script>
-<script src="shim.js"></script>
-<script src="xlsx.js"></script>
-<!--<script src="nexus.js"></script>-->
-
-<style>
-#map-canvas{
-  width: 100%;
-  height: 300px;
-}
-
-.nexus.demo{
-    color:rgb(255, 255, 255);
-}
-    
-.nexus.demo fieldset{
-    margin:10px auto 30px;
-    background-color:black;
-}
-.nexus.demo legend {
-    font-size: 2em;
-}
-</style>
-
-<title>Excel to Google Maps</title>
-<body>
-<fieldset class=step>
-    <legend>Step 1: Select your XLS(X) file</legend>
-    <input type="file"></p>
-
-    <label><span>Auto</span><input type="checkbox" id="cb_auto" checked=checked></label>
-
-</fieldset>
-
-<fieldset class=step>
-    <legend>Step 2: Convert File to Virtual Table</legend>
-    <input type=button id="btn_process" value="Process">
-</fieldset>
-
-<fieldset class="step">
-    <legend>Step 3: Virtual Table to Google Map</legend>
-    <div id="table_output"></div>
-    <input type=button id="btn_table_to_map" value="Show on Map">
-</fieldset>
-
-<fieldset class="step">
-<legend>Step 4: Google Map Visualization</legend>
-<div class="nexus google map" id="map-canvas"></div>
-</fieldset>
-<script>
-
-	
 var nexus = function(){
 	
     //nexus error module
@@ -168,7 +111,7 @@ var nexus = function(){
                             });
                             console.debug(result);
                             window.test = result["Stores Map"];
-                            nexus.json.table(result["Stores Map"]);
+                            nexus.json.table(result["Stores Map"],{generate_header:false});
                             return result;
                             break;
                     }
@@ -196,10 +139,6 @@ var nexus = function(){
             json = json || {};
             
             var table = document.createElement("table");
-			$(table).addClass("busy");
-			$(document.body).addClass("busy");
-			var table_columns = [];
-			var table_max_cells = 0;
             table.className                 = "nexus enable_row_select";
             var table_header                = table.appendChild(document.createElement("thead"));
             var table_header_row            = table_header.appendChild(document.createElement("tr"));
@@ -207,97 +146,56 @@ var nexus = function(){
             var table_header_checkbox       = table_header_checkbox_cell.appendChild(document.createElement("input"));
             table_header_checkbox.type      = "checkbox";
             table_header_checkbox.className = "nexus";
-			table_header_checkbox.checked	= true;
             table_header_checkbox.addEventListener("change",function(){
             
                 var table = this.parentNode.parentNode.parentNode.parentNode;
                 var row_checkboxes = table.querySelectorAll(".row_checkbox_cell input[type=checkbox].row_checkbox");
                 for(var i=0; i<row_checkboxes.length; i++){
                     row_checkboxes[i].checked = this.checked;
-					//event.preventDefault();
+					event.preventDefault();
     				$(row_checkboxes[i]).trigger("change");
 					//$(row_checkboxes[i]).prop('checked', true).change();
                 }
                 
             },false);
             
-            var table_body = table.appendChild(document.createElement("tbody"));
-            
-			for(var i in Object.keys(json)){
-                var row_entry               = table_body.appendChild(document.createElement("tr"));
-                row_entry.className         = "selected";                
+            if(options.generate_header === true){
                 
-                for(var j in Object.keys(Object.keys(json)[i])){
-					var cell_value = json[i][Object.keys(json[i])[j]];
-                    if(cell_value !== undefined){
-                        var row_cell = row_entry.appendChild(document.createElement("td"));
-                        row_cell.className = Object.keys(json[i])[j];
-						if(table_columns.indexOf(Object.keys(json[i])[j]) < 0) table_columns.push(Object.keys(json[i])[j]);
-                        row_cell.innerHTML = cell_value;
-						var k = parseInt(j)+1;
-						table_max_cells = k > table_max_cells ? k : table_max_cells;
-                    }
+                for(var i in Object.keys(json)){
+                    var header_cell = table_header_row.appendChild(document.createElement("th"));
+                    header_cell.innerHTML = Object.keys(json)[i];
                 }
-            }//end json processing
-			
-			//TODO group the adding of the checkbox and actions cells POST creating the basic table
-			
-			//adding the columns to the table header
-			for(var i=0; i<table_columns.length; i++){
-				var column_header = table_header_row.appendChild(document.createElement("th"));
-				column_header.className = table_columns[i];
-				column_header.innerHTML = table_columns[i];
-			}
-			
-			//add the actions column
-			var header_actions_column 		= table_header_row.appendChild(document.createElement("th"));
-			header_actions_column.innerHTML	= "Actions";
-			
-			//fill in missing cells?
-			
-			for(var i=0; i<table.tBodies[0].rows.length; i++){
-				if(table.tBodies[0].rows[i].cells.length < table_max_cells){
-					var cells_needed = (table_max_cells - table.tBodies[0].rows[i].cells.length);
-					for(var j=0; j<cells_needed; j++){
-						table.querySelectorAll("tbody>tr")[i].appendChild(document.createElement("td"));
-					}
-				}
-			}
-			
-			
-			
-			for(var i=0; i<table.tBodies[0].rows.length; i++){
-				var row_checkbox_cell       = table.tBodies[0].rows[i].insertBefore(document.createElement("td"), table.tBodies[0].rows[i].cells[0]);
+            }
+            
+            var table_body = table.appendChild(document.createElement("tbody"));
+            for(var i in Object.keys(json)){
+                var row_entry               = table_body.appendChild(document.createElement("tr"));
+                row_entry.className         = "selected";
+                var row_checkbox_cell       = row_entry.appendChild(document.createElement("td"));
                 row_checkbox_cell.className = "row_checkbox_cell";
                 var row_checkbox            = row_checkbox_cell.appendChild(document.createElement("input"));
                 row_checkbox.type           = "checkbox";
                 row_checkbox.checked        = true;
                 row_checkbox.className      = "nexus row_checkbox";
-				row_checkbox.table			= table;
-				row_checkbox.row			= row_checkbox_cell.parentNode;
-                row_checkbox.onchange = function(){					
-                    if(this.checked){
-						$(this.row).addClass("selected");
-					}
-                    else{
-						$(this.row).removeClass("selected");
-						this.table.querySelector("thead>tr>th:first-of-type>input[type=checkbox]").checked = false;
-					}
-                };
-				
-				var row_actions_cell		= table.tBodies[0].rows[i].appendChild(document.createElement("td"));
-				row_actions_cell.className	= "actions";
-				var btn_row_edit			= row_actions_cell.appendChild(document.createElement("button"));
-				btn_row_edit.className		= "edit fa fa-pencil";
-				var btn_row_delete			= row_actions_cell.appendChild(document.createElement("button"));
-				btn_row_delete.className	= "delete fa fa-trash";
-				
-			}
-			
-			document.querySelector("#table_output").innerHTML = "";
+                row_checkbox.addEventListener("change",function(){
+					console.debug("checkbox change function");
+                    if(this.checked){$(this.parentNode.parentNode).addClass("selected");}
+                    else{$(this.parentNode.parentNode).removeClass("selected");}
+                },false);
+                
+                
+                for(var j in Object.keys(Object.keys(json)[i])){
+                    var cell_value = json[i][Object.keys(json[i])[j]];
+                    if(cell_value !== undefined){
+                        var row_cell = row_entry.appendChild(document.createElement("td"));
+                        row_cell.className = Object.keys(json[i])[j];
+                        row_cell.innerHTML = cell_value;
+                    }
+                }
+            }
+            
+            document.querySelector("#table_output").innerHTML = "";
             document.querySelector("#table_output").appendChild(table);
-			$(table).removeClass("busy");
-			$(document.body).removeClass("busy");
             return table;
         }
     },
@@ -332,22 +230,3 @@ var nexus = function(){
 };
 
 nexus();
-    
-document.addEventListener("DOMContentLoaded",spreadsheet_to_google_map_demo,false);
-
-function spreadsheet_to_google_map_demo(){
-    nexus.google.maps.init();
-    
-    var file_input = document.querySelector("input[type=file]");
-    
-    document.querySelector("#btn_process").addEventListener("click",function(){nexus.file.read(file_input.files);},false);
-    
-    file_input.addEventListener("change",function(){
-        if(document.querySelector("#cb_auto:checked")){
-            nexus.file.read();
-        }
-    },false);
-}
-</script>
-</body>
-</html>

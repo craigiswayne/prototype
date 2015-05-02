@@ -714,51 +714,47 @@ input[type=checkbox].nexus:checked:after,
     border-color: #32C28A;
 }
 
-table.nexus,
-.nexus table{
+table.nexus{
     border-radius:6px;
     background-color:rgba(255,255,255,0.6);
     max-width:100%;
     color:black;
     margin:10px auto;
+    border-collapse:collapse;
+    overflow:hidden;
+    max-height: 400px;
 }
 
-table.nexus tbody,
-.nexus table tbody{
-    display:block;
-    max-height:40vh;
-    overflow:auto;
+table.nexus>thead{
+    background-color:rgba(255,255,255,0.3);
+    color:black;
 }
 
-table.nexus tbody tr,
-.nexus table tbody tr{
-    display:block;
+table.nexus>thead>tr>th{
+  padding:6px 8px;
+  font-size:110%;
 }
 
-table.nexus tbody tr:hover, 
-.nexus table tbody tr:hover{
+table.nexus>tbody>tr:hover{
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
   position: relative;
   font-size: 110%;
+  font-weight:bold;
 }
 
-table.nexus tbody tr:nth-child(odd),
-.nexus table tbody tr:nth-child(odd){
+table.nexus>tbody>tr:nth-child(odd){
     background-color:white;
 }
 
-table.nexus tbody tr:nth-child(even),
-.nexus table tbody tr:nth-child(even){
+table.nexus>tbody>tr:nth-child(even){
     background-color:#F6F6F6;
 }
 
-table.nexus.enable_row_select tbody tr:not(.selected),
-.nexus table.enable_row_select tbody tr:not(.selected){
+table.nexus.enable_row_select>tbody>tr:not(.selected){
     opacity:0.1;
     text-decoration:line-through;
 }
 
-table.nexus tbody td,
-.nexus table tbody td{
+table.nexus>tbody>tr>td{
     padding:4px 6px;
 }
