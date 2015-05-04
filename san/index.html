@@ -32,31 +32,45 @@
 <body>
 <fieldset class=step>
     <legend>Step 1: Select your XLS(X) file</legend>
-    <input type="file"></p>
-
-    <label><span>Auto</span><input type="checkbox" id="cb_auto" checked=checked></label>
-
-</fieldset>
-
-<fieldset class=step>
-    <legend>Step 2: Convert File to Virtual Table</legend>
-    <input type=button id="btn_process" value="Process">
+    <input type="file" accept=".xls,.xlsx">
 </fieldset>
 
 <fieldset class="step">
-    <legend>Step 3: Virtual Table to Google Map</legend>
+    <legend>Step 2: Virtual Table</legend>
     <div id="table_output"></div>
+	<input type=button id="btn_geocode_table" value="GeoCode Table">
     <input type=button id="btn_table_to_map" value="Show on Map">
 </fieldset>
 
 <fieldset class="step">
-<legend>Step 4: Google Map Visualization</legend>
+<legend>Step 3: Google Map Visualization</legend>
 <div class="nexus google map" id="map-canvas"></div>
 </fieldset>
 <script>
 
 	
 var nexus = function(){
+	
+	nexus.css_class = function(string){
+		
+		string = string || "";
+		
+		string = string.replace(/[^a-z0-9]/g,function(s){
+			var c = s.charCodeAt(0);
+			
+			//if there are any white spaces
+			if(c == 32) return  '_';
+			
+			//if there are any capitals
+			if(c >= 65 && c <= 90) return s.toLowerCase();
+			
+			//must still replace the string if it starts with a number
+			
+			return '__' + ('000' + c.toString(16)).slice(-4);
+		}); 
+		
+		return string;
+	};
 	
     //nexus error module
     nexus.error = function(title,message){
@@ -79,49 +93,100 @@ var nexus = function(){
 		},
 		
 		post_install: function(){
-			nexus.debug("Google Map API installtion complete...");
 			nexus.google.maps.installed = true;
+			nexus.google.maps.create_all();
 		},
 		
-		create      : function(element){
-			if(!nexus.google.maps.installed){
-				nexus.google.maps.install(function(){
-					nexus.google.maps.create(element);
-				});
-			}
-			else if(element instanceof HTMLElement){
-				nexus.debug("creating the map....");
-
-				//var map_options = array_m
-
-				element.nexus			    = element.nexus || {};
-				element.nexus.google	    = element.nexus.google || {};
-				//element.nexus.google.map =  new google.maps.Map(element,nexus.google.maps.options);
-                var map_options             = nexus.google.maps.options;
-                map_options.center          = new google.maps.LatLng(map_options.latitude, map_options.longitude);
-                element.nexus.google.map    =  new google.maps.Map(element,nexus.google.maps.options);
-				return element.nexus.google.map;
-				nexus.debug("Finished creating map...");
-			}
-			else{
-
-			}
-
+		create      : function(element){			
+			var map_options             = nexus.google.maps.options;
+			map_options.center          = new google.maps.LatLng(map_options.latitude, map_options.longitude);
+			element.map				    = new google.maps.Map(element, nexus.google.maps.options);			
+			return element.map;
 		},
 		
-		install     : function(callback){
-			nexus.debug("Installing Google Map API...", nexus.google.maps.api_url);
-			nexus.scripts.install(nexus.google.maps.api_url);
+		create_all	: function(){
+			var map_containers = document.querySelectorAll(".nexus.google.map");
+			for(var i=0; i<map_containers.length; i++){
+				if(!map_containers[i].map){
+					new nexus.google.maps.map(map_containers[i]);
+				}
+			}
 		},
 		
-		init        : function(){
-			//check if the google map script is installed
+		add_marker	: function(marker_settings){
+			marker_settings 			= (typeof marker_settings == "object") ? marker_settings : new Object();
+
+			if(marker_settings.latitude && marker_settings.longitude){
+				marker_settings.position = new google.maps.LatLng(parseFloat(marker_settings.latitude), parseFloat(marker_settings.longitude));
+			}
+
+			if(!marker_settings.position){return null;}
+
+			var marker = new google.maps.Marker(marker_settings);
+
+			google.maps.event.addListener(marker,'click', function(){
+				container.show_info_window(marker);
+			});
+
+			marker_settings.map.markers.push(marker);
+
+			return marker;
+		},
+		
+		remove_all_markers: function(map){
+		
+		},
+		
+		map:function(container){
+		
+			var map_options         = nexus.google.maps.options;
+			map_options.center      = new google.maps.LatLng(map_options.latitude, map_options.longitude);
+			container.map			= new google.maps.Map(element, nexus.google.maps.options);			
+			
+			container.map.markers 	= [];
+			container.map.add_marker;
+			container.map.remove_marker;
+			container.map.remove_all_markers = function(){nexus.google.maps.remove_all_markers(this);}.bind(container.map);
+			
+			return element.map;
+		},
+		
+		reverse_geocode: function(address, map, callback){
+			
+			map.geocoder = map.geocoder || new google.maps.Geocoder();
+			
+			map.geocoder.geocode({address:address},function(results,status){
+					
+				if (status == google.maps.GeocoderStatus.OK) {
+					map.setCenter(results[0].geometry.location);
+				  	var marker = new google.maps.Marker({
+						map: map,
+					  	position: results[0].geometry.location
+				  	});
+					
+					if(callback){callback(results[0],map);}
+					
+				} else {
+					console.group("nexus.google.maps.reverse_geocode");
+					console.info("could not find the address:");
+					console.info(address);
+					console.groupEnd();
+				}
+				
+				
+			});
+		
+		},
+		
+		init : function(){
 			for(var i=0; i<document.scripts.length; i++){
 				if(document.scripts[i].src){
 					if(document.scripts[i].src == nexus.google.maps.api_url) return; 
 				}
 			}
-			nexus.google.maps.install();
+			
+			console.debug("installing...");
+			nexus.scripts.install(nexus.google.maps.api_url);
 		}
 	};
 	
@@ -166,8 +231,6 @@ var nexus = function(){
                                     result[sheetName] = roa;
                                 }
                             });
-                            console.debug(result);
-                            window.test = result["Stores Map"];
                             nexus.json.table(result["Stores Map"]);
                             return result;
                             break;
@@ -190,44 +253,28 @@ var nexus = function(){
 		table:function(json, options){
             nexus.debug(options);
             options = options || {};
+			options.enable_row_select = true;
             //options.generate_header = options.generate_header || true;
             nexus.debug(options);
             
             json = json || {};
-            
-            var table = document.createElement("table");
-			$(table).addClass("busy");
-			$(document.body).addClass("busy");
+			
+			var table_container = document.createElement("div");
+			table_container.className = "nexus table_container";
+            $(table_container).addClass("busy");
+			var table = table_container.appendChild(document.createElement("table"));
 			var table_columns = [];
 			var table_max_cells = 0;
             table.className                 = "nexus enable_row_select";
             var table_header                = table.appendChild(document.createElement("thead"));
             var table_header_row            = table_header.appendChild(document.createElement("tr"));
-            var table_header_checkbox_cell  = table_header_row.appendChild(document.createElement("th"));
-            var table_header_checkbox       = table_header_checkbox_cell.appendChild(document.createElement("input"));
-            table_header_checkbox.type      = "checkbox";
-            table_header_checkbox.className = "nexus";
-			table_header_checkbox.checked	= true;
-            table_header_checkbox.addEventListener("change",function(){
-            
-                var table = this.parentNode.parentNode.parentNode.parentNode;
-                var row_checkboxes = table.querySelectorAll(".row_checkbox_cell input[type=checkbox].row_checkbox");
-                for(var i=0; i<row_checkboxes.length; i++){
-                    row_checkboxes[i].checked = this.checked;
-					//event.preventDefault();
-    				$(row_checkboxes[i]).trigger("change");
-					//$(row_checkboxes[i]).prop('checked', true).change();
-                }
-                
-            },false);
-            
+             
             var table_body = table.appendChild(document.createElement("tbody"));
-            
+			
 			for(var i in Object.keys(json)){
                 var row_entry               = table_body.appendChild(document.createElement("tr"));
-                row_entry.className         = "selected";                
-                
-                for(var j in Object.keys(Object.keys(json)[i])){
+                row_entry.className         = "selected";
+				for(var j in Object.keys(json[i])){	
 					var cell_value = json[i][Object.keys(json[i])[j]];
                     if(cell_value !== undefined){
                         var row_cell = row_entry.appendChild(document.createElement("td"));
@@ -240,8 +287,6 @@ var nexus = function(){
                 }
             }//end json processing
 			
-			//TODO group the adding of the checkbox and actions cells POST creating the basic table
-			
 			//adding the columns to the table header
 			for(var i=0; i<table_columns.length; i++){
 				var column_header = table_header_row.appendChild(document.createElement("th"));
@@ -250,11 +295,12 @@ var nexus = function(){
 			}
 			
 			//add the actions column
+			//TODO add the column via the nexus column add function try move most of this jizz out of the json function
 			var header_actions_column 		= table_header_row.appendChild(document.createElement("th"));
+			header_actions_column.className	= "actions";
 			header_actions_column.innerHTML	= "Actions";
 			
 			//fill in missing cells?
-			
 			for(var i=0; i<table.tBodies[0].rows.length; i++){
 				if(table.tBodies[0].rows[i].cells.length < table_max_cells){
 					var cells_needed = (table_max_cells - table.tBodies[0].rows[i].cells.length);
@@ -264,43 +310,127 @@ var nexus = function(){
 				}
 			}
 			
+			//add the checkbox cell and the action cell
+			if(options.enable_row_select === true){
+				var table_header_checkbox_cell  = table_header_row.insertBefore(document.createElement("th"),table_header_row.cells[0]);
+				var table_header_checkbox       = table_header_checkbox_cell.appendChild(document.createElement("input"));
+				table_header_checkbox.type      = "checkbox";
+				table_header_checkbox.className = "nexus";
+				table_header_checkbox.checked	= true;
+				table_header_checkbox.addEventListener("change",function(){
+
+					var table = this.parentNode.parentNode.parentNode.parentNode;
+					var row_checkboxes = table.querySelectorAll(".row_checkbox_cell>input[type=checkbox].row_checkbox");
+					for(var i=0; i<row_checkboxes.length; i++){
+						row_checkboxes[i].checked = this.checked;
+						$(row_checkboxes[i]).trigger("change");
+					}
+
+				},false);
+				
+				for(var i=0; i<table.tBodies[0].rows.length; i++){
+					var row_checkbox_cell       = table.tBodies[0].rows[i].insertBefore(document.createElement("td"), table.tBodies[0].rows[i].cells[0]);
+					row_checkbox_cell.className = "row_checkbox_cell";
+					var row_checkbox            = row_checkbox_cell.appendChild(document.createElement("input"));
+					row_checkbox.type           = "checkbox";
+					row_checkbox.checked        = true;
+					row_checkbox.className      = "nexus row_checkbox";
+					row_checkbox.table			= table;
+					row_checkbox.row			= row_checkbox_cell.parentNode;
+					row_checkbox.onchange = function(){					
+						if(this.checked){
+							$(this.row).addClass("selected");
+						}
+						else{
+							$(this.row).removeClass("selected");
+							this.table.querySelector("thead>tr>th:first-of-type>input[type=checkbox]").checked = false;
+						}
+					};
+				}
+			}
 			
+			table = new nexus.tables(table);
 			
 			for(var i=0; i<table.tBodies[0].rows.length; i++){
-				var row_checkbox_cell       = table.tBodies[0].rows[i].insertBefore(document.createElement("td"), table.tBodies[0].rows[i].cells[0]);
-                row_checkbox_cell.className = "row_checkbox_cell";
-                var row_checkbox            = row_checkbox_cell.appendChild(document.createElement("input"));
-                row_checkbox.type           = "checkbox";
-                row_checkbox.checked        = true;
-                row_checkbox.className      = "nexus row_checkbox";
-				row_checkbox.table			= table;
-				row_checkbox.row			= row_checkbox_cell.parentNode;
-                row_checkbox.onchange = function(){					
-                    if(this.checked){
-						$(this.row).addClass("selected");
-					}
-                    else{
-						$(this.row).removeClass("selected");
-						this.table.querySelector("thead>tr>th:first-of-type>input[type=checkbox]").checked = false;
-					}
-                };
-				
 				var row_actions_cell		= table.tBodies[0].rows[i].appendChild(document.createElement("td"));
 				row_actions_cell.className	= "actions";
 				var btn_row_edit			= row_actions_cell.appendChild(document.createElement("button"));
 				btn_row_edit.className		= "edit fa fa-pencil";
+				//btn_row_edit.onclick		= btn_row_edit.parentNode.parentNode.edit;
+				btn_row_edit.onclick		= table.tBodies[0].rows[i].edit;
 				var btn_row_delete			= row_actions_cell.appendChild(document.createElement("button"));
 				btn_row_delete.className	= "delete fa fa-trash";
-				
 			}
 			
 			document.querySelector("#table_output").innerHTML = "";
-            document.querySelector("#table_output").appendChild(table);
-			$(table).removeClass("busy");
-			$(document.body).removeClass("busy");
-            return table;
+            document.querySelector("#table_output").appendChild(table_container);
+			$(table_container).removeClass("busy");
+			
+			
+			table.add_column("Latitude",3);
+			table.add_column("Longitude",4);
+			
+			return table;
         }
     },
+	
+	nexus.tables = function(table){
+		
+		table = table || document.body.appendChild(document.createElement("table"));
+		
+		table.add_column = function(column_name, index){
+			
+			var column_header = this.tHead.rows[0].insertBefore(document.createElement("th"),this.tHead.rows[0].cells[index]);
+			column_header.className = nexus.css_class(column_name);
+			column_header.innerHTML = column_name;
+			
+			for(var i=0; i<this.tBodies[0].rows.length; i++){
+				var new_column_cell = this.tBodies[0].rows[i].insertBefore(document.createElement("td"),this.tBodies[0].rows[i].cells[index]);
+				new_column_cell.className = nexus.css_class(column_name);
+			}
+			
+		}.bind(table);
+		
+		table.edit_row   = function(data){
+			
+			data = data instanceof Array ? data : [];
+			
+			console.debug(data);
+			
+			var row = this;
+			
+			$(row).toggleClass("editing","");
+
+			var btn_edit = row.querySelector(".actions>button.edit");
+
+			$(btn_edit).toggleClass("fa-pencil fa-check");
+
+			var editable_cells = row.querySelectorAll("td:not(.row_checkbox_cell):not(.actions)");
+			for(var i=0; i<editable_cells.length; i++){
+				if(editable_cells[i].hasAttribute("contenteditable")){
+					editable_cells[i].removeAttribute("contenteditable");
+				}
+				else{
+					editable_cells[i].setAttribute("contenteditable","");
+					if(data[i]){editable_cells[i].innerHTML = data[i];}
+				}
+			}
+		};
+		
+		table.delete_row = function(row){
+			
+		};
+		
+		table.init = function(){
+			//give each row an edit function
+			for(var i=0; i<this.tBodies[0].rows.length; i++){this.tBodies[0].rows[i].edit	= table.edit_row.bind(this.tBodies[0].rows[i]);}
+			
+		}.bind(table);
+		
+		table.init();
+		
+		return table;
+	},
 	
 	//nexus jquery module
 	nexus.jquery_url = "http://code.jquery.com/jquery.js";
@@ -324,30 +454,50 @@ var nexus = function(){
 	};
 	
 	nexus.init = function(){
-		nexus.debug("Initializing nexus...");
 		//install jquery library
 		nexus.scripts.install("jquery.js");
 	};
+	
 	nexus.init();
 };
-
+	
 nexus();
-    
+nexus.google.maps.init();
+
 document.addEventListener("DOMContentLoaded",spreadsheet_to_google_map_demo,false);
 
-function spreadsheet_to_google_map_demo(){
-    nexus.google.maps.init();
-    
-    var file_input = document.querySelector("input[type=file]");
-    
-    document.querySelector("#btn_process").addEventListener("click",function(){nexus.file.read(file_input.files);},false);
-    
-    file_input.addEventListener("change",function(){
-        if(document.querySelector("#cb_auto:checked")){
-            nexus.file.read();
-        }
-    },false);
+function geocode_table(){
+	var table = document.querySelector("table.nexus");
+	for(var i=0; i<table.tBodies[0].rows.length; i++){
+		var query = table.tBodies[0].rows[i].cells[1].innerText + ", " + table.tBodies[0].rows[i].cells[2].innerText; 
+		nexus.google.maps.reverse_geocode(query, document.querySelector('.nexus.google.map').map, function(){
+		
+		});	
+	}
 }
+
+function table_to_map(){
+	var map		= document.querySelector(".nexus.google.map").map;
+	var table 	= document.querySelector("table.nexus");
+	for(var i=0; table.tBodies[0].rows.length; i++){
+		var row = table.tBodies[0].rows[i];
+		if(row.querySelector("td.latitude:not(:empty)") && row.querySelector("td.longitude:not(:empty)")){
+			//map.add_marker(); //TODO
+		}
+	}
+}
+	
+function spreadsheet_to_google_map_demo(){
+	var file_input = document.querySelector("input[type=file]");
+		
+    file_input.addEventListener("change",function(){
+		nexus.file.read();
+    },false);
+	
+	document.querySelector("#btn_geocode_table").onclick 	= geocode_table;
+	document.querySelector("#btn_table_to_map").onclick 		= table_to_map;
+}
+
 </script>
 </body>
 </html>

@@ -735,13 +735,6 @@ table.nexus>thead>tr>th{
   font-size:110%;
 }
 
-table.nexus>tbody>tr:hover{
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
-  position: relative;
-  font-size: 110%;
-  font-weight:bold;
-}
-
 table.nexus>tbody>tr:nth-child(odd){
     background-color:white;
 }
@@ -750,11 +743,37 @@ table.nexus>tbody>tr:nth-child(even){
     background-color:#F6F6F6;
 }
 
+
 table.nexus.enable_row_select>tbody>tr:not(.selected){
     opacity:0.1;
     text-decoration:line-through;
 }
 
+table.nexus>tbody>tr:hover{
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.4);
+  position: relative;
+  background-color: rgb(87, 167, 215);
+  color: rgb(255, 255, 255);
+}
+
+table.nexus>tbody>tr.editing{
+	background-color:rgb(255, 165, 0);
+	color:white;
+}
+
+table.nexus>tbody>tr.editing>td{
+	padding:10px 6px;
+}
+
+table.nexus>tbody>tr.editing>td:focus{
+	outline:none;
+}
+
 table.nexus>tbody>tr>td{
     padding:4px 6px;
+	transition:padding 0.2s ease;
+}
+
+table.nexus>tbody>tr>td.actions{
+	text-align:center;
 }
