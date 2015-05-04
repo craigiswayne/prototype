@@ -141,14 +141,14 @@ var nexus = function(){
 		
 			var map_options         = nexus.google.maps.options;
 			map_options.center      = new google.maps.LatLng(map_options.latitude, map_options.longitude);
-			container.map			= new google.maps.Map(element, nexus.google.maps.options);			
+			container.map			= new google.maps.Map(container, nexus.google.maps.options);			
 			
 			container.map.markers 	= [];
 			container.map.add_marker;
 			container.map.remove_marker;
 			container.map.remove_all_markers = function(){nexus.google.maps.remove_all_markers(this);}.bind(container.map);
 			
-			return element.map;
+			return container.map;
 		},
 		
 		reverse_geocode: function(address, map, callback){
@@ -251,6 +251,7 @@ var nexus = function(){
 	//nexus json module
     nexus.json = {
 		table:function(json, options){
+            console.debug(json);
             nexus.debug(options);
             options = options || {};
 			options.enable_row_select = true;
@@ -311,24 +312,23 @@ var nexus = function(){
 			}
 			
 			//add the checkbox cell and the action cell
-			if(options.enable_row_select === true){
-				var table_header_checkbox_cell  = table_header_row.insertBefore(document.createElement("th"),table_header_row.cells[0]);
-				var table_header_checkbox       = table_header_checkbox_cell.appendChild(document.createElement("input"));
-				table_header_checkbox.type      = "checkbox";
-				table_header_checkbox.className = "nexus";
-				table_header_checkbox.checked	= true;
-				table_header_checkbox.addEventListener("change",function(){
+            var table_header_checkbox_cell  = table_header_row.insertBefore(document.createElement("th"),table_header_row.cells[0]);
+            var table_header_checkbox       = table_header_checkbox_cell.appendChild(document.createElement("input"));
+            table_header_checkbox.type      = "checkbox";
+            table_header_checkbox.className = "nexus";
+            table_header_checkbox.checked	= true;
+            table_header_checkbox.addEventListener("change",function(){
 
-					var table = this.parentNode.parentNode.parentNode.parentNode;
-					var row_checkboxes = table.querySelectorAll(".row_checkbox_cell>input[type=checkbox].row_checkbox");
-					for(var i=0; i<row_checkboxes.length; i++){
-						row_checkboxes[i].checked = this.checked;
-						$(row_checkboxes[i]).trigger("change");
-					}
+                var table = this.parentNode.parentNode.parentNode.parentNode;
+                var row_checkboxes = table.querySelectorAll(".row_checkbox_cell>input[type=checkbox].row_checkbox");
+                for(var i=0; i<row_checkboxes.length; i++){
+                    row_checkboxes[i].checked = this.checked;
+                    $(row_checkboxes[i]).trigger("change");
+                }
 
-				},false);
-				
-				for(var i=0; i<table.tBodies[0].rows.length; i++){
+            },false);
+
+            for(var i=0; i<table.tBodies[0].rows.length; i++){
 					var row_checkbox_cell       = table.tBodies[0].rows[i].insertBefore(document.createElement("td"), table.tBodies[0].rows[i].cells[0]);
 					row_checkbox_cell.className = "row_checkbox_cell";
 					var row_checkbox            = row_checkbox_cell.appendChild(document.createElement("input"));
@@ -347,11 +347,10 @@ var nexus = function(){
 						}
 					};
 				}
-			}
 			
 			table = new nexus.tables(table);
-			
-			for(var i=0; i<table.tBodies[0].rows.length; i++){
+            
+            for(var i=0; i<table.tBodies[0].rows.length; i++){
 				var row_actions_cell		= table.tBodies[0].rows[i].appendChild(document.createElement("td"));
 				row_actions_cell.className	= "actions";
 				var btn_row_edit			= row_actions_cell.appendChild(document.createElement("button"));
@@ -395,7 +394,6 @@ var nexus = function(){
 			
 			data = data instanceof Array ? data : [];
 			
-			console.debug(data);
 			
 			var row = this;
 			
@@ -494,8 +492,8 @@ function spreadsheet_to_google_map_demo(){
 		nexus.file.read();
     },false);
 	
-	document.querySelector("#btn_geocode_table").onclick 	= geocode_table;
-	document.querySelector("#btn_table_to_map").onclick 		= table_to_map;
+	document.querySelector("#btn_geocode_table").onclick   = geocode_table;
+	document.querySelector("#btn_table_to_map").onclick    = table_to_map;
 }
 
 </script>
