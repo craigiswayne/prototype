@@ -1,12 +1,12 @@
 {
 
-	"name": "Prototype",
-	"short_name": "Prototype",
-	"description": "Front-End Prototyping Tool.",
-	"author": "Craig Wayne",
+	"name": 			"Prototype",
+	"short_name": 		"Prototype",
+	"description": 		"Front-End Prototyping Tool.",
+	"author": 			"Craig Wayne",
 
 	"manifest_version": 2,
-
+	
 	"icons": {
 		"128": "nexus_prototype.png"
 	},
@@ -23,3 +23,5 @@
 
 	"permissions": ["storage","fileSystem", "unlimitedStorage", "http://*/", "https://*/" ]
 }
+
+//https://developer.chrome.com/apps/manifest

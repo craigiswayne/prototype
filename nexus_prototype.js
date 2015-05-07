@@ -19,11 +19,19 @@ var nexus_prototype = {
         } else {
             codepen_export_button.addEventListener("click", nexus_prototype.export_to_codepen, false);
         }
-        if (nexus_prototype.interface == "chrome_app") {} else {
+        
+		if (nexus_prototype.interface == "chrome_app") {}
+		else {
             window.onbeforeunload = function() {
                 return "All your work will be erased!";
             }
         }
+		
+		if(nexus_prototype.interface == "chrome_app"){
+			nexus.link("nexus_prototype_chrome_app.css");
+		}
+		
+		
     },
     import_from_codepen: function(url) {
         url = url || window.prompt("Paste codepen url...");
@@ -152,7 +160,6 @@ var nexus_prototype = {
         nexus_prototype.hide_mask(true);
     },
     hide_mask: function(force) {
-		
 		force = force || false;
 		
 		var check = force;
@@ -164,6 +171,8 @@ var nexus_prototype = {
 				}
 			}
 		}
+		
+		console.debug(check);
 		
 		if(check == true){
 			$(".mask").removeClass("active");
