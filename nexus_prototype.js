@@ -43,7 +43,7 @@ nexus.prototype = {
         var code_box                    = document.createElement("div");
         //var code_box                    = container.appendChild(document.createElement("div"));
         code_box.language               = language;
-        code_box.className              = "code_box " + language;
+        code_box.className              = "code_box no_select " + language;
 
         var code_box_header             = code_box.appendChild(document.createElement("label"));
         code_box_header.className       = "code_box_header no_select action";
@@ -61,7 +61,7 @@ nexus.prototype = {
         var code_area                   = code_box.appendChild(document.createElement("div"));
         code_area.className             = "code_area";
         code_box.editor                 = ace.edit(code_area); //http://ace.c9.io/api/editor.html
-        //code_box.editor.$blockScrolling = Infinity
+        code_box.editor.$blockScrolling = Infinity
         code_box.editor.setValue(nexus.prototype.settings.editors.languages[language].default_value || null);
         code_box.editor.setTheme(nexus.prototype.settings.editors.theme);
         code_box.editor.on("change",nexus.prototype.show_preview);
@@ -71,7 +71,9 @@ nexus.prototype = {
         code_box.editor.getSession().setMode(nexus.prototype.settings.editors.languages[language].session || "ace/mode/" + language);
         
         code_box.value   = code_box.editor.getValue;
-        code_box.refresh = code_box.editor.resize;
+        code_box.refresh = function(ed){
+            this.editor.resize();
+        };
 
         nexus.prototype.code_boxes.push(code_box);
 
@@ -100,7 +102,7 @@ nexus.prototype = {
             "about":{}
         };
         
-        console.debug(new nexus.menu(menu_tree).outerHTML);
+        //console.debug(new nexus.menu(menu_tree).outerHTML);
         
         //nexus.prototype.main_menu = document.querySelector("");
     
@@ -254,7 +256,9 @@ nexus.prototype = {
         nexus.prototype.reset();
     },
     
-    refresh_code_boxes:     function(){for(var i=0; i<nexus.prototype.code_boxes.length; i++){nexus.prototype.code_boxes[i].refresh();}},
+    refresh_code_boxes:     function(){
+        for(var i=0; i<nexus.prototype.code_boxes.length; i++){nexus.prototype.code_boxes[i].refresh();}
+    },
     
     reset:                  function() {
         nexus.prototype.form.reset();
@@ -285,7 +289,6 @@ nexus.prototype = {
             
             setTimeout(function(code_box){
                 code_box.refresh();
-                code_box.editor.resize();
             },300,showing_code_boxes[i]);
         }
     },
@@ -509,7 +512,6 @@ nexus.prototype = {
         //add code_boxes //todo make this better man
         for(var i=0; i<nexus.prototype.settings.editors.default.length; i++){
             nexus.prototype.code_boxes_container.appendChild(new nexus.prototype.code_box(nexus.prototype.settings.editors.default[i]));
-            //new nexus.prototype.code_box(nexus.prototype.settings.editors.default[i],nexus.prototype.code_boxes_container);
         }
         nexus.prototype.code_boxes[0].editor.focus();
         

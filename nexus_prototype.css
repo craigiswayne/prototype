@@ -29,11 +29,6 @@ body.initializing:before {
     z-index: 100;
 }
 
-.no_select {
-    user-select: none;
-    -webkit-user-select: none;
-}
-
 [onclick],
 .action,
 a[href] {
@@ -214,10 +209,6 @@ header .action:active {
 body.resizing #preview_mask {
     z-index: 2;
 }
-body.resizing .code_box {
-    -webkit-user-select: none;
-    user-select: none;
-}
 body:not(.resizing) #code_boxes_container{
     transition: width 0.3s ease;
     -webkit-transition: width 0.3s ease;
@@ -261,12 +252,6 @@ body:not(.resizing) #code_boxes_container{
     width: 100%;
     height: 0;
     overflow: hidden;
-    display: -moz-box;
-    display: -webkit-box;
-    -moz-box-orient: vertical;
-    -webkit-box-orient: vertical;
-    -webkit-box-flex: 1;
-    -moz-box-flex: 1;
     min-height: 25px;
     transition: height 0.3s ease;
     -webkit-transition: height 0.3s ease;

@@ -631,6 +631,10 @@ input[type=checkbox].nexus:checked:after{
     border-color: #48D562;
 }
 
+.no_select{
+ -webkit-user-select: none;
+user-select: none;
+}
 
 .no_shadow,
 .no_shadow:hover{
