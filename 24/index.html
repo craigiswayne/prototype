@@ -6,19 +6,15 @@
         document.addEventListener("DOMContentLoaded",function(){
             column_ad_frame = document.querySelector("#column_ad");
             column_ad_frame.onload = function(){
-                
+                console.debug("frame loaded");
                 column_ad_frame_doc = column_ad_frame.contentDocument.document || column_ad_frame.contentWindow.document;
-                document.body.onscroll = function(){
-                var scroll_top = document.body.scrollTop;
-                column_ad_frame_doc.body.scrollTop = scroll_top;
-                };
+                document.body.onscroll = scroll_bind;
+                scroll_bind();
             };
         },false);
         
         
-        function scroll_bind(){
-            
-        }
+        function scroll_bind(){column_ad_frame_doc.body.scrollTop = document.body.scrollTop;}
     </script>
     
     <style>
