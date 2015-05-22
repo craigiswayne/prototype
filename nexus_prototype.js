@@ -2,38 +2,179 @@
 //OPTION TO LAUNCH AS CHROME APP... 
 //must be installed first...
 //also that option must only be enabled if on chrome... maybe!?
-var nexus_prototype = {
-    mask: null,
-    form: null,
-    code_boxes: null,
-    supported_languages: ["html", "css", "js"],
-    preview_frame: null,
-    interface: null,
-    get_functionality: function() {
+
+var nexus = nexus || {};
+
+nexus.prototype = {
+    mask:                   null,
+    form:                   null,
+    code_boxes:             [],
+    workspace:              null,
+    code_boxes_container:   null,
+    preview_container:      null,
+    preview_frame:          null,
+    resize_bar:             null,
+    interface:              null,
+    
+       
+    catch_save:             function() {
+        document.addEventListener("keydown", function(e) {
+            if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+                e.preventDefault();
+                nexus.prototype.save();
+                document.querySelector("#download_btn").click();
+            }
+        }, false);
+    },
+    
+    catch_open:             function() {
+        document.addEventListener("keydown", function(e) {
+            if (e.keyCode == 79 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+                e.preventDefault();
+                document.querySelector("#open_btn").click();
+            }
+        }, false);
+    },
+    
+    code_box:               function(language){
+        
+        language                        = language || "html"; //nexus.prototype.languages["html"];
+
+        var code_box                    = document.createElement("div");
+        //var code_box                    = container.appendChild(document.createElement("div"));
+        code_box.language               = language;
+        code_box.className              = "code_box " + language;
+
+        var code_box_header             = code_box.appendChild(document.createElement("label"));
+        code_box_header.className       = "code_box_header no_select action";
+
+        var code_box_title              = code_box_header.appendChild(document.createElement("span"));
+        code_box_title.className        = "code_box_title";
+        code_box_title.innerHTML        = language;
+
+        var code_box_toggler            = code_box_header.appendChild(document.createElement("input"));
+        code_box_toggler.type           = "checkbox";
+        code_box_toggler.className      = "code_box_toggler nexus";
+        code_box_toggler.checked        = "checked";
+        code_box_toggler.onchange       = nexus.prototype.resize_code_boxes;
+
+        var code_area                   = code_box.appendChild(document.createElement("div"));
+        code_area.className             = "code_area";
+        code_box.editor                 = ace.edit(code_area); //http://ace.c9.io/api/editor.html
+        //code_box.editor.$blockScrolling = Infinity
+        code_box.editor.setValue(nexus.prototype.settings.editors.languages[language].default_value || null);
+        code_box.editor.setTheme(nexus.prototype.settings.editors.theme);
+        code_box.editor.on("change",nexus.prototype.show_preview);
+        //code_box.editor.on("focus",function(e){});
+        code_box.editor.setShowPrintMargin(false);
+        code_box.editor.setDisplayIndentGuides(nexus.prototype.settings.editors.show_indent_guides);
+        code_box.editor.getSession().setMode(nexus.prototype.settings.editors.languages[language].session || "ace/mode/" + language);
+        
+        code_box.value   = code_box.editor.getValue;
+        code_box.refresh = code_box.editor.resize;
+
+        nexus.prototype.code_boxes.push(code_box);
+
+        return code_box;
+        
+    },
+    
+     
+    construct: function(){
+        
+        //construct menu
+        var menu_tree = {
+            "file":{
+                "open":{
+                
+                    "hello":{}
+                },
+                "import":{},
+                "save":{},
+                "share":{},
+                "reset":{}
+            },
+            "settings":{},
+            "help":{},
+            "github":{},
+            "about":{}
+        };
+        
+        console.debug(new nexus.menu(menu_tree).outerHTML);
+        
+        //nexus.prototype.main_menu = document.querySelector("");
+    
+        nexus.prototype.mask            =  document.body.appendChild(document.createElement("div"));
+        nexus.prototype.mask.id         = "mask";
+        nexus.prototype.mask.className  = "nexus mask";
+        nexus.prototype.mask.onclick    = nexus.prototype.hide_all_menus;
+        
+    },
+        
+    local_functionality_notice: function(){},
+    
+    toggle_main_menu:       function(){
+        $('#main_menu_toggle').toggleClass('fa-bars fa-times');
+        document.querySelector("#share_menu_toggle").className = "fa fa-share action";
+        $('#main_menu').toggleClass('active');
+        $('#share_menu').removeClass('active');
+        if (document.querySelector("#main_menu_toggle.fa-times")) {
+            nexus.prototype.show_mask();
+        } else {
+            nexus.prototype.hide_mask();
+        }
+    },
+        
+    toggle_share_menu:      function(){
+    
+        document.querySelector("#main_menu_toggle").className = "fa fa-bars action";
+        $('#share_menu').toggleClass('active');
+        $('#main_menu').removeClass('active');
+        $('#share_menu_toggle').toggleClass('fa-share fa-times');
+        if (document.querySelector("#share_menu_toggle.fa-times")) {
+            nexus.prototype.show_mask();
+        } else {
+            nexus.prototype.hide_mask();
+        }
+        
+    },
+    
+    editor_width_min:       function() {
+        nexus.prototype.code_boxes_container.style.width = '0';
+        preview.style.width                              = "calc(100% - " + nexus.prototype.code_boxes_container.style.width + ")";
+    },
+
+    editor_width_max:       function() {
+        nexus.prototype.code_boxes_container.style.width = '100%';
+        preview.style.width                              = "calc(100% - " + nexus.prototype.code_boxes_container.style.width + ")";
+    },
+
+    get_functionality:      function() {
         var upload_button = document.querySelector("#open_btn");
         var codepen_export_button = document.querySelector("#export_codepen");
         if (!document.domain) {
-            codepen_export_button.addEventListener("click", local_functionality_notice, false);
+            codepen_export_button.addEventListener("click", nexus.prototype.local_functionality_notice, false);
             upload_button.type = "button";
-            upload_button.addEventListener("click", local_functionality_notice, false);
+            upload_button.addEventListener("click", nexus.prototype.local_functionality_notice, false);
         } else {
-            codepen_export_button.addEventListener("click", nexus_prototype.export_to_codepen, false);
+            codepen_export_button.addEventListener("click", nexus.prototype.export_to_codepen, false);
         }
         
-		if (nexus_prototype.interface == "chrome_app") {}
+		if (nexus.prototype.interface == "chrome_app") {}
 		else {
             window.onbeforeunload = function() {
                 return "All your work will be erased!";
             }
         }
 		
-		if(nexus_prototype.interface == "chrome_app"){
-			nexus.link("nexus_prototype_chrome_app.css");
+		if(nexus.prototype.interface == "chrome_app"){
+			nexus.link("nexus.prototype_chrome_app.css");
 		}
 		
 		
     },
-    import_from_codepen: function(url) {
+    
+    import_from_codepen:    function(url) {
         url = url || window.prompt("Paste codepen url...");
         if (!url) {
             sonsole.error("No URL supplied");
@@ -49,228 +190,33 @@ var nexus_prototype = {
         codepen_embed.src = "//codepen.io/" + user + "/embed/" + slug_hash + "?slug-hash=" + slug_hash + "&amp;user=" + user;
         codepen_embed.setAttribute("scrolling", "no");
         codepen_embed.setAttribute("frameborder", "0");
-        codepen_embed.setAttribute("height", parseInt(window.getComputedStyle(nexus_prototype.preview_frame)["height"]));
+        codepen_embed.setAttribute("height", parseInt(window.getComputedStyle(nexus.prototype.preview_frame)["height"]));
         codepen_embed.setAttribute("style", "width:100%;min-height:100%;");
         codepen_embed.setAttribute("allowtransparency", "true");
         codepen_embed.setAttribute("allowfullscreen", "true");
         document.querySelector(".code_area.html").value = codepen_embed.outerHTML;
         codepen_embed.parentNode.removeChild(codepen_embed);
-        nexus_prototype.show_preview();
     },
-    generate_share_url: function() {
-        var content = "<textarea style='font-size: 1.5em;width: 30%;height: 30%;text-align: left;padding: 5px;'>" + document.location.href + "?html=" + encodeURIComponent(nexus_prototype.get_html_code()) + "&css=" + encodeURIComponent(nexus_prototype.get_css_code()) + "&js=" + encodeURIComponent(nexus_prototype.get_js_code()) + "</textarea>";
-        nexus_prototype.show_mask(content);
-        //this must be removed!
-        //and modified TODO
-        //nexus_prototype.mask.removeAttribute("onclick");
-    },
-    show_mask: function(content) {
-        content = content || "";
-		
-		if(content){
-       		nexus_prototype.mask.innerHTML = "<table><tr><td><div class='popup animate'>" + content + "</div></td></tr></table>";
-		}
-        $(nexus_prototype.mask).addClass("active");
-    },
-	show_about: function() {
-        nexus_prototype.hide_all_menus();
-        nexus_prototype.show_mask();
-        $.ajax({
-            url: "about.html"
-        }).done(function(r) {
-            nexus_prototype.show_mask(r);
-        });
-    },
-	show_settings: function(){
-		nexus_prototype.hide_all_menus();
-        nexus_prototype.show_mask();
-        $.ajax({
-            url: "settings.html"
-        }).done(function(r) {
-            nexus_prototype.show_mask(r);
-			document.querySelector("#btn_save_settings").addEventListener("click",nexus_prototype.settings.save,false);
-        });
-	},
-    show_preview: function() {	
-		
-		setTimeout(function(){
-			if (nexus_prototype.interface == "chrome_app") {
-				chrome.storage.local.set({
-					"html": nexus_prototype.get_html_code(),
-					"css": nexus_prototype.get_css_code(),
-					"js": nexus_prototype.get_js_code(),
-					"preview": nexus_prototype.get_preview_code()
-				});
-			} else {
-				var tmp_preview = document.querySelector("#preview iframe");
-				var tmp_preview_doc = tmp_preview.contentDocument || tmp_preview.contentWindow.document;
-				tmp_preview_doc.open();
-				tmp_preview_doc.write(nexus_prototype.get_preview_code());
-				tmp_preview_doc.close();
-			}
-		},(nexus_prototype.settings.preview_time*1000));
-    },
-    reset: function() {
-        nexus_prototype.form.reset();
-        for (var i = 0; i < nexus_prototype.code_boxes.length; i++) {
-            nexus_prototype.code_boxes[i].querySelector('label input[type=checkbox]').removeAttribute('checked');
-        }
-        nexus_prototype.show_preview();
-        nexus_prototype.hide_all_menus();
-        nexus_prototype.resize_code_boxes();
-        document.querySelector("#editor").removeAttribute("style");
-        document.querySelector("#preview").removeAttribute("style");
-        nexus_prototype.hide_mask();
-    },
-    code_areas: function() {
-        return document.querySelectorAll(".code_area");
-    },
-    collapse_unused_code_boxes: function() {
-        for (var i = 0; i < nexus_prototype.code_boxes.length; i++) {
-            var code_box = nexus_prototype.code_boxes[i];
-            if (code_box.querySelector(".code_area").value.trim() == "" && !code_box.querySelector("label input[type=checkbox][checked=checked]")) {
-                code_box.querySelector("label input[type=checkbox]").checked = false;
-            } else {
-                code_box.querySelector("label input[type=checkbox]").checked = true;
-            }
-        }
-        nexus_prototype.resize_code_boxes();
-    },
-    resize_code_boxes: function() {
-        var showing_code_boxes = new Array();
-        for (var i = 0; i < nexus_prototype.code_boxes.length; i++) {
-            if (!nexus_prototype.code_boxes[i].querySelector("label input[type=checkbox]").checked) {
-                //nexus_prototype.code_boxes[i].dataset.showing=false;
-                nexus_prototype.code_boxes[i].style.height = "";
-            } else {
-                //nexus_prototype.code_boxes[i].dataset.showing=true;
-                showing_code_boxes.push(nexus_prototype.code_boxes[i]);
-            }
-        }
-        var not_showing = nexus_prototype.code_boxes.length - showing_code_boxes.length;
-        for (var i = 0; i < showing_code_boxes.length; i++) {
-            showing_code_boxes[i].style.height = "calc((100% - 25px*" + not_showing + ")/" + showing_code_boxes.length + ")";
-        }
-    },
-    hide_all_menus: function() {
-        $("#main_menu").removeClass('active');
-        $("#share_menu").removeClass('active');
-        document.querySelector("#main_menu_toggle").className = "fa fa-bars action";
-        document.querySelector("#share_menu_toggle").className = "fa fa-share action";
-        nexus_prototype.hide_mask(true);
-    },
-    hide_mask: function(force) {
-		force = force || false;
-		
-		var check = force;
-		
-		if(event){
-			if(event.type == "click"){
-				if(event.srcElement == nexus_prototype.mask.querySelector('td') || event.srcElement == nexus_prototype.mask || event.srcElement == nexus_prototype.mask.querySelector('table')){
-					check = true;
-				}
-			}
-		}
-		
-		console.debug(check);
-		
-		if(check == true){
-			$(".mask").removeClass("active");
-			nexus_prototype.mask.innerHTML = "";
-		}
-		
-    },
-    set_filename: function(name) {
-        document.querySelector("#filename").value = name;
-    },
-    get_filename: function() {
-        var filename = document.querySelector("#filename").value;
-        return filename;
-    },
-    catch_query_strings: function() {
-        if (nexus_prototype.get_query_variable("html")) {
-            document.querySelector(".code_area.html").value = nexus_prototype.get_query_variable("html");
-        }
-        if (nexus_prototype.get_query_variable("js")) {
-            document.querySelector(".code_area.js").value = nexus_prototype.get_query_variable("js");
-        }
-        if (nexus_prototype.get_query_variable("css")) {
-            document.querySelector(".code_area.css").value = nexus_prototype.get_query_variable("css");
-        }
-        //CHROME APP TODO
-        //history.pushState(null,null,document.location.origin+document.location.pathname);
-        nexus_prototype.show_preview();
-    },
-    get_query_variable: function(variable) {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            if (pair[0] == variable) {
-                return decodeURIComponent(pair[1]);
-            }
-        }
-        return false;
-    },
-    export_to_codepen: function() {
-        var form = document.createElement("form");
-        form.style.display = "none";
-        form.target = "_blank";
-        form.method = "POST";
-        form.action = "http://codepen.io/pen/define";
-        var data = form.appendChild(document.createElement("input"));
-        data.type = "hidden";
-        data.name = "data";
-        //set the name as the same name as the download OR! nexus prototype 
-        data_obj = {
-            "title": nexus_prototype.get_filename(),
-            "html": nexus_prototype.get_html_code(),
-            "css": nexus_prototype.get_css_code(),
-            "js": nexus_prototype.get_js_code()
-        }
-        data.value = JSON.stringify(data_obj).replace(/"/g, "&quot;").replace(/'/g, "&apos;");
-        form.submit();
-    },
-    catch_save: function() {
-        document.addEventListener("keydown", function(e) {
-            if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
-                e.preventDefault();
-                nexus_prototype.save();
-                document.querySelector("#download_btn").click();
-            }
-        }, false);
-    },
-    catch_open: function() {
-        document.addEventListener("keydown", function(e) {
-            if (e.keyCode == 79 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
-                e.preventDefault();
-                document.querySelector("#open_btn").click();
-            }
-        }, false);
-    },
-    save: function() {
-        var data = 'data:application/xml;charset=utf-8,' + encodeURIComponent(nexus_prototype.get_preview_code());
-        document.querySelector("#download_btn").download = nexus_prototype.get_filename();
-        document.querySelector("#download_btn").href = data;
-    },
-    open: function() {
+    
+    open:                   function() {
         var files = document.querySelector('#open_btn').files;
         var file = files[0];
-        nexus_prototype.set_filename(file.name);
+        nexus.prototype.set_filename(file.name);
         var reader = new FileReader();
         reader.onloadend = function(evt) {
             if (evt.target.readyState == FileReader.DONE) {
                 var file_contents = evt.target.result;
-                console.debug(file.type);
                 switch (file.type) {
                     case "text/css":
-                        document.querySelector('.code_area.css').value = file_contents;
+                        document.querySelector('.code_box.css').editor.setValue(file_contents);
+                        document.querySelector('.code_box.css').editor.focus();
                         break;
                     case "application/javascript":
-                        document.querySelector('.code_area.js').value = file_contents;
+                        document.querySelector('.code_box.js').editor.setValue(file_contents);
+                        document.querySelector('.code_box.js').editor.focus();
                         break;
                     default:
-                        //strip cssvar 
+                        /*
                         tag = "style";
                         var opening_tag_index;
                         var closing_tag_index;
@@ -293,215 +239,316 @@ var nexus_prototype = {
                         file_contents = file_contents.replace("</html>", "");
                         file_contents = file_contents.replace("<body>", "");
                         file_contents = file_contents.replace("</body>", "");
-                        document.querySelector('.code_area.html').value = file_contents;
+                        document.querySelector('.code_area.html').value = file_contents;*/
+                        
+                        document.querySelector('.code_box.html').editor.setValue(file_contents,-1);
+                        document.querySelector('.code_box.html').editor.focus();
                 }
-                nexus_prototype.show_preview();
                 setTimeout(function() {
-                    nexus_prototype.collapse_unused_code_boxes();
-                    nexus_prototype.hide_mask(true);
+                    nexus.prototype.hide_mask(true);
                 }, 300);
             }
         };
         var blob = file.slice(0, file.size);
         reader.readAsBinaryString(blob);
-        nexus_prototype.reset();
+        nexus.prototype.reset();
     },
-    settings: {
-		save: function(){
-			console.debug("save called");
-			nexus_prototype.settings.preview_time = document.querySelector("[name=preview_time]") ? parseInt(document.querySelector("[name=preview_time]").value) : 0;
-		},
-		preview_time: 0
+    
+    refresh_code_boxes:     function(){for(var i=0; i<nexus.prototype.code_boxes.length; i++){nexus.prototype.code_boxes[i].refresh();}},
+    
+    reset:                  function() {
+        nexus.prototype.form.reset();
+        for (var i = 0; i < nexus.prototype.code_boxes.length; i++) {
+            nexus.prototype.code_boxes[i].editor.clearSelection();
+            nexus.prototype.code_boxes[i].editor.setValue(nexus.prototype.settings.editors.languages[nexus.prototype.code_boxes[i].language].default_value || null);
+            nexus.prototype.code_boxes[i].querySelector('.code_box_toggler').setAttribute("checked","checked");
+        }
+        nexus.prototype.hide_all_menus();
+        nexus.prototype.resize_code_boxes();
+        nexus.prototype.code_boxes_container.removeAttribute("style");
+        nexus.prototype.preview_container.removeAttribute("style");
+        nexus.prototype.hide_mask();
+    },
+    
+    resize_code_boxes:      function() {
+        var showing_code_boxes = new Array();
+        for (var i = 0; i < nexus.prototype.code_boxes.length; i++) {
+            if (!nexus.prototype.code_boxes[i].querySelector(".code_box_toggler").checked) {
+                nexus.prototype.code_boxes[i].style.height = "";
+            } else {
+                showing_code_boxes.push(nexus.prototype.code_boxes[i]);
+            }
+        }
+        var not_showing = nexus.prototype.code_boxes.length - showing_code_boxes.length;
+        for (var i = 0; i < showing_code_boxes.length; i++) {
+            showing_code_boxes[i].style.height = "calc((100% - 25px*" + not_showing + ")/" + showing_code_boxes.length + ")";
+            
+            setTimeout(function(code_box){
+                code_box.refresh();
+                code_box.editor.resize();
+            },300,showing_code_boxes[i]);
+        }
+    },
+    
+    show_mask:              function(content) {
+        content = content || "";
+		
+		if(content){
+       		nexus.prototype.mask.innerHTML = "<table><tr><td><div class='popup animate'>" + content + "</div></td></tr></table>";
+		}
+        $(nexus.prototype.mask).addClass("active");
+    },
+    
+	show_about:             function() {
+        nexus.prototype.hide_all_menus();
+        nexus.prototype.show_mask();
+        $.ajax({
+            url: "about.html"
+        }).done(function(r) {
+            nexus.prototype.show_mask(r);
+        });
+    },
+    
+	show_settings:          function(){
+		nexus.prototype.hide_all_menus();
+        nexus.prototype.show_mask();
+        $.ajax({
+            url: "settings.html"
+        }).done(function(r) {
+            nexus.prototype.show_mask(r);
+			document.querySelector("#btn_save_settings").addEventListener("click",nexus.prototype.settings.save,false);
+        });
 	},
+    
+    show_preview:           function() {	
+		console.clear();
+		setTimeout(function(){
+			if (nexus.prototype.interface == "chrome_app") {
+				chrome.storage.local.set({
+					"html":    nexus.prototype.code_boxes_container.querySelector(".code_box.html").editor.getValue(),
+					"css":     nexus.prototype.code_boxes_container.querySelector(".code_box.css").editor.getValue(),
+					"js":      nexus.prototype.code_boxes_container.querySelector(".code_box.js").editor.getValue(),
+					"preview": nexus.prototype.get_preview_code()
+				});
+			} else {
+				var tmp_preview = nexus.prototype.preview_frame;
+				var tmp_preview_doc = tmp_preview.contentDocument || tmp_preview.contentWindow.document;
+				tmp_preview_doc.open();
+				tmp_preview_doc.write(nexus.prototype.get_preview_code());
+				tmp_preview_doc.close();
+			}
+            
+		},(nexus.prototype.settings.preview_time*1000));
+    },
+    
+    hide_all_menus:         function() {
+        $("#main_menu").removeClass('active');
+        $("#share_menu").removeClass('active');
+        document.querySelector("#main_menu_toggle").className = "fa fa-bars action";
+        document.querySelector("#share_menu_toggle").className = "fa fa-share action";
+        nexus.prototype.hide_mask(true);
+    },
+    
+    hide_mask:              function(force) {
+		force = force || false;
+		
+		var check = force;
+		
+		if(event){
+			if(event.type == "click"){
+				if(event.srcElement == nexus.prototype.mask.querySelector('td') || event.srcElement == nexus.prototype.mask || event.srcElement == nexus.prototype.mask.querySelector('table')){
+					check = true;
+				}
+			}
+		}
+
+		if(check == true){
+			$(nexus.prototype.mask).removeClass("active");
+			nexus.prototype.mask.innerHTML = "";
+		}
+		
+    },
+    
+    set_filename:           function(name) {
+        document.querySelector("#filename").value = name;
+    },
+    
+    get_filename:           function() {
+        var filename = document.querySelector("#filename").value;
+        return filename;
+    },
+        
+    export_to_codepen:      function() {
+        var form = document.createElement("form");
+        form.style.display = "none";
+        form.target = "_blank";
+        form.method = "POST";
+        form.action = "http://codepen.io/pen/define";
+        var data = form.appendChild(document.createElement("input"));
+        data.type = "hidden";
+        data.name = "data";
+        //set the name as the same name as the download OR! nexus prototype 
+        data_obj = {
+            "title": nexus.prototype.get_filename(),
+            "html": nexus.prototype.get_html_code(),
+            "css": nexus.prototype.get_css_code(),
+            "js": nexus.prototype.get_js_code()
+        }
+        data.value = JSON.stringify(data_obj).replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+        form.submit();
+    },
+    
+    
+    save:                   function() {
+        var data = 'data:application/xml;charset=utf-8,' + encodeURIComponent(nexus.prototype.get_preview_code());
+        document.querySelector("#download_btn").download = nexus.prototype.get_filename();
+        document.querySelector("#download_btn").href = data;
+    },
+    
     send_via: {
         email: function() {
-            document.querySelector("#export_email").href = "mailto:?subject=Prototype&body=" + encodeURIComponent(nexus_prototype.get_preview_code());
+            document.querySelector("#export_email").href = "mailto:?subject=Prototype&body=" + encodeURIComponent(nexus.prototype.get_preview_code());
         }
     },
-    get_html_code: function() {
-        return document.querySelector(".code_area.html").value;
-    },
-    get_css_code: function() {
-        return document.querySelector(".code_area.css").value;
-    },
-    get_js_code: function() {
-        return document.querySelector(".code_area.js").value;
-    },
-    get_preview_code: function() {
-        var html = '<html>\n';
-        html += "<head>\n"
-        html += "\t<title>" + nexus_prototype.get_filename() + "</title>\n";
-        if (nexus_prototype.get_css_code() != "") {
-            html += "\n<style>\n\n" + nexus_prototype.get_css_code() + "\n\n</style>\n";
+    
+    settings: {
+		save: function(){
+			nexus.prototype.settings.preview_time = document.querySelector("[name=preview_time]") ? parseInt(document.querySelector("[name=preview_time]").value) : 0;
+		},
+        editors:{
+            languages:{
+                js:{
+                    tag:"script",
+                    session:"ace/mode/javascript"
+                    
+                },
+                css:{
+                    tag:"style",
+                    session:"ace/mode/css"
+                },
+                html:{
+                    tag:"body",
+                    session:"ace/mode/html"
+                    //default_value:"<!DOCTYPE html>"
+                }
+            },
+            show_indent_guides: true,
+            theme:"ace/theme/chrome",
+            //theme:"ace/theme/idle_fingers",
+            default:["html","css","js"]
+        },
+		preview_time: 0
+	},
+    
+    
+    //todo the addEventlisteners should just be the on whatever functions
+    
+    get_preview_code:       function() {
+        var preview_code = "";
+        for(var i=0; i<nexus.prototype.code_boxes.length; i++){
+            var code_box = nexus.prototype.code_boxes[i];
+            if(code_box.editor.getValue().trim() == ""){continue;}
+            preview_code += "\n<" + nexus.prototype.settings.editors.languages[code_box.language].tag + ">\n" + code_box.editor.getValue() + "\n</" + nexus.prototype.settings.editors.languages[code_box.language].tag + ">\n";
         }
-        if (nexus_prototype.get_js_code() != "") {
-            html += "\n\t<script>\n\n" + nexus_prototype.get_js_code() + "\n\n</script>\n";
-        }
-        html += "</head>\n";
-        html += "<body>\n\n";
-        html += "" + nexus_prototype.get_html_code();
-        html += "\n\n</body>\n";
-        html += "</html>"
-        return html;
+        return preview_code;
     },
-    init: function() {
+    
+    editor_width: null,
+    
+    resize_start: null,
+    
+    init_resize_functionality: function(){
+    
+        nexus.prototype.resize_bar.addEventListener("mousedown", function(event) {
+            $(document.body).addClass("resizing");
+            nexus.prototype.resize_start = event.clientX;
+            nexus.prototype.editor_width = parseInt(window.getComputedStyle(nexus.prototype.code_boxes_container).width);
+        }, false);
+        
+        nexus.prototype.resize_bar.addEventListener("contextmenu", function() {
+            $(document.body).removeClass("resizing");
+        }, false);
+        
+        //dont need this, just check if the src element is the resizer
+        document.addEventListener("mouseup", function() {
+            if($(document.body).hasClass("resizing")){
+                $(document.body).removeClass("resizing");
+                nexus.prototype.refresh_code_boxes();
+            }
+        }, false);
+        
+        document.addEventListener("mousemove", function(event) {
+            //NOTE: the new_width is a percentage of the container not in pixels (px)
+
+            if (document.querySelector("body.resizing")) {
+                var workspace_width = parseInt(window.getComputedStyle(nexus.prototype.workspace).width);
+                var resizer_width   = parseInt(window.getComputedStyle(nexus.prototype.resize_bar).width);
+                var difference      = event.clientX - nexus.prototype.resize_start;
+                var new_width       = ((nexus.prototype.editor_width + difference) / workspace_width) * 100;
+                nexus.prototype.code_boxes_container.style.width = new_width + "%";
+                nexus.prototype.preview_container.style.width = "calc(100% - " + nexus.prototype.code_boxes_container.style.width + ")";
+            }
+        }, false);
+    },
+    
+    init:                   function() {
+        
+        nexus.prototype.construct();
+        
+        ace.require("ace/ext/language_tools");
         if (chrome) {
-            if (chrome.storage) nexus_prototype.interface = "chrome_app";
+            if (chrome.storage) nexus.prototype.interface = "chrome_app";
         }
-        document.querySelector(".reset").addEventListener("click", nexus_prototype.reset, false);
-        document.querySelector("#export_codepen").addEventListener("click", nexus_prototype.export_to_codepen, false);
-        document.querySelector("#export_url").addEventListener("click", nexus_prototype.generate_share_url, false);
-        document.querySelector("#download_btn").addEventListener("click", nexus_prototype.save, false);
-        document.querySelector("#main_menu_toggle").addEventListener("click", toggle_main_menu, false);
-        document.querySelector("#share_menu_toggle").addEventListener("click", toggle_share_menu, false);
-        document.querySelector("#btn_editor_min").addEventListener("click", editor_width_min, false);
-        document.querySelector("#btn_editor_max").addEventListener("click", editor_width_max, false);
-        document.querySelector("#mask").addEventListener("click", nexus_prototype.hide_all_menus, false);
-        document.querySelector("#export_email").addEventListener("click", nexus_prototype.send_via.email, false);
-        nexus_prototype.code_boxes = document.querySelectorAll(".code_box");
-        nexus_prototype.catch_save();
-        nexus_prototype.catch_open();
-        document.querySelector("#open_btn").onchange = nexus_prototype.open;
-        document.querySelector("#share_btn").addEventListener("click", toggle_share_menu, false);
-        document.querySelector("#about_btn").addEventListener("click", nexus_prototype.show_about, false);
-        document.querySelector("#settings_btn").addEventListener("click", nexus_prototype.show_settings, false);
+        
+        nexus.prototype.code_boxes_container    = document.querySelector("#code_boxes_container");
+        nexus.prototype.preview_container       = document.querySelector("#preview_container");
+        nexus.prototype.preview_frame           = nexus.prototype.preview_container.querySelector("iframe");
+        nexus.prototype.resize_bar              = document.querySelector("#resize_bar");
+        nexus.prototype.workspace               = document.querySelector("#workspace");
+        
+        //add code_boxes //todo make this better man
+        for(var i=0; i<nexus.prototype.settings.editors.default.length; i++){
+            nexus.prototype.code_boxes_container.appendChild(new nexus.prototype.code_box(nexus.prototype.settings.editors.default[i]));
+            //new nexus.prototype.code_box(nexus.prototype.settings.editors.default[i],nexus.prototype.code_boxes_container);
+        }
+        nexus.prototype.code_boxes[0].editor.focus();
+        
+        
+        document.querySelector(".reset").addEventListener("click", nexus.prototype.reset, false);
+        document.querySelector("#export_codepen").addEventListener("click", nexus.prototype.export_to_codepen, false);
+        document.querySelector("#download_btn").addEventListener("click", nexus.prototype.save, false);
+        document.querySelector("#main_menu_toggle").addEventListener("click", nexus.prototype.toggle_main_menu, false);
+        document.querySelector("#share_menu_toggle").addEventListener("click", nexus.prototype.toggle_share_menu, false);
+        document.querySelector("#btn_editor_min").addEventListener("click", nexus.prototype.editor_width_min, false);
+        document.querySelector("#btn_editor_max").addEventListener("click", nexus.prototype.editor_width_max, false);
+        
+       
+        document.querySelector("#export_email").addEventListener("click", nexus.prototype.send_via.email, false);
+       
+        nexus.prototype.catch_save();
+        nexus.prototype.catch_open();
+        document.querySelector("#open_btn").onchange = nexus.prototype.open;
+        document.querySelector("#share_btn").addEventListener("click", nexus.prototype.toggle_share_menu, false);
+        document.querySelector("#about_btn").addEventListener("click", nexus.prototype.show_about, false);
+        document.querySelector("#settings_btn").addEventListener("click", nexus.prototype.show_settings, false);
+        
         document.querySelector("#toggle_grid").addEventListener("click", function() {
             $(document.body).toggleClass("grid");
         }, false);
-        nexus_prototype.code_boxes = document.querySelectorAll(".code_box");
-        nexus_prototype.form = document.querySelector("#main");
-        nexus_prototype.mask = document.querySelector("#mask");
-        nexus_prototype.preview_frame = document.querySelector("#preview iframe");
-        nexus_prototype.catch_query_strings();
-        nexus_prototype.collapse_unused_code_boxes();
+        
+        nexus.prototype.code_boxes = document.querySelectorAll(".code_box");
+        nexus.prototype.form = document.querySelector("#main");
+       
+        //todo fix the continuously selecting on mouse down on any box
+        nexus.prototype.init_resize_functionality();
+
+        //todo remove this after full implementation of the ace editor
+        nexus.prototype.get_functionality();
+        nexus.prototype.resize_code_boxes();
         $(document.body).removeClass("initializing");
     }
 };
+
 document.addEventListener("DOMContentLoaded", function() {
-    nexus_prototype.init();
+    nexus.prototype.init();
 }, false);
-var resizer;
-var workspace;
-var editor;
-var resize_start;
-var editor_width;
-var preview;
-var preview_doc;
-document.addEventListener("DOMContentLoaded", function() {
-    preview = document.querySelector("#preview");
-    var preview_pane = preview.querySelector("iframe.preview");
-    preview_doc = preview_pane.contentDocument || preview_pane.contentWindow.document;
-    workspace = document.querySelector(".main");
-    resizer = document.querySelector(".resizer");
-    editor = document.querySelector(".editor");
-    var code_area_html = document.querySelector(".code_area.html");
-    var code_area_css = document.querySelector(".code_area.css");
-    var code_area_js = document.querySelector(".code_area.js");
-    code_area_html.addEventListener("keydown", catch_tab_key, false);
-    code_area_css.addEventListener("keydown", catch_tab_key, false);
-    code_area_js.addEventListener("keydown", catch_tab_key, false);
-    //var export_email=document.querySelector("#export_email");
-    //var export_url=document.querySelector("#export_url");
-    resizer.addEventListener("mousedown", function(event) {
-        $(document.body).addClass("resizing");
-        resize_start = event.clientX;
-        editor_width = window.getComputedStyle(editor).width;
-    }, false);
-    resizer.addEventListener("contextmenu", function() {
-        $(document.body).removeClass("resizing");
-    }, false);
-    //dont need this, just check if the src element is the resizer
-	document.addEventListener("mouseup", function() {
-        $(document.body).removeClass("resizing");
-    }, false);
-    document.addEventListener("mousemove", function(event) {
-        //NOTE: the new_width is a percentage of the container not in pixels (px)
-        editor = editor || document.querySelector("#editor");
-        workspace = workspace || document.querySelector("#workspace");
-
-        if (document.querySelector("body.resizing")) {
-            var workspace_width = parseInt(window.getComputedStyle(workspace).width);
-            var resizer_width = parseInt(window.getComputedStyle(resizer).width);
-            var difference = event.clientX - resize_start;
-            var new_width = ((parseInt(editor_width) + difference) / workspace_width) * 100;
-            editor.style.width = new_width + "%";
-            preview.style.width = "calc(100% - " + editor.style.width + ")";
-        }
-    }, false);
-    for (var i = 0; i < nexus_prototype.code_boxes.length; i++) {
-        nexus_prototype.code_boxes[i].querySelector(".code_area").addEventListener("keyup", nexus_prototype.show_preview, false);
-        nexus_prototype.code_boxes[i].querySelector(".code_area").addEventListener("scroll", function() {
-            this.style.backgroundPositionY = (0 - this.scrollTop) + "px";
-        }, false);
-        nexus_prototype.code_boxes[i].querySelector("label input[type=checkbox]").addEventListener("change", nexus_prototype.resize_code_boxes);
-    }
-    nexus_prototype.get_functionality();
-}, false);
-
-function editor_width_min() {
-    document.querySelector('.editor').style.width = '0';
-    preview.style.width = "calc(100% - " + editor.style.width + ")";
-}
-
-function editor_width_max() {
-    document.querySelector('.editor').style.width = '100%';
-    preview.style.width = "calc(100% - " + editor.style.width + ")";
-}
-
-function local_functionality_notice() {
-    //alert("Only available online","test");
-}
-
-function toggle_main_menu() {
-    $('#main_menu_toggle').toggleClass('fa-bars fa-times');
-    document.querySelector("#share_menu_toggle").className = "fa fa-share action";
-    $('#main_menu').toggleClass('active');
-    $('#share_menu').removeClass('active');
-    if (document.querySelector("#main_menu_toggle.fa-times")) {
-        nexus_prototype.show_mask();
-    } else {
-        nexus_prototype.hide_mask();
-    }
-}
-
-function toggle_share_menu() {
-    document.querySelector("#main_menu_toggle").className = "fa fa-bars action";
-    $('#share_menu').toggleClass('active');
-    $('#main_menu').removeClass('active');
-    $('#share_menu_toggle').toggleClass('fa-share fa-times');
-    if (document.querySelector("#share_menu_toggle.fa-times")) {
-        nexus_prototype.show_mask();
-    } else {
-        nexus_prototype.hide_mask();
-    }
-}
-
-function catch_tab_key(ev) {
-        var keyCode = ev.keyCode || ev.which;
-        if (keyCode == 9) {
-            ev.preventDefault();
-            var start = this.selectionStart;
-            var end = this.selectionEnd;
-            var val = this.value;
-            var selected = val.substring(start, end);
-            var re, count;
-            if (ev.shiftKey) {
-                //re = /^\t/gm;
-                re = /^/gm;
-                count = -(selected.match(re).length);
-                this.value = val.substring(0, start) + selected.replace(re, '') + val.substring(end);
-                // todo: add support for shift-tabbing without a selection
-			}
-            else {
-                    re = /^/gm;
-                    count = selected.match(re).length;
-                    this.value = val.substring(0, start) + selected.replace(re, '\t') + val.substring(end);
-                }
-                if (start === end) {
-                    this.selectionStart = end + count;
-                } else {
-                    this.selectionStart = start;
-                }
-                this.selectionEnd = end + count;
-            }
-        }

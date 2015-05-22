@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://demo.thespacestation.co.za/test/decorland/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>Decorland</title>
+        <meta name="description" content="An interactive getting started guide for Brackets.">
+        
+        <script src="./decorland_files/jquery.min.js"></script>
+        
+        <style>
+        
+            body{
+                
+                font-family: Futura, 'Trebuchet MS', Arial, sans-serif;
+                zoom: 80%!important;
+                margin: 0;
+                overflow:hidden;
+            }
+            
+            
+            
+            #wrapper{
+            
+                width: 1570px;
+                margin: 0 auto;
+                position: relative;
+                
+            }
+            .mainAd {
+                
+                
+                background-image: url(images/sky2.png);
+                padding: 0;
+                width:283px;
+                height:100%;
+                padding-left: 10px;
+                background-repeat: no-repeat;
+                background-size: 300px;
+              
+                position:fixed;
+                right: 
+            
+            }
+            
+            
+            
+            .allBlinds {
+            
+                width:350px;
+                height:600px;
+                font-size: 0;
+               
+                position:fixed;
+                top:76px;
+              
+                padding: 0;
+                margin-left:-10px
+           
+            
+            }
+            
+            .myImageHolder {
+                
+               
+                display:inline-flex;
+                width:293px;
+                height:30px;
+                float:left;
+                margin-top:-20;
+            
+            }
+            
+            .myImageHolder2 {
+                
+               
+                display:inline-flex;
+                width:293px;
+                height:30px;
+                float:left;
+                margin-top:-20;
+            
+            }
+            
+            #placeholder {
+            
+                width:1180px;
+                height:2000px;
+                position:static;
+                margin-left:282px;
+            
+            }
+            
+            #header{
+                z-index: 99;
+                width:100%;
+                height:76px;
+                position: fixed;
+                
+            }
+            
+            #maniContent {
+            
+                
+                width:800px;
+                
+            }
+            
+            #logo{
+                
+                background-image: url(images/decLogo.png);
+                width:100px;
+                height:132px;
+                position: relative;
+                top:472px;
+                left: 90px;
+                
+                
+            }
+            
+              #logo2{
+                
+                background-image: url(images/decLogo.png);
+                width:100px;
+                height:132px;
+                position: absolute;
+                top:628px;
+                left: 80px;
+                
+                
+            }
+            
+            #tagLine{
+                
+                padding: 10px;
+                position: relative;
+                top:458px;
+                text-align: center;
+                font-style: bold;
+                line-height: 2em;
+                margin: 0 auto;
+               
+                
+                
+            }
+            
+            #tagLine2{
+            
+                padding: 10px;
+                position: absolute;
+                top:458px;
+                
+                
+                
+                
+                
+                
+            }
+            
+            topBlind{
+                
+             
+                margin: -30px;
+                display: block;
+                width:293px;
+                height:30px;
+                
+            
+            
+            }
+            
+       
+            
+            .string{
+            
+                z-index: 100;
+                position: absolute;
+                margin-top: 96px;
+            
+            }
+            
+            .string img {
+            
+                
+                height: 500px;
+            }
+            
+            .string2{
+            
+                 z-index: 100;
+				margin-top: 96px;
+				position: relative;
+				width: 90px;
+				height:50px;
+				left: 230px;
+            
+            }
+            
+            .string2 img {
+                z-index: 99;
+                height: 1400px;
+                position: absolute;
+                top:31px;
+                right: 50px;
+            }
+             
+        </style>
+        
+    </head>
+    
+    <body cz-shortcut-listen="true">
+    
+    <div id="header"></div>    
+      <div id="wrapper">
+        
+        
+          <div class="mainAd">
+	          
+	         <!-- <div class="string">
+              
+                  <img src="images/string.png">
+                  
+              </div> -->
+	          
+	     
+              
+
+          
+              <div class="allBlinds">
+                  <img class="topBlind" src="./decorland_files/blinds3.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                  <img class="myImageHolder" src="images/final/left/with_hole/013.png">
+                                    
+                   
+                  
+              </div>
+          
+              
+              
+          </div>
+         <div id="placeholder">
+             
+             <div class="mainAd" style="margin-left:1009px; background-image:url(images/sky.png)">
+	         <div class="string2">
+              
+                  <img src="./decorland_files/035.png">
+                  
+              </div> 
+                 
+            
+          
+              <div class="allBlinds">
+                  <img class="topBlind" src="./decorland_files/blinds3.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  <img class="myImageHolder2" src="images/final/right/013.png">
+                  
+                  
+                   
+                
+                  
+
+              </div>
+          
+            
+             
+          </div>
+       </div> 
+           
+        
+        
+        
+        <script>
+        
+        
+            
+           var lastScrollTop = 0;
+            $(window).scroll(function(event){
+            var st = $(this).scrollTop();
+                var count = 1;
+                x= Math.floor((st+1)/48);
+            if (st > lastScrollTop){
+                
+                    xDown = 13 - x;
+                if (xDown <1) 
+                xDown=1;
+            if(xDown>13)
+                xDown=13;
+                
+               
+               
+                $('.myImageHolder').attr('src','images/final/left/with_hole/0'+xDown+'.png');
+                $('.myImageHolder2').attr('src','images/final/right/0'+xDown+'.png');
+                
+                
+
+                
+            } else {
+                
+                 xDown = 13 - x;
+                if (xDown <1) 
+                xDown=1;
+            if(xDown>13)
+                xDown=13;
+                
+               
+                $('.myImageHolder').attr('src','images/final/left/with_hole/0'+xDown+'.png');
+                $('.myImageHolder2').attr('src','images/final/right/0'+xDown+'.png');
+              
+                
+                    }
+            lastScrollTop = st;
+            });   
+            
+            var lastScrollTop = 0;
+            $(window).scroll(function(event){
+            var st = $(this).scrollTop();
+                var count = 1;
+                x= Math.floor((st+1)/48);
+            if (st > lastScrollTop){
+                
+                    xDown = 48 - x;
+                if (xDown <1) 
+                xDown=1;
+            if(xDown>48)
+                xDown=48;
+                
+               
+               $('.string2 img').attr("src", "images/string3/0"+xDown+".png")
+                
+
+                
+            } else {
+                
+                 xDown = 48 - x;
+                if (xDown <1) 
+                xDown=1;
+            if(xDown>48)
+                xDown=48;
+                
+               
+                $('.string2 img').attr("src", "images/string3/0"+xDown+".png")
+              
+                
+                    }
+            lastScrollTop = st;
+            });   
+        
+        </script>
+    
+    
+   </div></body></html>

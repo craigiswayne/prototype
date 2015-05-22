@@ -1,4 +1,6 @@
-
+/*STRING PROTOTYPES*/
+String.prototype.replaceAll = function(f,r){return this.split(f).join(r);}
+          
 var nexus = function(){
 	
     //nexus error module
@@ -219,7 +221,55 @@ var nexus = function(){
 			document.head.appendChild(link);
 		}
 	};
+    
+    nexus.menu = function(json_tree){
+        
+        var menu = document.createElement("ul");
+        menu.className = "nexus menu";
+        
+        console.debug(Object.keys(json_tree));
+        
+        for(var i in Object.keys(json_tree)){
+            var key = Object.keys(json_tree)[i];
+            var menu_item = menu.appendChild(document.createElement("li"));
+            menu_item.className = "item";
+            menu_item.innerHTML = key;
+            if(Object.keys(json_tree[key]).length > 0){
+                menu_item.appendChild(new nexus.menu(json_tree[key]));
+            }
+        }
+        
+        return menu;
+    
+    };
 	
+    nexus.parse_color = function(color){
+        //CREDIT http://www.javascripter.net/faq/rgbtohex.htm
+        color = color.replaceAll(" ", "");
+        var converted_color;
+        
+        function toHex(n) {
+         n = parseInt(n,10);
+         if (isNaN(n)) return "00";
+         n = Math.max(0,Math.min(n,255));
+         return "0123456789ABCDEF".charAt((n-n%16)/16)
+              + "0123456789ABCDEF".charAt(n%16);
+        }    
+        
+        if(color.indexOf("rgb(") === 0 && color.length <= 16 && color.indexOf(")") == color.length -1){
+            color = color.replace("rgb(","").replace(")","").split(",");
+            converted_color = "#" + toHex(color[0]) + toHex(color[1]) + toHex(color[2]);
+        }
+        
+        if(color.length <=7 && color.indexOf("#") == 0){
+            color = color.replace("#","");
+            converted_color = "rgb(" + parseInt(color.substring(0,2),16) + "," + parseInt(color.substring(2,4),16) + "," + parseInt(color.substring(4,6),16) + ")";
+        }
+        
+        return converted_color;
+        
+    };
+    
 	//nexus scripts module
 	nexus.scripts = {};
 	nexus.scripts.install = function(src){

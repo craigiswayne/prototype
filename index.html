@@ -6,14 +6,25 @@
     <meta charset="utf-8">
     <title>Prototype</title>
     <link rel="icon" type="image/png" href="nexus_prototype.png">
+    
+    <link rel="stylesheet" href="nexus.css">
+    <!--<link rel="stylesheet" href="http://craigwayne.github.io/nexus/css/nexus.css">-->
+      
+      
+    <script src="nexus.js"></script>
+    <!--<script src="http://craigwayne.github.io/nexus/js/nexus.js"></script>-->
+      
     <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
-	<script src="nexus.js"></script>
-    <script src="nexus_prototype.js"></script>
+	  
     <script src="jquery.js"></script>
     <script src="jquery.cookie.js"></script>
 
-
+    <!--<script src="http://ace.c9.io/build/src/ace.js"></script>-->
+    <script src="http://d1n0x3qji82z53.cloudfront.net/src-min-noconflict/ace.js"></script>
+      
+    <script src="nexus_prototype.js"></script>
     <link rel="stylesheet" href="nexus_prototype.css">
+      
   </head>
 
   <body class="initializing">
@@ -31,7 +42,7 @@
     <form id="main">
 
       <nav id="main_menu" class="menu accordion">
-        <ul>File
+       <ul>File
           <label class="fa fa-folder-open">Open<input id="open_btn" type="file" style="display:none;" accept=".html,.css,.js"></label>
           <a id="import_btn" class="fa fa-cloud-download disabled">Import</a> 
           <a class="fa fa-save" id="download_btn" href="" download>Save</a>
@@ -39,6 +50,7 @@
           <span class="fa fa-eraser reset">Reset</span>
         </ul>
 
+        <span></span>
         <span class="fa fa-cog" id="settings_btn">Settings</span>
 
         <a class="fa fa-question">Help</a>
@@ -50,11 +62,8 @@
       </nav>
 
       <div id="workspace">
-        <div id="editor" class="editor">
-          <div class="code_box"><label class="action no_select">HTML<input type=checkbox checked=checked></label><textarea id="code_area_html" class="code_area html"></textarea></div>
-          <div class="code_box"><label class="action no_select">CSS<input type=checkbox checked=checked></label><textarea id="code_area_css" class="code_area css"></textarea></div>
-          <div class="code_box"><label class="action no_select">JS<input type=checkbox></label><textarea id="code_area_js" class="code_area js"></textarea></div>
-          <div class="resizer no_select"><span id="btn_editor_min" class="fa fa-step-backward"></span><span class="fa fa-ellipsis-v"></span><span  id="btn_editor_max" class="fa fa-step-forward"></span></div>
+        <div id="code_boxes_container">
+          <div id="resize_bar" class="no_select"><span id="btn_editor_min" class="fa fa-step-backward"></span><span class="fa fa-ellipsis-v"></span><span  id="btn_editor_max" class="fa fa-step-forward"></span></div>
 
           <div id="easter_egg">
             <iframe class="easter_egg" src="easter_egg.html" title="From: http://codepen.io/vavik96/pen/QwmjMX"></iframe>
@@ -62,7 +71,7 @@
           </div>
 
         </div>
-        <div id="preview">
+        <div id="preview_container">
           <div id="preview_mask"></div>
           <iframe class=preview src="preview.html" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
           <div id="grid">
@@ -76,7 +85,6 @@
       <div class="menu" id="share_menu">
           <a class="fa fa-codepen" id="export_codepen">CodePen</a>
           <a href="mailto:?subject=" target="_blank" class="fa fa-envelope-o" id="export_email">Email</a>
-          <a class="fa fa-globe"id="export_url">URL (beta)</a>
       </div>
 
     </form>
@@ -85,7 +93,5 @@
       <a href="mailto:craig.wayne01@gmail.com?subject=Prototype">&copy; The Nexus Gen
       </a>
     </footer>
-
-    <div id="mask" class="mask"></div>
   </body>
 </html>

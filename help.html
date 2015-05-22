@@ -2,3 +2,20 @@ FOR IE =< 8 styles
 @media \0screen\,screen\9 {
    /*styles here*/
 }
+           
+FOR IE 7, place an asteriks before your css style, for e.g.
+div{
+*background-color:red;
+}
+           
+           
+detecting IE in JS
+http://stackoverflow.com/questions/19999388/jquery-check-if-user-is-using-ie
+function msieversion() {
+
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) alert("true");
+        else alert("false");
+}
