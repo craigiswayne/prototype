@@ -3,8 +3,6 @@
 //must be installed first...
 //also that option must only be enabled if on chrome... maybe!?
 
-var nexus = nexus || {};
-
 nexus.prototype = {
     mask:                   null,
     form:                   null,
@@ -16,7 +14,6 @@ nexus.prototype = {
     resize_bar:             null,
     interface:              null,
     
-       
     catch_save:             function() {
         document.addEventListener("keydown", function(e) {
             if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
@@ -65,22 +62,21 @@ nexus.prototype = {
         code_box.editor.setValue(nexus.prototype.settings.editors.languages[language].default_value || null);
         code_box.editor.setTheme(nexus.prototype.settings.editors.theme);
         code_box.editor.on("change",nexus.prototype.show_preview);
-        //code_box.editor.on("focus",function(e){});
+        
         code_box.editor.setShowPrintMargin(false);
         code_box.editor.setDisplayIndentGuides(nexus.prototype.settings.editors.show_indent_guides);
         code_box.editor.getSession().setMode(nexus.prototype.settings.editors.languages[language].session || "ace/mode/" + language);
         
-        code_box.value   = code_box.editor.getValue;
-        code_box.refresh = function(ed){
-            this.editor.resize();
-        };
+        code_box.value   = function(){this.editor.getValue()};
+        code_box.focus   = function(){this.editor.focus()};
+        code_box.set_value = function(value){this.editor.setValue(value,-1);};
+        code_box.refresh = function(ed){this.editor.resize();};
 
         nexus.prototype.code_boxes.push(code_box);
 
         return code_box;
         
     },
-    
      
     construct: function(){
         
@@ -111,6 +107,16 @@ nexus.prototype = {
         nexus.prototype.mask.className  = "nexus mask";
         nexus.prototype.mask.onclick    = nexus.prototype.hide_all_menus;
         
+        document.querySelector("#color_converter_btn").onclick = function(){
+            nexus.prototype.hide_all_menus();
+            nexus.show_popup({url:"color_converter.html"});
+        };
+        
+        document.querySelector("#base64_encoder_btn").onclick = function(){
+            nexus.prototype.hide_all_menus();
+            nexus.show_popup({url:"http://dataurl.net/#dataurlmaker"});
+        };
+        
     },
         
     local_functionality_notice: function(){},
@@ -121,9 +127,9 @@ nexus.prototype = {
         $('#main_menu').toggleClass('active');
         $('#share_menu').removeClass('active');
         if (document.querySelector("#main_menu_toggle.fa-times")) {
-            nexus.prototype.show_mask();
+            nexus.show_mask();
         } else {
-            nexus.prototype.hide_mask();
+            nexus.hide_mask();
         }
     },
         
@@ -134,9 +140,9 @@ nexus.prototype = {
         $('#main_menu').removeClass('active');
         $('#share_menu_toggle').toggleClass('fa-share fa-times');
         if (document.querySelector("#share_menu_toggle.fa-times")) {
-            nexus.prototype.show_mask();
+            nexus.show_mask();
         } else {
-            nexus.prototype.hide_mask();
+            nexus.hide_mask();
         }
         
     },
@@ -204,18 +210,17 @@ nexus.prototype = {
         var files = document.querySelector('#open_btn').files;
         var file = files[0];
         nexus.prototype.set_filename(file.name);
+        
         var reader = new FileReader();
         reader.onloadend = function(evt) {
             if (evt.target.readyState == FileReader.DONE) {
                 var file_contents = evt.target.result;
                 switch (file.type) {
                     case "text/css":
-                        document.querySelector('.code_box.css').editor.setValue(file_contents);
-                        document.querySelector('.code_box.css').editor.focus();
+                        target_box = document.querySelector('.code_box.css');
                         break;
                     case "application/javascript":
-                        document.querySelector('.code_box.js').editor.setValue(file_contents);
-                        document.querySelector('.code_box.js').editor.focus();
+                        target_box = document.querySelector('.code_box.js');
                         break;
                     default:
                         /*
@@ -243,17 +248,17 @@ nexus.prototype = {
                         file_contents = file_contents.replace("</body>", "");
                         document.querySelector('.code_area.html').value = file_contents;*/
                         
-                        document.querySelector('.code_box.html').editor.setValue(file_contents,-1);
-                        document.querySelector('.code_box.html').editor.focus();
+                        target_box = document.querySelector('.code_box.html');                        
                 }
-                setTimeout(function() {
-                    nexus.prototype.hide_mask(true);
-                }, 300);
+                nexus.prototype.reset();
+                target_box.set_value(file_contents);
+                nexus.prototype.hide_all_menus();
+                nexus.hide_mask(true);
+                target_box.focus();
             }
         };
         var blob = file.slice(0, file.size);
         reader.readAsBinaryString(blob);
-        nexus.prototype.reset();
     },
     
     refresh_code_boxes:     function(){
@@ -261,17 +266,17 @@ nexus.prototype = {
     },
     
     reset:                  function() {
-        nexus.prototype.form.reset();
+        nexus.prototype.set_filename("prototype.html");
         for (var i = 0; i < nexus.prototype.code_boxes.length; i++) {
-            nexus.prototype.code_boxes[i].editor.clearSelection();
-            nexus.prototype.code_boxes[i].editor.setValue(nexus.prototype.settings.editors.languages[nexus.prototype.code_boxes[i].language].default_value || null);
+            nexus.prototype.code_boxes[i].set_value("");
             nexus.prototype.code_boxes[i].querySelector('.code_box_toggler').setAttribute("checked","checked");
         }
+        
         nexus.prototype.hide_all_menus();
         nexus.prototype.resize_code_boxes();
         nexus.prototype.code_boxes_container.removeAttribute("style");
         nexus.prototype.preview_container.removeAttribute("style");
-        nexus.prototype.hide_mask();
+        nexus.hide_mask();
     },
     
     resize_code_boxes:      function() {
@@ -293,34 +298,15 @@ nexus.prototype = {
         }
     },
     
-    show_mask:              function(content) {
-        content = content || "";
-		
-		if(content){
-       		nexus.prototype.mask.innerHTML = "<table><tr><td><div class='popup animate'>" + content + "</div></td></tr></table>";
-		}
-        $(nexus.prototype.mask).addClass("active");
-    },
     
 	show_about:             function() {
         nexus.prototype.hide_all_menus();
-        nexus.prototype.show_mask();
-        $.ajax({
-            url: "about.html"
-        }).done(function(r) {
-            nexus.prototype.show_mask(r);
-        });
+        nexus.show_popup({url:"about.html"});
     },
     
 	show_settings:          function(){
-		nexus.prototype.hide_all_menus();
-        nexus.prototype.show_mask();
-        $.ajax({
-            url: "settings.html"
-        }).done(function(r) {
-            nexus.prototype.show_mask(r);
-			document.querySelector("#btn_save_settings").addEventListener("click",nexus.prototype.settings.save,false);
-        });
+        nexus.prototype.hide_all_menus();
+        nexus.show_popup({url:"settings.html"});
 	},
     
     show_preview:           function() {	
@@ -349,27 +335,7 @@ nexus.prototype = {
         $("#share_menu").removeClass('active');
         document.querySelector("#main_menu_toggle").className = "fa fa-bars action";
         document.querySelector("#share_menu_toggle").className = "fa fa-share action";
-        nexus.prototype.hide_mask(true);
-    },
-    
-    hide_mask:              function(force) {
-		force = force || false;
-		
-		var check = force;
-		
-		if(event){
-			if(event.type == "click"){
-				if(event.srcElement == nexus.prototype.mask.querySelector('td') || event.srcElement == nexus.prototype.mask || event.srcElement == nexus.prototype.mask.querySelector('table')){
-					check = true;
-				}
-			}
-		}
-
-		if(check == true){
-			$(nexus.prototype.mask).removeClass("active");
-			nexus.prototype.mask.innerHTML = "";
-		}
-		
+        nexus.hide_mask();
     },
     
     set_filename:           function(name) {
@@ -440,7 +406,16 @@ nexus.prototype = {
             //theme:"ace/theme/idle_fingers",
             default:["html","css","js"]
         },
-		preview_time: 0
+        
+		include_jquery: false,
+        include_font_awesome: false,
+        
+        preview_time: 0,
+        update: function(){
+            console.debug("settings updated");
+            nexus.prototype.settings.include_jquery = document.querySelector("input[type=checkbox][name=include_jquery]").checked
+            
+        }
 	},
     
     
@@ -453,6 +428,9 @@ nexus.prototype = {
             if(code_box.editor.getValue().trim() == ""){continue;}
             preview_code += "\n<" + nexus.prototype.settings.editors.languages[code_box.language].tag + ">\n" + code_box.editor.getValue() + "\n</" + nexus.prototype.settings.editors.languages[code_box.language].tag + ">\n";
         }
+        
+        if(nexus.prototype.settings.include_jquery){preview_code = "<script src=jquery.js></script>" + preview_code;}
+        
         return preview_code;
     },
     

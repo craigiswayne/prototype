@@ -11,12 +11,21 @@
 			font-size: 2em;
 		}
 		
-		#settings_panel .field label{
-			float:left;
-		}
+        #settings_panel .row{
+            position:relative;
+            display:block;
+            float:left;
+            width:100%;
+            margin: 0 0 10px 0;
+        }
+        
+        #settings_panel .row label{
+            text-align:left;
+            float:left;
+        }
 		
 		
-		#settings_panel .field input{
+		#settings_panel .row input{
 			float:right;
 		}
 	</style>
@@ -24,7 +33,7 @@
 	
 	<fieldset>
 	<legend>Preview</legend>
-		<div class="field">
+		<div class=row>
 			<label class=field>Preview Time (seconds)</label><input name="preview_time" type=number placeholder="auto">
 		</div>
 	</fieldset>
@@ -36,15 +45,18 @@
 	
 	<fieldset>
 		<legend>External Resources</legend>
-		<div class=field>
-			<label>Font Awesome v2.3.0</label>
-			<input type=checkbox class="nexus">
+		<div class=row>
+			<label>Font Awesome v2.3.0 <input type=checkbox name="include_font_awesome" class="nexus"></label> 
+		</div>
+        
+        <div class=row>
+			<label>jQuery v1.11.2 <input type=checkbox name="include_jquery" class="nexus" onchange="nexus.prototype.settings.update();"></label> 
 		</div>
 	</fieldset>
 	
 	<fieldset>		
 	<legend>Connected Accounts</legend>
-		<div class=field>
+		<div class=row>
 			<label class="fa fa-github">Github</label>
 			<input type=button value="connect">
 			<!--http://stackoverflow.com/questions/10341135/example-of-using-github-api-from-javascript-->

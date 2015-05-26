@@ -181,6 +181,15 @@
   box-shadow: 0px 3px 0px #245A1A;
 }
 
+iframe.ajax.error.fallback {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  margin:0;
+  display: block;
+}
+
+
 
 .viewlist .content{
 	padding:10px;
@@ -450,6 +459,14 @@ button:active{
     z-index: -1;
 }
 
+.nexus.mask td.aligner .content:empty {
+  display: none;
+}
+
+.nexus.mask td.aligner .content {
+  padding: 10px;
+}
+
 #backend_main_header{
 	top:0px;
 	left:0px;
@@ -523,7 +540,7 @@ button,
 	border-radius: 2px;
 	font-size: 1em;
 	text-transform:uppercase;
-	box-shadow: 0px 2px 0px 0px rgba(0,0,0,0.3);
+	
 	position:relative;
 	text-decoration:none;
 	padding:2px 6px 3px 6px;
@@ -641,6 +658,10 @@ user-select: none;
 	box-shadow:none;
 }
 
+.invisible{
+    opacity:0;
+}
+
 /*********MEDIA QUERIES START**********/
   @media screen and (max-width:800px){
   	body{
@@ -670,3 +691,35 @@ user-select: none;
 		}
   }
 /**********MEDIA QUERIES END**********/
+
+
+/*Nexus ANIMATION*/
+
+ .animate.popup {
+	-webkit-animation: popup 0.5s ease forwards;
+	animation: popup 0.5s ease forwards;
+}
+        
+@-webkit-keyframes popup {
+	0% {
+		-webkit-transform: scale(0);
+	}
+	70% {
+		-webkit-transform: scale(1.1);
+	}
+	100% {
+		-webkit-transform: scale(1);
+	}
+}
+
+@keyframes popup {
+	0% {
+		transform: scale(0);
+	}
+	70% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
+}

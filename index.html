@@ -42,15 +42,20 @@
     <form id="main">
 
       <nav id="main_menu" class="menu accordion">
-       <ul>File
+       
+        <ul>File
           <label class="fa fa-folder-open">Open<input id="open_btn" type="file" style="display:none;" accept=".html,.css,.js"></label>
-          <a id="import_btn" class="fa fa-cloud-download disabled">Import</a> 
+          <a id="import_btn" class="nexus fa fa-cloud-download disabled">Import</a> 
           <a class="fa fa-save" id="download_btn" href="" download>Save</a>
           <a class="fa fa-share" id="share_btn">Share</a>
           <span class="fa fa-eraser reset">Reset</span>
         </ul>
+          
+        <ul><span class="fa fa-wrench">Toolbox</span>
+          <a id="color_converter_btn" class="fa fa-paint-brush">Color Converter</a>
+          <a id="base64_encoder_btn">Base64 Encoder</a>
+        </ul>
 
-        <span></span>
         <span class="fa fa-cog" id="settings_btn">Settings</span>
 
         <a class="fa fa-question">Help</a>
@@ -94,4 +99,7 @@
       </a>
     </footer>
   </body>
+    <script>
+    console.debug(document.domain);
+    </script>
 </html>

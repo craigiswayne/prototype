@@ -444,8 +444,9 @@ header .action:hover {
     border: solid 10px rgba(255, 255, 255, 0.2);
     border-top-color: #FFF;
 }
-:disabled,
-.disabled {
+
+.nexus:disabled,
+.nexus.disabled {
     cursor: no-drop !important;
     color: rgba(0, 0, 0, 0.2) !important;
     background-color: rgba(128, 128, 128, 0.1) !important;
@@ -453,9 +454,9 @@ header .action:hover {
     border-radius: 5px;
 }
 
-:disabled *,
-.disabled *,
-.disabled {
+.nexus:disabled *,
+.nexus.disabled *,
+.nexus.disabled {
     transition: none !important;
 }
 
@@ -464,9 +465,7 @@ header .action:hover {
 	border: 2px solid black;
 	box-shadow: 0px 0px 30px 0 rgba(0, 0, 0, 0.9);
 	-webkit-box-shadow: 0px 0px 30px 0 rgba(0, 0, 0, 0.9)display: inline-block;
-	width: 80vw;
-	max-width: 600px;
-	min-height: 360px;
+	max-width: 80vw;
 	border-radius: 5px;
 	overflow: hidden;
 	position: relative;
@@ -498,32 +497,7 @@ header .action:hover {
 	/* IE6-8 fallback on horizontal gradient */
 }
 
-
- .animate.popup {
-	-webkit-animation: popup 0.5s ease forwards;
-	animation: popup 0.5s ease forwards;
-}
-        
-@-webkit-keyframes popup {
-	0% {
-		-webkit-transform: scale(0);
-	}
-	70% {
-		-webkit-transform: scale(1.1);
-	}
-	100% {
-		-webkit-transform: scale(1);
-	}
-}
-
-@keyframes popup {
-	0% {
-		transform: scale(0);
-	}
-	70% {
-		transform: scale(1.1);
-	}
-	100% {
-		transform: scale(1);
-	}
+iframe.ajax.fallback.error{
+  width: 80vw;
+  height: 80vh;
 }

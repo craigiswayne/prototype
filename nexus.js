@@ -1,6 +1,39 @@
 /*STRING PROTOTYPES*/
 String.prototype.replaceAll = function(f,r){return this.split(f).join(r);}
-          
+String.prototype.parse_color = function(color){
+    //CREDIT http://www.javascripter.net/faq/rgbtohex.htm
+    color = this.replaceAll(" ", "");
+    var converted_color = "Invalid Input";
+
+    function toHex(n) {
+     n = parseInt(n,10);
+     if (isNaN(n)) return "00";
+     n = Math.max(0,Math.min(n,255));
+     return "0123456789ABCDEF".charAt((n-n%16)/16)
+          + "0123456789ABCDEF".charAt(n%16);
+    }    
+
+    if(color.indexOf("rgb(") === 0 && color.length <= 16 && color.length >= 10 && color.indexOf(")") == color.length -1){
+        color = color.replace("rgb(","").replace(")","").split(",");
+        converted_color = "#" + toHex(color[0]) + toHex(color[1]) + toHex(color[2]);
+    }
+    else if(color.length <=7 && color.indexOf("#") == 0){
+        color = color.replace("#","");
+        converted_color = "rgb(" + parseInt(color.substring(0,2),16) + "," + parseInt(color.substring(2,4),16) + "," + parseInt(color.substring(4,6),16) + ")";
+    }
+    else if(color.indexOf("cmyk(" === 0) && color.length <= 21 && color.length >= 13 && color.indexOf(")") == color.length -1){
+        color = color.replace("cmyk(","").replace(")","").split(",");
+        var c = (color[0]/100);
+        var m = (color[1]/100);
+        var y = (color[2]/100);
+        var k = (color[3]/100);
+        converted_color = "rgb(" + Math.round(255 * (1 - c) * (1-k)) + "," + Math.round(255 * (1 - m) * (1-k)) + "," + Math.round(255 * (1 - y) * (1-k)) + ")";
+    }
+
+    return converted_color;
+};
+
+
 var nexus = function(){
 	
     //nexus error module
@@ -70,9 +103,40 @@ var nexus = function(){
 		}
 	};
 	
+    //nexus mask module
+    nexus.hide_mask = function(force){
+        
+        force = (typeof force == "boolean") ? force : false;
+		
+        var source = event.srcElement || event.target;
+		if(force || source == document.querySelector(".mask>table.aligner") || source == document.querySelector(".mask>table.aligner td.aligner")){
+            $(document.querySelector(".mask")).removeClass("active");
+			document.querySelector(".mask").innerHTML = "";
+		}
+    };
+    nexus.show_mask   = function(content){
+        content = content || "";
+        
+        var mask;
+        if(!document.querySelector(".mask")){
+            mask = document.body.appendChild(document.createElement("div"));
+            mask.onclick    = nexus.hide_mask;
+        }
+        else{
+            mask = document.querySelector(".mask");
+        }
+        
+        mask.innerHTML  = "<table class='aligner'><tr class='aligner'><td class='aligner'><div class='content popup animate'></div></td></tr></table>";
+        
+        if(content.trim() != ""){content_div.innerHTML   = content;}
+        
+        $(mask).addClass("mask");
+        $(mask).addClass("active");
+    };
+     
 	//nexus file module
 	nexus.file = {
-        read:function(files){
+        read_san:function(files){
             
             nexus.debug(this);
             nexus.debug(event);
@@ -126,10 +190,40 @@ var nexus = function(){
                 worker.postMessage(val[1], [val[1]]);
             };
             reader.readAsBinaryString(f);
-        }
+        },
         
+        image_to_base64: function(input){
+            /*//function convertImgToBase64URL(url, callback, outputFormat){
+            //credit: http://stackoverflow.com/questions/6150289/how-to-convert-image-into-base64-string-using-javascript
+            var img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.onload = function(){
+                var canvas = document.createElement('CANVAS'),
+                ctx = canvas.getContext('2d'), dataURL;
+                canvas.height = img.height;
+                canvas.width = img.width;
+                ctx.drawImage(img, 0, 0);
+                dataURL = canvas.toDataURL(outputFormat);
+                return dataURL;
+                canvas = null; 
+            };
+            img.src = url;
+            //}*/
+            
+            //credit: http://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
+            //credit: http://jsfiddle.net/LvsYc/
+            
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e){
+                    console.debug(e.target.result);
+                    return e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }            
     },
-		
+    
 	//nexus json module
     nexus.json = {
 		table:function(json, options){
@@ -243,31 +337,26 @@ var nexus = function(){
     
     };
 	
-    nexus.parse_color = function(color){
-        //CREDIT http://www.javascripter.net/faq/rgbtohex.htm
-        color = color.replaceAll(" ", "");
-        var converted_color;
+    nexus.show_popup =  function(params){
+        params = params || {};
         
-        function toHex(n) {
-         n = parseInt(n,10);
-         if (isNaN(n)) return "00";
-         n = Math.max(0,Math.min(n,255));
-         return "0123456789ABCDEF".charAt((n-n%16)/16)
-              + "0123456789ABCDEF".charAt(n%16);
-        }    
-        
-        if(color.indexOf("rgb(") === 0 && color.length <= 16 && color.indexOf(")") == color.length -1){
-            color = color.replace("rgb(","").replace(")","").split(",");
-            converted_color = "#" + toHex(color[0]) + toHex(color[1]) + toHex(color[2]);
+        if(params.url){
+            $.ajax({
+                url: params.url       
+            }).done(function(result) {
+                $(".mask td.aligner .content").html(result);
+            }).error(function(e,f){
+                try{
+                    $(".mask td.aligner .content").html("<iframe class='ajax error fallback' src='"+this.url+"'></iframe>");
+                    console.debug(this);
+                    console.debug(e);
+                    console.debug(f);
+                }
+                catch(e){
+                    console.debug(e);
+                }  
+            });
         }
-        
-        if(color.length <=7 && color.indexOf("#") == 0){
-            color = color.replace("#","");
-            converted_color = "rgb(" + parseInt(color.substring(0,2),16) + "," + parseInt(color.substring(2,4),16) + "," + parseInt(color.substring(4,6),16) + ")";
-        }
-        
-        return converted_color;
-        
     };
     
 	//nexus scripts module
