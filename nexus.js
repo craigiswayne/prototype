@@ -36,6 +36,46 @@ String.prototype.parse_color = function(color){
 
 var nexus = function(){
 	
+    nexus.dropzone = function(element){
+        //ref http://html5demos.com/drag#view-source
+        if(!element) return null;
+
+        $(element).addClass("dropzone");
+
+        element.ondragenter = function(){
+            $(this).removeClass("over");
+            $(this).removeClass("leave");
+            $(this).removeClass("drop");
+            $(this).addClass("drag enter");
+
+        };
+
+        element.ondragover = function(){
+            event.preventDefault();
+            $(this).removeClass("leave");
+            $(this).removeClass("enter");
+            $(this).removeClass("drop");
+            $(this).addClass("drag over");
+        };
+
+        element.ondragleave= function(){
+            $(this).removeClass("enter");
+            $(this).removeClass("over");
+            $(this).removeClass("drop");
+            $(this).addClass("drag leave");
+        };
+
+        element.ondrop = function(){
+            $(this).removeClass("enter");
+            $(this).removeClass("over");
+            $(this).removeClass("leave");
+            $(this).addClass("drag drop");
+        };
+
+        return element;
+
+    };
+    
     //nexus error module
     nexus.error = function(title,message){
          if(window.location.search.indexOf("debug=true") < 0) return;
@@ -43,7 +83,9 @@ var nexus = function(){
 		if(message) console.error(title,message);
 		else console.error(title);
     };
-    
+    nexus.show_error = function(title,message){
+        alert(title);
+    };
 	//nexus google maps module
 	nexus.google = {};
 	nexus.google.maps = {

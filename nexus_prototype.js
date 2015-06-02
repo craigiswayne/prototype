@@ -67,7 +67,7 @@ nexus.prototype = {
         code_box.editor.setDisplayIndentGuides(nexus.prototype.settings.editors.show_indent_guides);
         code_box.editor.getSession().setMode(nexus.prototype.settings.editors.languages[language].session || "ace/mode/" + language);
         
-        code_box.value   = function(){this.editor.getValue()};
+        code_box.value   = function(){return this.editor.getValue()};
         code_box.focus   = function(){this.editor.focus()};
         code_box.set_value = function(value){this.editor.setValue(value,-1);};
         code_box.refresh = function(ed){this.editor.resize();};
@@ -117,9 +117,37 @@ nexus.prototype = {
             nexus.show_popup({url:"http://dataurl.net/#dataurlmaker"});
         };
         
-    },
+        document.querySelector("#lorem_ipsum_generator_btn").onclick = function(){
+            nexus.prototype.hide_all_menus();
+            nexus.show_popup({url:"http://www.blindtextgenerator.com/lorem-ipsum"});
+        };
         
+    },
+    
+    get_preview_code:       function() {
+        var preview_code = "";
+        for(var i=0; i<nexus.prototype.code_boxes.length; i++){
+            var code_box = nexus.prototype.code_boxes[i];
+            if(code_box.editor.getValue().trim() == ""){continue;}
+            preview_code += "\n<" + nexus.prototype.settings.editors.languages[code_box.language].tag + " id='nexus_prototype_preview_"+code_box.language+"' >\n" + code_box.editor.getValue() + "\n</" + nexus.prototype.settings.editors.languages[code_box.language].tag + ">\n";
+        }
+        
+        if(nexus.prototype.settings.include_jquery){preview_code = "<script src=jquery.js></script>" + preview_code;}
+        
+        return preview_code;
+    },
+    
+    has_user_code: function(){
+        
+        for(var i=0; i<nexus.prototype.code_boxes.length; i++){
+            if(nexus.prototype.code_boxes[i].value() != ""){return true;}
+        }
+        
+        return false;
+    },
+    
     local_functionality_notice: function(){},
+    
     
     toggle_main_menu:       function(){
         $('#main_menu_toggle').toggleClass('fa-bars fa-times');
@@ -180,6 +208,11 @@ nexus.prototype = {
 		}
 		
 		
+    },
+    
+    import_code:            function(code){
+        //this function must take the given code and strip it into boxes, and add necessary boxes where needed
+        //make use of the supported languages and create necessary boxes. to test this, maybe only show html and css boxes at first
     },
     
     import_from_codepen:    function(url) {
@@ -311,23 +344,25 @@ nexus.prototype = {
     
     show_preview:           function() {	
 		console.clear();
-		setTimeout(function(){
+		setTimeout(function(event){
+            
 			if (nexus.prototype.interface == "chrome_app") {
 				chrome.storage.local.set({
+                    //todo this dynamically
 					"html":    nexus.prototype.code_boxes_container.querySelector(".code_box.html").editor.getValue(),
 					"css":     nexus.prototype.code_boxes_container.querySelector(".code_box.css").editor.getValue(),
 					"js":      nexus.prototype.code_boxes_container.querySelector(".code_box.js").editor.getValue(),
 					"preview": nexus.prototype.get_preview_code()
 				});
 			} else {
-				var tmp_preview = nexus.prototype.preview_frame;
-				var tmp_preview_doc = tmp_preview.contentDocument || tmp_preview.contentWindow.document;
-				tmp_preview_doc.open();
-				tmp_preview_doc.write(nexus.prototype.get_preview_code());
-				tmp_preview_doc.close();
+                var tmp_preview         = nexus.prototype.preview_frame;
+                var tmp_preview_doc     = tmp_preview.contentDocument || tmp_preview.contentWindow.document;
+                tmp_preview_doc.open();
+                tmp_preview_doc.write(nexus.prototype.get_preview_code());
+                tmp_preview_doc.close();
 			}
             
-		},(nexus.prototype.settings.preview_time*1000));
+		},(nexus.prototype.settings.preview_time*1000),event);
     },
     
     hide_all_menus:         function() {
@@ -348,6 +383,12 @@ nexus.prototype = {
     },
         
     export_to_codepen:      function() {
+        
+        if(!nexus.prototype.has_user_code()){nexus.show_error("No Code To Share"); return;}
+        else{
+            nexus.show_error("has user code");
+        }
+        
         var form = document.createElement("form");
         form.style.display = "none";
         form.target = "_blank";
@@ -359,10 +400,11 @@ nexus.prototype = {
         //set the name as the same name as the download OR! nexus prototype 
         data_obj = {
             "title": nexus.prototype.get_filename(),
-            "html": nexus.prototype.get_html_code(),
-            "css": nexus.prototype.get_css_code(),
-            "js": nexus.prototype.get_js_code()
+            "html": document.querySelector(".code_box.html").value() || "",
+            "css": document.querySelector(".code_box.css").value() || "" ,
+            "js": document.querySelector(".code_box.js").value() || ""
         }
+        
         data.value = JSON.stringify(data_obj).replace(/"/g, "&quot;").replace(/'/g, "&apos;");
         form.submit();
     },
@@ -421,19 +463,6 @@ nexus.prototype = {
     
     //todo the addEventlisteners should just be the on whatever functions
     
-    get_preview_code:       function() {
-        var preview_code = "";
-        for(var i=0; i<nexus.prototype.code_boxes.length; i++){
-            var code_box = nexus.prototype.code_boxes[i];
-            if(code_box.editor.getValue().trim() == ""){continue;}
-            preview_code += "\n<" + nexus.prototype.settings.editors.languages[code_box.language].tag + ">\n" + code_box.editor.getValue() + "\n</" + nexus.prototype.settings.editors.languages[code_box.language].tag + ">\n";
-        }
-        
-        if(nexus.prototype.settings.include_jquery){preview_code = "<script src=jquery.js></script>" + preview_code;}
-        
-        return preview_code;
-    },
-    
     editor_width: null,
     
     resize_start: null,
@@ -475,6 +504,7 @@ nexus.prototype = {
     init:                   function() {
         
         nexus.prototype.construct();
+        new nexus.dropzone(document.querySelector("html"));
         
         ace.require("ace/ext/language_tools");
         if (chrome) {
