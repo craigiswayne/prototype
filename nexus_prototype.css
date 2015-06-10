@@ -1,19 +1,4 @@
-* {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-}
-
-html,
 body {
-    height: 100%;
-}
-
-body {
-    margin: 0;
-    padding: 0;
-    font-family: Tahoma, Arial;
-    font-size: 14px;
     color: white;
     padding: 32px 0 18px 0;
 }
@@ -27,12 +12,6 @@ body.initializing:before {
     background-color: rgba(0, 0, 0, 0.99);
     content: "initializing....";
     z-index: 100;
-}
-
-[onclick],
-.action,
-a[href] {
-    cursor: pointer;
 }
 
 .fa {
@@ -287,7 +266,7 @@ body:not(.resizing) #code_boxes_container{
     position: absolute;
     top: 0;
     left: 0;
-    border-top:1px solid rgba(0, 0, 0, 0.1)
+    z-index:5;
 }
 
 input[type=checkbox].code_box_toggler:checked:before {
@@ -306,7 +285,7 @@ input[type=checkbox].code_box_toggler:checked:after {
     display: block;
     width: 100%;
     resize: none;
-    font-size: 0.78em;
+    font-size: inherit;
     line-height: 18px;
     border: none;
 }
@@ -467,7 +446,20 @@ iframe.ajax.fallback.error{
   height: 80vh;
 }
 
+html.dropzone.drag.over .mask,
+.mask.dropzone.drag.enter,
+.mask.dropzone.drag.over{
+    z-index:4;
+    background-image: url(target.svg);
+    background-repeat: no-repeat;
+    background-size: 100px;
+    background-position: 50% 50%;
+}
 
-html.dropzone.drag.over{
-    
+html.importing .mask {
+    background-image: url(loader.svg);
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: 100px;
+    z-index:4;
 }

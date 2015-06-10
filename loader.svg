@@ -1,0 +1,47 @@
+<!-- By Sam Herbert (@sherb), for everyone. More @ http://goo.gl/7AJzbL -->
+<svg xmlns="http://www.w3.org/2000/svg" class="nexus loader">
+    <g transform="matrix(1 0 0 -1 0 80)">
+        <rect width="10" height="46.9708" rx="3">
+            <animate attributeName="height" begin="0s" dur="4.3s" values="20;45;57;80;64;32;66;45;64;23;66;13;64;56;34;34;2;23;76;79;20" calcMode="linear" repeatCount="indefinite"/>
+        </rect>
+        <rect x="15" width="10" height="7.81212" rx="3">
+            <animate attributeName="height" begin="0s" dur="2s" values="80;55;33;5;75;23;73;33;12;14;60;80" calcMode="linear" repeatCount="indefinite"/>
+        </rect>
+        <rect x="30" width="10" height="77.1404" rx="3">
+            <animate attributeName="height" begin="0s" dur="1.4s" values="50;34;78;23;56;23;34;76;80;54;21;50" calcMode="linear" repeatCount="indefinite"/>
+        </rect>
+        <rect x="45" width="10" height="73.271" rx="3">
+            <animate attributeName="height" begin="0s" dur="2s" values="30;45;13;80;56;72;45;76;34;23;67;30" calcMode="linear" repeatCount="indefinite"/>
+        </rect>
+    </g>
+    <text y="100" transform="translate(27)">
+        <tspan x="0" text-anchor="middle" class="title"></tspan>
+        <tspan x="0" text-anchor="middle" dy="15" class="subtitle"></tspan>
+    </text>
+    <script type="text/javascript">
+        <![CDATA[
+            if(document.location.search){
+                var temp = document.location.search.replace("?","").split("&");
+                var query_data = [];
+                for(var i=0; i<temp.length; i++){
+                    var key    = temp[i].split("=")[0];
+                    var value  = temp[i].split("=")[1];
+                    query_data[key] = value;
+                }
+                
+                document.querySelector(".nexus.loader .title").innerHTML = query_data['title'] || '';
+                document.querySelector(".nexus.loader .subtitle").innerHTML = query_data['subtitle'] || '';
+            }
+        ]]>
+    </script>
+    <style>
+        <![CDATA[
+            svg.nexus.loader{
+                fill:black;
+            }
+            svg.nexus.loader text{
+                font-family:Tahoma,Arial;
+            }
+        ]]>
+    </style>
+</svg>

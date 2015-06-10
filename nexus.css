@@ -5,7 +5,29 @@
     box-sizing:border-box;
     -moz-box-sizing:border-box;
     -webkit-box-sizing:border-box;
+    padding: 0;
+    margin: 0;
 }
+
+html,
+body {
+    height: 100%;
+}
+
+html{
+    padding: 0px;
+	margin: 0px auto;
+	display: block;
+	width: 100%;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    font-family: Tahoma, Arial;
+    font-size: 14px;
+}
+
 
 [draggable] {
   -moz-user-select: none;
@@ -16,6 +38,16 @@
   -khtml-user-drag: element;
   -webkit-user-drag: element;
 }
+
+
+[onclick],
+button,
+input[type=button],
+input[type=reset],
+input[type=submit],
+a[href],
+details summary,
+.action{cursor: pointer;}
 
 .page{
 	background-color: rgb(255, 255, 255);
@@ -455,33 +487,6 @@ details summary button{
 table.align_center{
 	width:100%;
 	height:100%;
-}
-*{
-	box-sizing:border-box;
-	-moz-box-sizing:border-box;
-}
-
-html{
-	padding: 0px;
-	margin: 0px auto;
-	display: block;
-	width: 100%;
-}
-
-body{
-	font-family:Tahoma;
-	background-size:100% 100%;
-}
-
-
-details summary,
-input[type=button],
-input[type=reset],
-input[type=submit],
-button,
-[href],
-[onclick]{
-	cursor:pointer;
 }
 
 

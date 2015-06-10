@@ -67,10 +67,21 @@ nexus.prototype = {
         code_box.editor.setDisplayIndentGuides(nexus.prototype.settings.editors.show_indent_guides);
         code_box.editor.getSession().setMode(nexus.prototype.settings.editors.languages[language].session || "ace/mode/" + language);
         
-        code_box.value   = function(){return this.editor.getValue()};
-        code_box.focus   = function(){this.editor.focus()};
-        code_box.set_value = function(value){this.editor.setValue(value,-1);};
-        code_box.refresh = function(ed){this.editor.resize();};
+        
+        
+        code_box.value      = function(){return this.editor.getValue()};
+        code_box.focus      = function(){this.editor.focus()};
+        code_box.set_value  = function(value){this.editor.setValue(value,-1);};
+        code_box.refresh    = function(ed){this.editor.resize();};
+        code_box.collapse   = function(){
+            this.querySelector(".code_box_toggler").checked = false;
+            nexus.prototype.resize_code_boxes();
+        };
+        code_box.expand     = function(){
+            this.querySelector(".code_box_toggler").checked = true;
+            nexus.prototype.resize_code_boxes();
+        };
+        code_box.toggle     = nexus.prototype.resize_code_boxes;
 
         nexus.prototype.code_boxes.push(code_box);
 
@@ -78,7 +89,7 @@ nexus.prototype = {
         
     },
      
-    construct: function(){
+    construct:              function(){
         
         //construct menu
         var menu_tree = {
@@ -122,6 +133,9 @@ nexus.prototype = {
             nexus.show_popup({url:"http://www.blindtextgenerator.com/lorem-ipsum"});
         };
         
+        //TODO escape key to return to work space
+        //document.querySelector("");
+        
     },
     
     get_preview_code:       function() {
@@ -137,7 +151,7 @@ nexus.prototype = {
         return preview_code;
     },
     
-    has_user_code: function(){
+    has_user_code:          function(){
         
         for(var i=0; i<nexus.prototype.code_boxes.length; i++){
             if(nexus.prototype.code_boxes[i].value() != ""){return true;}
@@ -210,7 +224,19 @@ nexus.prototype = {
 		
     },
     
-    import_code:            function(code){
+    import:                 function(file){
+        nexus.prototype.reset();
+        if(file == null){return;}
+        
+        nexus.prototype.set_filename(file.name);
+        $(document.querySelector("html")).addClass("importing");
+        nexus.file.read(file).then(function(data){
+            document.querySelector('.code_box.html').set_value(data);
+            $(document.querySelector("html")).removeClass("importing");
+        
+            //TODO STRIP INTO CODE BOXES, as dynamic as possible. check what boxes exist.
+            //COLLAPSE UNUSED CODE BOXES
+        });
         //this function must take the given code and strip it into boxes, and add necessary boxes where needed
         //make use of the supported languages and create necessary boxes. to test this, maybe only show html and css boxes at first
     },
@@ -242,56 +268,6 @@ nexus.prototype = {
     open:                   function() {
         var files = document.querySelector('#open_btn').files;
         var file = files[0];
-        nexus.prototype.set_filename(file.name);
-        
-        var reader = new FileReader();
-        reader.onloadend = function(evt) {
-            if (evt.target.readyState == FileReader.DONE) {
-                var file_contents = evt.target.result;
-                switch (file.type) {
-                    case "text/css":
-                        target_box = document.querySelector('.code_box.css');
-                        break;
-                    case "application/javascript":
-                        target_box = document.querySelector('.code_box.js');
-                        break;
-                    default:
-                        /*
-                        tag = "style";
-                        var opening_tag_index;
-                        var closing_tag_index;
-                        while (file_contents.indexOf("<" + tag + ">") != -1 && file_contents.indexOf("</" + tag + ">") != -1) {
-                            opening_tag_index = file_contents.indexOf("<" + tag + ">");
-                            closing_tag_index = file_contents.indexOf("</" + tag + ">");
-                            document.querySelector('.code_area.css').value += file_contents.substring(opening_tag_index + 2 + tag.length, closing_tag_index);
-                            file_contents = file_contents.substring(0, opening_tag_index) + file_contents.substring(closing_tag_index + tag.length + 3, file_contents.length);
-                        }
-
-                        //strip js
-                        tag = "script";
-                        while (file_contents.indexOf("<" + tag + ">") != -1 && file_contents.indexOf("</" + tag + ">") != -1) {
-                            opening_tag_index = file_contents.indexOf("<" + tag + ">");
-                            closing_tag_index = file_contents.indexOf("</" + tag + ">");
-                            document.querySelector('.code_area.js').value += file_contents.substring(opening_tag_index + 2 + tag.length, closing_tag_index);
-                            file_contents = file_contents.substring(0, opening_tag_index) + file_contents.substring(closing_tag_index + tag.length + 3, file_contents.length);
-                        }
-                        file_contents = file_contents.replace("<html>", "");
-                        file_contents = file_contents.replace("</html>", "");
-                        file_contents = file_contents.replace("<body>", "");
-                        file_contents = file_contents.replace("</body>", "");
-                        document.querySelector('.code_area.html').value = file_contents;*/
-                        
-                        target_box = document.querySelector('.code_box.html');                        
-                }
-                nexus.prototype.reset();
-                target_box.set_value(file_contents);
-                nexus.prototype.hide_all_menus();
-                nexus.hide_mask(true);
-                target_box.focus();
-            }
-        };
-        var blob = file.slice(0, file.size);
-        reader.readAsBinaryString(blob);
     },
     
     refresh_code_boxes:     function(){
@@ -430,16 +406,19 @@ nexus.prototype = {
             languages:{
                 js:{
                     tag:"script",
-                    session:"ace/mode/javascript"
+                    session:"ace/mode/javascript",
+                    media_type:"application/javascript"
                     
                 },
                 css:{
                     tag:"style",
-                    session:"ace/mode/css"
+                    session:"ace/mode/css",
+                    media_type:"text/css"
                 },
                 html:{
                     tag:"body",
-                    session:"ace/mode/html"
+                    session:"ace/mode/html",
+                    media_type:"text/html"
                     //default_value:"<!DOCTYPE html>"
                 }
             },
@@ -504,7 +483,20 @@ nexus.prototype = {
     init:                   function() {
         
         nexus.prototype.construct();
+        
+        //init settings
+        
+        
         new nexus.dropzone(document.querySelector("html"));
+        
+        var mask = new nexus.dropzone(document.querySelector(".mask"),{
+            "accept":       ["js","css","html"], //TODO make this dynamic
+            "ondrop":       function(file){
+                document.querySelector("html").remove_drag_states();
+                nexus.prototype.import(file);
+            },
+            "ondragenter":  nexus.prototype.hide_all_menus
+        });
         
         ace.require("ace/ext/language_tools");
         if (chrome) {

@@ -1,8 +1,8 @@
 /*STRING PROTOTYPES*/
 String.prototype.replaceAll = function(f,r){return this.split(f).join(r);}
-String.prototype.parse_color = function(color){
+String.prototype.parse_color = function(){
     //CREDIT http://www.javascripter.net/faq/rgbtohex.htm
-    color = this.replaceAll(" ", "");
+    var color = this.replaceAll(" ", "");
     var converted_color = "Invalid Input";
 
     function toHex(n) {
@@ -32,48 +32,25 @@ String.prototype.parse_color = function(color){
 
     return converted_color;
 };
-
+String.prototype.trim = function(){
+    //REF: https://alvinabad.wordpress.com/2009/02/12/extending-javascripts-string-object/
+    return this.replace(/^\s+|\s+$/g, "")
+};
+String.prototype.extension = function(){
+    var string = this.trim();
+    var extension = null;
+    if(string.lastIndexOf(".") > -1){
+        if(string.length > string.lastIndexOf(".") + 1){   
+            extension = string.substring(string.lastIndexOf(".")+1,string.length);
+        }
+    }
+    return extension;
+};
 
 var nexus = function(){
 	
-    nexus.dropzone = function(element){
-        //ref http://html5demos.com/drag#view-source
-        if(!element) return null;
-
-        $(element).addClass("dropzone");
-
-        element.ondragenter = function(){
-            $(this).removeClass("over");
-            $(this).removeClass("leave");
-            $(this).removeClass("drop");
-            $(this).addClass("drag enter");
-
-        };
-
-        element.ondragover = function(){
-            event.preventDefault();
-            $(this).removeClass("leave");
-            $(this).removeClass("enter");
-            $(this).removeClass("drop");
-            $(this).addClass("drag over");
-        };
-
-        element.ondragleave= function(){
-            $(this).removeClass("enter");
-            $(this).removeClass("over");
-            $(this).removeClass("drop");
-            $(this).addClass("drag leave");
-        };
-
-        element.ondrop = function(){
-            $(this).removeClass("enter");
-            $(this).removeClass("over");
-            $(this).removeClass("leave");
-            $(this).addClass("drag drop");
-        };
-
-        return element;
-
+    nexus.notify = function(){
+        
     };
     
     //nexus error module
@@ -149,8 +126,9 @@ var nexus = function(){
     nexus.hide_mask = function(force){
         
         force = (typeof force == "boolean") ? force : false;
-		
-        var source = event.srcElement || event.target;
+		var source;
+        if(event){source = event.srcElement || event.target;}
+        
 		if(force || source == document.querySelector(".mask>table.aligner") || source == document.querySelector(".mask>table.aligner td.aligner")){
             $(document.querySelector(".mask")).removeClass("active");
 			document.querySelector(".mask").innerHTML = "";
@@ -263,8 +241,86 @@ var nexus = function(){
                 }
                 reader.readAsDataURL(input.files[0]);
             }
-        }            
+        },
+
+        read: function(file){
+            //REF: https://api.jquery.com/deferred.promise/
+            var dfd = jQuery.Deferred();
+            var reader = new FileReader();
+            reader.onload = function(e){
+                dfd.resolve(e.target.result);
+            };
+            var blob = file.slice(0, file.size);
+            reader.readAsBinaryString(blob);
+            
+            return dfd.promise();
+        }
+        
     },
+    nexus.dropzone = function(element,settings){
+        //ref http://html5demos.com/drag#view-source
+        settings                = settings                  || {};
+        settings.accept         = settings.accept           || [];
+        settings.ondrop         = settings.ondrop           || function(){};
+        settings.ondragenter    = settings.ondragenter      || function(){};
+        settings.ondragover     = settings.ondragover       || function(){};
+        settings.ondragleave    = settings.ondragleave      || function(){};
+        
+        if(!element) return null;
+
+        $(element).addClass("dropzone");
+
+        element.ondragenter = function(){
+            this.remove_drag_states();
+            $(this).addClass("drag enter");
+            settings.ondragenter();
+
+        };
+
+        element.ondragover = function(){
+            event.preventDefault();
+            this.remove_drag_states();
+            $(this).addClass("drag over");
+            settings.ondragover();
+        };
+
+        element.ondragleave= function(){
+            this.remove_drag_states();
+            $(this).addClass("drag leave");
+            settings.ondragleave();
+        };
+
+        element.ondrop = function(e){
+            //REF: http://www.html5rocks.com/en/tutorials/file/dndfiles/
+            e.stopPropagation();
+            e.preventDefault();
+            this.remove_drag_states();
+            $(this).addClass("drag drop");
+            
+            var files = e.dataTransfer.files;
+            for (var i = 0, f; f = files[i]; i++) {
+                var file = null;
+                if(settings.accept.length > 0){
+                    if(settings.accept.indexOf(f.name.extension()) > -1) file = f;
+                    else console.warn("Unsupported Media");
+                }
+                settings.ondrop(file);
+            }
+            this.remove_drag_states();
+            
+        };
+        
+        element.remove_drag_states = function(){
+            $(this).removeClass("drag");
+            $(this).removeClass("over");
+            $(this).removeClass("leave");
+            $(this).removeClass("drop");
+            $(this).removeClass("enter");
+        };
+
+        return element;
+
+    };
     
 	//nexus json module
     nexus.json = {
