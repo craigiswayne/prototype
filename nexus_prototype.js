@@ -233,12 +233,13 @@ nexus.prototype = {
         nexus.file.read(file).then(function(data){
             document.querySelector('.code_box.html').set_value(data);
             $(document.querySelector("html")).removeClass("importing");
-        
+            nexus.hide_mask(true);
             //TODO STRIP INTO CODE BOXES, as dynamic as possible. check what boxes exist.
             //COLLAPSE UNUSED CODE BOXES
         });
         //this function must take the given code and strip it into boxes, and add necessary boxes where needed
         //make use of the supported languages and create necessary boxes. to test this, maybe only show html and css boxes at first
+       
     },
     
     import_from_codepen:    function(url) {
@@ -266,8 +267,7 @@ nexus.prototype = {
     },
     
     open:                   function() {
-        var files = document.querySelector('#open_btn').files;
-        var file = files[0];
+        nexus.prototype.import(document.querySelector('#open_btn').files[0]);
     },
     
     refresh_code_boxes:     function(){
@@ -285,7 +285,7 @@ nexus.prototype = {
         nexus.prototype.resize_code_boxes();
         nexus.prototype.code_boxes_container.removeAttribute("style");
         nexus.prototype.preview_container.removeAttribute("style");
-        nexus.hide_mask();
+        nexus.hide_mask(true);
     },
     
     resize_code_boxes:      function() {
@@ -307,7 +307,6 @@ nexus.prototype = {
         }
     },
     
-    
 	show_about:             function() {
         nexus.prototype.hide_all_menus();
         nexus.show_popup({url:"about.html"});
@@ -318,27 +317,32 @@ nexus.prototype = {
         nexus.show_popup({url:"settings.html"});
 	},
     
-    show_preview:           function() {	
-		console.clear();
+    show_preview:           function() {
+
+        nexus.prototype.last_updated = new Date();
+        
 		setTimeout(function(event){
+            var now = new Date();
+            if(Math.abs((now.getTime() - nexus.prototype.last_updated.getTime())/1000) < nexus.prototype.settings.preview_delay) return;
             
-			if (nexus.prototype.interface == "chrome_app") {
-				chrome.storage.local.set({
-                    //todo this dynamically
-					"html":    nexus.prototype.code_boxes_container.querySelector(".code_box.html").editor.getValue(),
-					"css":     nexus.prototype.code_boxes_container.querySelector(".code_box.css").editor.getValue(),
-					"js":      nexus.prototype.code_boxes_container.querySelector(".code_box.js").editor.getValue(),
-					"preview": nexus.prototype.get_preview_code()
-				});
-			} else {
+            console.clear();
+            if (nexus.prototype.interface == "chrome_app") {
+                
+                for(var i=0, code_box=null; i<nexus.prototype.code_boxes.length; i++){
+                    code_box = nexus.prototype.code_boxes[i];
+                    //TODO FIX THIS chrome.storage.local.set({code_box.language: code_box.get_value()});
+                }
+                chrome.storage.local.set({"preview": nexus.prototype.get_preview_code()});
+                
+            } else {
                 var tmp_preview         = nexus.prototype.preview_frame;
                 var tmp_preview_doc     = tmp_preview.contentDocument || tmp_preview.contentWindow.document;
                 tmp_preview_doc.open();
                 tmp_preview_doc.write(nexus.prototype.get_preview_code());
                 tmp_preview_doc.close();
-			}
+            }
             
-		},(nexus.prototype.settings.preview_time*1000),event);
+		},(nexus.prototype.settings.preview_delay*1000),event);
     },
     
     hide_all_menus:         function() {
@@ -373,7 +377,9 @@ nexus.prototype = {
         var data = form.appendChild(document.createElement("input"));
         data.type = "hidden";
         data.name = "data";
-        //set the name as the same name as the download OR! nexus prototype 
+        //set the name as the same name as the download OR! nexus prototype
+        //TODO this data object should be a generic function to be fetched, i.e. get_all code as json, maybe extend the current get code and then implement in the chrome app show preview
+        
         data_obj = {
             "title": nexus.prototype.get_filename(),
             "html": document.querySelector(".code_box.html").value() || "",
@@ -400,7 +406,7 @@ nexus.prototype = {
     
     settings: {
 		save: function(){
-			nexus.prototype.settings.preview_time = document.querySelector("[name=preview_time]") ? parseInt(document.querySelector("[name=preview_time]").value) : 0;
+			nexus.prototype.settings.preview_delay = document.querySelector("[name=preview_delay]") ? parseInt(document.querySelector("[name=preview_delay]").value) : 0;
 		},
         editors:{
             languages:{
