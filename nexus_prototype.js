@@ -387,7 +387,7 @@ nexus.prototype = {
             "js": document.querySelector(".code_box.js").value() || ""
         }
         
-        data.value = JSON.stringify(data_obj).replace(/"/g, "&quot;").replace(/'/g, "&apos;");
+        data.value = JSON.stringify(data_obj).replace(/"/g, "&quot;").replace(/'/g, "&apos;"); //TODO replace all single quotes should be part of the string prototype
         form.submit();
     },
     

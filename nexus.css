@@ -714,6 +714,19 @@ user-select: none;
     opacity:0;
 }
 
+.flex.box{
+    display: -webkit-box;
+    display: -moz-box;
+    display: -webkit-flexbox; 
+}
+
+.flex.box .fill{
+    -webkit-box-flex: 100;
+    -moz-box-flex: 100;
+    -webkit-flex: 100;
+}
+
+
 /*********MEDIA QUERIES START**********/
   @media screen and (max-width:800px){
   	body{
