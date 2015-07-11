@@ -59,7 +59,7 @@ nexus.prototype = {
         code_area.className             = "code_area";
         code_box.editor                 = ace.edit(code_area); //http://ace.c9.io/api/editor.html
         code_box.editor.$blockScrolling = Infinity
-        code_box.editor.setValue(nexus.prototype.settings.editors.languages[language].default_value || null);
+        code_box.editor.setValue(nexus.prototype.settings.editors.languages[language].default_value || "");
         code_box.editor.setTheme(nexus.prototype.settings.editors.theme);
         code_box.editor.on("change",nexus.prototype.show_preview);
         
@@ -138,6 +138,35 @@ nexus.prototype = {
         
     },
     
+    export_to_codepen:      function() {
+        
+        if(!nexus.prototype.has_user_code()){nexus.show_error("No Code To Share"); return;}
+        else{
+            nexus.show_error("has user code");
+        }
+        
+        var form = document.createElement("form");
+        form.style.display = "none";
+        form.target = "_blank";
+        form.method = "POST";
+        form.action = "http://codepen.io/pen/define";
+        var data = form.appendChild(document.createElement("input"));
+        data.type = "hidden";
+        data.name = "data";
+        //set the name as the same name as the download OR! nexus prototype
+        //TODO this data object should be a generic function to be fetched, i.e. get_all code as json, maybe extend the current get code and then implement in the chrome app show preview
+        
+        data_obj = {
+            "title": nexus.prototype.get_filename(),
+            "html": document.querySelector(".code_box.html").value() || "",
+            "css": document.querySelector(".code_box.css").value() || "" ,
+            "js": document.querySelector(".code_box.js").value() || ""
+        }
+        
+        data.value = JSON.stringify(data_obj).replace(/"/g, "&quot;").replace(/'/g, "&apos;"); //TODO replace all single quotes should be part of the string prototype
+        form.submit();
+    },
+    
     get_preview_code:       function() {
         var preview_code = "";
         for(var i=0; i<nexus.prototype.code_boxes.length; i++){
@@ -149,7 +178,7 @@ nexus.prototype = {
         if(nexus.prototype.settings.include_jquery){preview_code = "<script src=jquery.js></script>" + preview_code;}
         
         return preview_code;
-    },
+    },    
     
     has_user_code:          function(){
         
@@ -161,8 +190,7 @@ nexus.prototype = {
     },
     
     local_functionality_notice: function(){},
-    
-    
+       
     toggle_main_menu:       function(){
         $('#main_menu_toggle').toggleClass('fa-bars fa-times');
         document.querySelector("#share_menu_toggle").className = "fa fa-share action";
@@ -361,37 +389,7 @@ nexus.prototype = {
         var filename = document.querySelector("#filename").value;
         return filename;
     },
-        
-    export_to_codepen:      function() {
-        
-        if(!nexus.prototype.has_user_code()){nexus.show_error("No Code To Share"); return;}
-        else{
-            nexus.show_error("has user code");
-        }
-        
-        var form = document.createElement("form");
-        form.style.display = "none";
-        form.target = "_blank";
-        form.method = "POST";
-        form.action = "http://codepen.io/pen/define";
-        var data = form.appendChild(document.createElement("input"));
-        data.type = "hidden";
-        data.name = "data";
-        //set the name as the same name as the download OR! nexus prototype
-        //TODO this data object should be a generic function to be fetched, i.e. get_all code as json, maybe extend the current get code and then implement in the chrome app show preview
-        
-        data_obj = {
-            "title": nexus.prototype.get_filename(),
-            "html": document.querySelector(".code_box.html").value() || "",
-            "css": document.querySelector(".code_box.css").value() || "" ,
-            "js": document.querySelector(".code_box.js").value() || ""
-        }
-        
-        data.value = JSON.stringify(data_obj).replace(/"/g, "&quot;").replace(/'/g, "&apos;"); //TODO replace all single quotes should be part of the string prototype
-        form.submit();
-    },
-    
-    
+          
     save:                   function() {
         var data = 'data:application/xml;charset=utf-8,' + encodeURIComponent(nexus.prototype.get_preview_code());
         document.querySelector("#download_btn").download = nexus.prototype.get_filename();
@@ -490,9 +488,6 @@ nexus.prototype = {
         
         nexus.prototype.construct();
         
-        //init settings
-        
-        
         new nexus.dropzone(document.querySelector("html"));
         
         var mask = new nexus.dropzone(document.querySelector(".mask"),{
@@ -503,6 +498,7 @@ nexus.prototype = {
             },
             "ondragenter":  nexus.prototype.hide_all_menus
         });
+        
         
         ace.require("ace/ext/language_tools");
         if (chrome) {
@@ -520,7 +516,6 @@ nexus.prototype = {
             nexus.prototype.code_boxes_container.appendChild(new nexus.prototype.code_box(nexus.prototype.settings.editors.default[i]));
         }
         nexus.prototype.code_boxes[0].editor.focus();
-        
         
         document.querySelector(".reset").addEventListener("click", nexus.prototype.reset, false);
         document.querySelector("#export_codepen").addEventListener("click", nexus.prototype.export_to_codepen, false);
