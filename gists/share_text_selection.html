@@ -1,12 +1,6 @@
 <link rel=stylesheet href="../font-awesome-4.3.0/css/font-awesome.min.css" />
 <script src="../jquery.js"></script>
 
-<meta property="og:title" content="The Rock" />
-<meta property="og:type" content="video.movie" />
-<meta property="og:url" content="" />
-<meta property="og:image" content="http://ia.media-imdb.com/images/rock.jpg" />
-<meta property="og:desciption" content="Customized Text Sharing Gist" />
-
 <div id="lipsum">
 <p>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet pulvinar arcu, et elementum leo. Praesent dictum blandit suscipit. Nullam aliquam ante a diam convallis lobortis. Phasellus tempor diam in lectus ultrices, at tincidunt ipsum facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis euismod rutrum ligula, quis interdum orci aliquam nec. Vivamus sit amet tortor eleifend, mollis elit id, dictum turpis. Duis viverra tellus at lacus eleifend elementum. Curabitur ut velit vel orci molestie venenatis. Mauris id turpis leo.
@@ -25,7 +19,7 @@ Fusce aliquam, magna varius ullamcorper maximus, urna arcu vulputate dolor, id g
 </p></div>
 
 <div id="selection_share_tool">
-  <a class="fa fa-facebook" target="_blank" data-link="https://www.facebook.com/sharer/sharer.php?u=(#url#)&ref=responsive"></a>
+  <a class="fa fa-envelope-o" target="_blank" data-link="mailto:?subject=(#url#)&amp;body=(#text#)"></a>
   <a class="fa fa-twitter" target="_blank" data-link="https://twitter.com/intent/tweet?text=(#text#)&amp;url=(#url#)"></a>
 </div>
 
@@ -88,10 +82,6 @@ function showSelectionShareTool(){
   selected_text = selection.toString();
 
   if(selected_text.trim()){
-      $("meta[property='og:title']").attr('content',document.title);
-      $("meta[property='og:description']").attr('content',selected_text);
-      $("meta[property='og:url']").attr('content',document.location.href);
-
       var selection_share_tool_y  = (selection.getRangeAt(0).getBoundingClientRect()["bottom"] + 5) + 'px';
       $('#selection_share_tool').css('top',selection_share_tool_y);
       var selection_share_tool_x = (selection.getRangeAt(0).getBoundingClientRect()["left"]) + 'px';
