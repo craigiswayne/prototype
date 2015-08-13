@@ -1,10 +1,5 @@
-<link rel=stylesheet href="http://rawgit.com/craigwayne/prototype/master/font-awesome-4.3.0/css/font-awesome.min.css" />
+<link rel=stylesheet href="../font-awesome-4.3.0/css/font-awesome.min.css" />
 <script src="../jquery.js"></script>
-
-<meta property="og:title" content="The Rock" />
-<meta property="og:type" content="video.movie" />
-<meta property="og:url" content="http://www.imdb.com/title/tt0117500/" />
-<meta property="og:image" content="http://ia.media-imdb.com/images/rock.jpg" />
 
 <div id="lipsum">
 <p>
@@ -24,8 +19,8 @@ Fusce aliquam, magna varius ullamcorper maximus, urna arcu vulputate dolor, id g
 </p></div>
 
 <div id="selection_share_tool">
-  <a class="fa fa-facebook" data-link="https://www.facebook.com/sharer/sharer.php?u=(#url#)&amp;ref=responsive"></a>
-  <a class="fa fa-twitter" data-link="https://twitter.com/intent/tweet?text=(#text#)&amp;url=(#url#)"></a>
+  <a class="fa fa-envelope-o" target="_blank" data-link="mailto:?subject=(#title#)&amp;body=(#text#)"></a>
+  <a class="fa fa-twitter" target="_blank" data-link="https://twitter.com/intent/tweet?text=(#text#)&amp;url=(#url#)"></a>
 </div>
 
 <style>
@@ -96,7 +91,7 @@ function showSelectionShareTool(){
       var share_links = $("#selection_share_tool a[data-link]");
       $(share_links).each(function(){
         var new_link = $(this).attr('data-link').toString();
-        new_link = parseTemplate(new_link,{"text":selected_text,"url":document.location.href});
+        new_link = parseTemplate(new_link,{"text":selected_text,"url":document.location.href, "title":document.title});
         $(this).attr('href', new_link);
       });
 
