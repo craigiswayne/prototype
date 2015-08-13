@@ -1,0 +1,122 @@
+<link rel=stylesheet href="http://rawgit.com/craigwayne/prototype/master/font-awesome-4.3.0/css/font-awesome.min.css" />
+<script src="../jquery.js"></script>
+
+<meta property="og:title" content="The Rock" />
+<meta property="og:type" content="video.movie" />
+<meta property="og:url" content="http://www.imdb.com/title/tt0117500/" />
+<meta property="og:image" content="http://ia.media-imdb.com/images/rock.jpg" />
+
+<div id="lipsum">
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet pulvinar arcu, et elementum leo. Praesent dictum blandit suscipit. Nullam aliquam ante a diam convallis lobortis. Phasellus tempor diam in lectus ultrices, at tincidunt ipsum facilisis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis euismod rutrum ligula, quis interdum orci aliquam nec. Vivamus sit amet tortor eleifend, mollis elit id, dictum turpis. Duis viverra tellus at lacus eleifend elementum. Curabitur ut velit vel orci molestie venenatis. Mauris id turpis leo.
+</p>
+<p>
+Proin ornare rutrum ligula eget congue. In aliquam mi ac lorem tincidunt, eu volutpat orci fringilla. Curabitur sed odio ornare, sollicitudin justo at, vulputate augue. Proin laoreet tortor in nisl gravida, vitae dictum arcu aliquam. Duis rhoncus, orci sit amet volutpat volutpat, sem mi fermentum ligula, eu congue arcu diam non augue. Mauris facilisis ligula purus, sed posuere nibh sollicitudin pellentesque. Mauris malesuada dictum ipsum sit amet consequat. Curabitur orci felis, tempus at malesuada ut, consequat varius diam. Ut molestie volutpat arcu, nec tincidunt risus accumsan a. Aenean congue, risus sit amet pellentesque finibus, augue ipsum consequat nulla, a molestie tellus leo sed leo. Quisque commodo suscipit ex, vel tincidunt nulla facilisis eget. Duis aliquam, justo vitae porta finibus, nibh dui feugiat augue, sed finibus felis ipsum sed sapien.
+</p>
+<p>
+Pellentesque vulputate est vel nisl varius, quis sagittis ipsum pulvinar. Praesent dui massa, convallis sed porta eget, vulputate sit amet felis. Aliquam erat volutpat. Suspendisse sed ultrices lorem. Pellentesque interdum, lectus eu finibus sodales, orci tellus interdum nisl, at aliquam nisi metus vitae nisi. Nunc cursus odio ex, sit amet rutrum felis porttitor a. Donec sollicitudin mauris id neque condimentum mattis non sit amet orci.
+</p>
+<p>
+Nulla bibendum pulvinar faucibus. Suspendisse potenti. Phasellus ornare, eros et pharetra pretium, odio nisl faucibus nisi, vitae mollis ligula purus in nunc. Praesent pharetra libero vel tortor vehicula, dictum imperdiet dolor interdum. Duis non velit nec dolor scelerisque imperdiet. Aenean non augue suscipit, suscipit diam auctor, vestibulum neque. Nullam leo nulla, commodo sit amet egestas eget, congue ac lectus. Donec rhoncus ex eu mattis congue. Integer eu lorem malesuada, efficitur lacus sed, porttitor ante. Curabitur interdum metus sit amet enim dapibus fermentum. Vivamus rutrum dui sit amet nibh porta facilisis. Morbi pharetra nisi sit amet purus faucibus tristique. Suspendisse luctus ac diam a vehicula. Nam aliquet lorem in erat commodo accumsan. Aliquam ut ex semper, vehicula tellus at, tincidunt magna.
+</p>
+<p>
+Fusce aliquam, magna varius ullamcorper maximus, urna arcu vulputate dolor, id gravida ex risus quis tortor. Nam nisl nunc, vulputate non lectus non, pretium varius massa. Vestibulum tincidunt suscipit magna vitae laoreet. In vestibulum congue mauris, non aliquet urna ultricies sed. Fusce et accumsan ipsum. Donec sed nibh vel mauris malesuada pulvinar nec eget diam. Nulla facilisi. Maecenas lacinia et tellus id placerat. Morbi nec enim viverra, venenatis lorem a, egestas nibh. In non aliquam est, ac ullamcorper ante. Morbi nulla ex, egestas at nulla a, elementum lacinia mauris. Donec lobortis lobortis tortor, at laoreet orci tempus vitae. Nullam non lorem accumsan erat varius lobortis eget sed quam. Donec sed pulvinar massa, vel dictum neque. Sed diam quam, euismod vitae velit sed, pretium faucibus lorem. Sed sed risus consequat, bibendum ex et, sodales nisl.
+</p></div>
+
+<div id="selection_share_tool">
+  <a class="fa fa-facebook" data-link="https://www.facebook.com/sharer/sharer.php?u=(#url#)&amp;ref=responsive"></a>
+  <a class="fa fa-twitter" data-link="https://twitter.com/intent/tweet?text=(#text#)&amp;url=(#url#)"></a>
+</div>
+
+<style>
+body{
+font-family:Arial;
+padding:10px;
+background: -webkit-linear-gradient(90deg, #ffb347 10%, #ffcc33 90%); /* Chrome 10+, Saf5.1+ */
+background:    -moz-linear-gradient(90deg, #ffb347 10%, #ffcc33 90%); /* FF3.6+ */
+background:     -ms-linear-gradient(90deg, #ffb347 10%, #ffcc33 90%); /* IE10 */
+background:      -o-linear-gradient(90deg, #ffb347 10%, #ffcc33 90%); /* Opera 11.10+ */
+background:         linear-gradient(90deg, #ffb347 10%, #ffcc33 90%); /* W3C */
+}
+  #selection_share_tool{
+    display:none;
+    position:fixed;
+    z-index:1;
+    background-color: rgba(255,255,255,0.7);
+    text-align: center;
+    border-radius: 20px;
+    padding: 2px;
+  }
+
+  #selection_share_tool.active{
+    display:block;
+  }
+
+  #selection_share_tool .fa {
+    width: 20px;
+    height: 20px;
+    padding:5px;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 20px;
+    background-color: #3e3e3e;
+    color: white;
+}
+
+#selection_share_tool .fa:first-child{
+  margin-right:5px;
+}
+</style>
+
+<script>
+$("p").on('mouseup',function(){
+    showSelectionShareTool();
+});
+
+var selected_text = null;
+
+function showSelectionShareTool(){
+  var selection;
+  if (window.getSelection) {
+      selection = window.getSelection();
+  } else if (document.getSelection) {
+      selection = document.getSelection();
+  } else if (document.selection) {
+      selection = document.selection.createRange().text;
+  }
+  selected_text = selection.toString();
+
+  if(selected_text.trim()){
+      var selection_share_tool_y  = (selection.getRangeAt(0).getBoundingClientRect()["bottom"] + 5) + 'px';
+      $('#selection_share_tool').css('top',selection_share_tool_y);
+      var selection_share_tool_x = (selection.getRangeAt(0).getBoundingClientRect()["left"]) + 'px';
+      $('#selection_share_tool').css('left',selection_share_tool_x);
+
+      //replace variables and set href
+      var share_links = $("#selection_share_tool a[data-link]");
+      $(share_links).each(function(){
+        var new_link = $(this).attr('data-link').toString();
+        new_link = parseTemplate(new_link,{"text":selected_text,"url":document.location.href});
+        $(this).attr('href', new_link);
+      });
+
+      $('#selection_share_tool').addClass('active');
+  }
+  else{
+      $('#selection_share_tool').removeClass('active');
+  }
+
+}
+
+function parseTemplate(template, data){
+  if(!template){return ""; }
+  var pattern = /\(#(.*?)#\)/g;
+  var variables = template.match(pattern);
+  for(var i=0; i<variables.length; i++){
+    var variable_name = variables[i].replace("(#","").replace("#)","");
+    template = template.replace(variables[i], data[variable_name]);
+  }
+  return template;
+}
+
+</script>
