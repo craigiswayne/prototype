@@ -88,9 +88,9 @@ function showSelectionShareTool(){
   selected_text = selection.toString();
 
   if(selected_text.trim()){
-      $("meta [property='og:title']").attr('content',document.title);
-      $("meta [property='og:description']").attr('content',selected_text);
-      $("meta [property='og:url']").attr('content',document.location.href);
+      $("meta[property='og:title']").attr('content',document.title);
+      $("meta[property='og:description']").attr('content',selected_text);
+      $("meta[property='og:url']").attr('content',document.location.href);
 
       var selection_share_tool_y  = (selection.getRangeAt(0).getBoundingClientRect()["bottom"] + 5) + 'px';
       $('#selection_share_tool').css('top',selection_share_tool_y);
