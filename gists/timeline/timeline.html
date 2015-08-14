@@ -1,0 +1,139 @@
+
+<body id='nexus_prototype_preview_html' >
+
+<body id='nexus_prototype_preview_html' >
+
+<h2>Key Events</h2>
+
+<div class=timeline>
+    <a class=event href="#top">
+        <div class=icon></div>
+        <div class=info>
+            <div class=datestamp>10h ago</div>
+            <div class=descr>i am the description</div>
+        </div>
+    </a>
+    <a class=event href="#top">
+        <div class=icon></div>
+        <div class=info>
+            <div class=datestamp>10h ago</div>
+            <div class=descr>i am the description</div>
+        </div>
+    </a>
+    <a class=event href="#top">
+        <div class=icon></div>
+        <div class=info>
+            <div class=datestamp>10h ago</div>
+            <div class=descr>i am the description</div>
+        </div>
+    </a>
+    <a class=event href="#top">
+        <div class=icon></div>
+        <div class=info>
+            <div class=datestamp>10h ago</div>
+            <div class=descr>i am the description</div>
+        </div>
+    </a>
+    <a class=event href="#top">
+        <div class=icon></div>
+        <div class=info>
+            <div class=datestamp>10h ago</div>
+            <div class=descr>i am the description</div>
+        </div>
+    </a>
+</div>
+</body>
+
+<style id='nexus_prototype_preview_css' >
+
+body{
+    width:400px;
+    margin:50px auto;
+    font-family:Tahoma, Arial;
+    color:#3e3e3e;
+    background: -webkit-linear-gradient(90deg, #606c88 10%, #3f4c6b 90%); /* Chrome 10+, Saf5.1+ */
+  background:    -moz-linear-gradient(90deg, #606c88 10%, #3f4c6b 90%); /* FF3.6+ */
+  background:     -ms-linear-gradient(90deg, #606c88 10%, #3f4c6b 90%); /* IE10 */
+  background:      -o-linear-gradient(90deg, #606c88 10%, #3f4c6b 90%); /* Opera 11.10+ */
+  background:         linear-gradient(90deg, #606c88 10%, #3f4c6b 90%); /* W3C */
+        color:white;
+}
+
+h2{
+    color:inherit;
+}
+.timeline{
+    border-left:1px solid #DDDBDA;
+    padding:0px;
+}
+
+.timeline .event{
+    position:relative;
+    display:block;
+    height:60px;
+    max-width:300px;
+    left:-10px;
+    text-decoration:none;
+    color:#3e3e3e;
+    margin-bottom:10px;
+}
+
+.timeline .event .icon{
+    width:20px;
+    height:20px;
+    background-color:#DDDBDA;
+    border-radius:100%;
+    position:absolute;
+    left:0;
+    top:20px;
+    transition:all 0.3s ease;
+    z-index:2;
+}
+
+.timeline .event .info{
+    margin-left:50px;
+    padding:10px;
+    border:1px solid #DDDBDA;
+    background-color:rgb(238,239,242);
+    position:relative;
+    opacity:0;
+    left:-50px;
+    transition:all 0.4s ease;
+    z-index:1;
+}
+
+.timeline .event:focus .icon,
+.timeline .event:hover .icon{
+    background-color: #66DC71;
+    box-shadow:0 0 4px 0 #4A9851 inset;
+    transform: scale(1.1);
+}
+
+.timeline .event:focus .info,
+.timeline .event:hover .info{
+    opacity:1;
+    left:0;
+}
+
+.timeline .event .info:before{
+    content: "";
+    position: absolute;
+    z-index:1;
+    width: 20px;
+    height: 20px;
+    border-bottom: 1px solid #DDDBDA;
+    border-left: 1px solid #DDDBDA;
+    top: 10px;
+    background: #ebe7e4;
+    margin-top: 8px;
+    background:rgb(238,239,242);
+    left: -11px;
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+</style>
+
+</body>
