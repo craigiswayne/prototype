@@ -2,13 +2,13 @@ FOR IE =< 8 styles
 @media \0screen\,screen\9 {
    /*styles here*/
 }
-           
+
 FOR IE 7, place an asteriks before your css style, for e.g.
 div{
 *background-color:red;
 }
            
-           
+
 detecting IE in JS
 http://stackoverflow.com/questions/19999388/jquery-check-if-user-is-using-ie
 function msieversion() {
@@ -19,3 +19,9 @@ function msieversion() {
         if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./)) alert("true");
         else alert("false");
 }
+
+when creating mailers
+1. table layout
+2. images must use width and height attributes
+3. divs are allowed
+4. tr's must have a bgcolor attribute
