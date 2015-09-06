@@ -1,3 +1,19 @@
+
+<script src="jquery.js"></script>
+
+<script src="color-thief.js"></script>
+
+<div id="polaroid">
+    <div id="image_preview_container"></div>
+    <img id="image_preview" src=""/>
+    <div class="caption">Image Preview</div>
+</div>
+<input type=file onchange="preview(this)" accept="image/*"/>
+<div id="palette_container">
+  <div class="title">Palette</div>
+
+</div>
+<style>
 *{
     box-sizing:border-box;
     -moz-box-sizing:border-box;
@@ -156,6 +172,65 @@ input[type=file]{
     margin:20px auto;
     display:block;
 }
+
+#palette_container .block{
+    width: 200px;
+    height: 200px;
+    float: left;
+}
+</style>
+
+
+<script>
+function preview(input){
+    if (input.files && input.files[0]) {
+
+          var reader = new FileReader();
+          var container = $("#image_preview_container");
+          var image     = $("#image_preview");
+          var polaroid  = $("#polaroid");
+          reader.onload = function (e) {
+
+              polaroid.removeClass('notify');
+              image.removeClass('active');
+              image.css('margin-left', '');
+              image.css('margin-top', '');
+              image.removeClass('active');
+              container.addClass('busy');
+              container.removeClass('blur');
+              container.css('background-image', '');
+
+              image.attr('src', e.target.result);
+              image.css('margin-left', -(parseInt(image.css('width'))/2) + 'px');
+              image.css('margin-top', -(parseInt(image.css('height'))/2)-20 + 'px');
+
+              var colorThief = new ColorThief();
+              var color = colorThief.getColor(image[0]);
+              color = "rgb("+ color[0]+","+color[1]+","+color[2]+")";
+              container.css('background-color',color);
+              var palette = colorThief.getPalette(image[0])
+              var palette_container = $("#palette_container");
+
+
+              for(var i=0; i<palette.length; i++ ){
+                console.debug(palette[i]);
+                color = "rgb("+palette[i][0]+","+palette[i][1]+","+palette[i][2]+")";
+                var block = "<div class=block style='background-color:"+color+"''>"+color+"</div>";
+                palette_container.append(block);
+              }
+
+              setTimeout(function(){
+                polaroid.addClass('notify');
+                image.addClass('active');
+                container.addClass('blur');
+                container.css('background-image', 'url('+e.target.result+')');
+                container.removeClass('busy');
+              },1000);
+          }
+
+          reader.readAsDataURL(input.files[0]);
+        }
+    }
 
 #palette{
     display:inline-block;
