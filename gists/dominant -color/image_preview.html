@@ -9,7 +9,10 @@
     <div class="caption">Image Preview</div>
 </div>
 <input type=file onchange="preview(this)" accept="image/*"/>
+<div id="palette_container">
+  <div class="title">Palette</div>
 
+</div>
 <style>
 *{
     box-sizing:border-box;
@@ -163,6 +166,12 @@ input[type=file]{
     margin:auto;
     display:block;
 }
+
+#palette_container .block{
+    width: 200px;
+    height: 200px;
+    float: left;
+}
 </style>
 
 
@@ -193,7 +202,16 @@ function preview(input){
               var color = colorThief.getColor(image[0]);
               color = "rgb("+ color[0]+","+color[1]+","+color[2]+")";
               container.css('background-color',color);
+              var palette = colorThief.getPalette(image[0])
+              var palette_container = $("#palette_container");
 
+
+              for(var i=0; i<palette.length; i++ ){
+                console.debug(palette[i]);
+                color = "rgb("+palette[i][0]+","+palette[i][1]+","+palette[i][2]+")";
+                var block = "<div class=block style='background-color:"+color+"''>"+color+"</div>";
+                palette_container.append(block);
+              }
 
               setTimeout(function(){
                 polaroid.addClass('notify');
