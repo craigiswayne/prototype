@@ -1,0 +1,19 @@
+<script src="jquery.js"></script>
+<script src="color-thief.js"></script>
+<link rel=stylesheet href="styles.css" />
+<script src='scripts.js'></script>
+
+<title>Image Preview</title>
+
+<div id="polaroid">
+    <div id="image_preview_container"></div>
+    <img id="image_preview" src=""/>
+    <div class="caption">Image Preview</div>
+</div>
+
+<div id="palette">
+  <div class="title">Palette</div>
+
+</div>
+
+<input type=file onchange="preview(this)" accept="image/*"/>

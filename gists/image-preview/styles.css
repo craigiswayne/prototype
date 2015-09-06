@@ -1,16 +1,3 @@
-<script src="jquery.js"></script>
-<!--<script src="http://www.jqueryscript.net/demo/jQuery-Plugin-To-Extract-The-Dominant-Color-of-An-Image-Primarycolor-js/jquery.primarycolor.js"></script>-->
-
-<script src="color-thief.js"></script>
-
-<div id="polaroid">
-    <div id="image_preview_container"></div>
-    <img id="image_preview" src=""/>
-    <div class="caption">Image Preview</div>
-</div>
-<input type=file onchange="preview(this)" accept="image/*"/>
-
-<style>
 *{
     box-sizing:border-box;
     -moz-box-sizing:border-box;
@@ -94,18 +81,24 @@ html{
     filter: progid:DXImageTransform.Microsoft.Blur PixelRadius=6;
 }
 
+body{
+    margin:20px auto;
+    text-align:center;
+}
 
 #polaroid{
     border:20px solid white;
     width:400px;
     height:440px;
-    margin:20px auto;
+    margin:0 auto;
     box-shadow:0 0 10px 0 #3E3E3E;
     overflow:hidden;
     background-repeat:no-repeat;
     background-position:50%;
     background-color:#CCCCCC;
     position:relative;
+    display:inline-block;
+    vertical-align:top;
 }
 
 #polaroid.notify{
@@ -144,7 +137,7 @@ html{
   background-image:url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiBmaWxsPSJ3aGl0ZSI+CiAgPGNpcmNsZSBjeD0iMTYiIGN5PSIzIiByPSIwIj4KICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9InIiIHZhbHVlcz0iMDszOzA7MCIgZHVyPSIxcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIGJlZ2luPSIwIiBrZXlTcGxpbmVzPSIwLjIgMC4yIDAuNCAwLjg7MC4yIDAuMiAwLjQgMC44OzAuMiAwLjIgMC40IDAuOCIgY2FsY01vZGU9InNwbGluZSIgLz4KICA8L2NpcmNsZT4KICA8Y2lyY2xlIHRyYW5zZm9ybT0icm90YXRlKDQ1IDE2IDE2KSIgY3g9IjE2IiBjeT0iMyIgcj0iMCI+CiAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJyIiB2YWx1ZXM9IjA7MzswOzAiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiBiZWdpbj0iMC4xMjVzIiBrZXlTcGxpbmVzPSIwLjIgMC4yIDAuNCAwLjg7MC4yIDAuMiAwLjQgMC44OzAuMiAwLjIgMC40IDAuOCIgY2FsY01vZGU9InNwbGluZSIgLz4KICA8L2NpcmNsZT4KICA8Y2lyY2xlIHRyYW5zZm9ybT0icm90YXRlKDkwIDE2IDE2KSIgY3g9IjE2IiBjeT0iMyIgcj0iMCI+CiAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJyIiB2YWx1ZXM9IjA7MzswOzAiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiBiZWdpbj0iMC4yNXMiIGtleVNwbGluZXM9IjAuMiAwLjIgMC40IDAuODswLjIgMC4yIDAuNCAwLjg7MC4yIDAuMiAwLjQgMC44IiBjYWxjTW9kZT0ic3BsaW5lIiAvPgogIDwvY2lyY2xlPgogIDxjaXJjbGUgdHJhbnNmb3JtPSJyb3RhdGUoMTM1IDE2IDE2KSIgY3g9IjE2IiBjeT0iMyIgcj0iMCI+CiAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJyIiB2YWx1ZXM9IjA7MzswOzAiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiBiZWdpbj0iMC4zNzVzIiBrZXlTcGxpbmVzPSIwLjIgMC4yIDAuNCAwLjg7MC4yIDAuMiAwLjQgMC44OzAuMiAwLjIgMC40IDAuOCIgY2FsY01vZGU9InNwbGluZSIgLz4KICA8L2NpcmNsZT4KICA8Y2lyY2xlIHRyYW5zZm9ybT0icm90YXRlKDE4MCAxNiAxNikiIGN4PSIxNiIgY3k9IjMiIHI9IjAiPgogICAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgdmFsdWVzPSIwOzM7MDswIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgYmVnaW49IjAuNXMiIGtleVNwbGluZXM9IjAuMiAwLjIgMC40IDAuODswLjIgMC4yIDAuNCAwLjg7MC4yIDAuMiAwLjQgMC44IiBjYWxjTW9kZT0ic3BsaW5lIiAvPgogIDwvY2lyY2xlPgogIDxjaXJjbGUgdHJhbnNmb3JtPSJyb3RhdGUoMjI1IDE2IDE2KSIgY3g9IjE2IiBjeT0iMyIgcj0iMCI+CiAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJyIiB2YWx1ZXM9IjA7MzswOzAiIGR1cj0iMXMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiBiZWdpbj0iMC42MjVzIiBrZXlTcGxpbmVzPSIwLjIgMC4yIDAuNCAwLjg7MC4yIDAuMiAwLjQgMC44OzAuMiAwLjIgMC40IDAuOCIgY2FsY01vZGU9InNwbGluZSIgLz4KICA8L2NpcmNsZT4KICA8Y2lyY2xlIHRyYW5zZm9ybT0icm90YXRlKDI3MCAxNiAxNikiIGN4PSIxNiIgY3k9IjMiIHI9IjAiPgogICAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgdmFsdWVzPSIwOzM7MDswIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgYmVnaW49IjAuNzVzIiBrZXlTcGxpbmVzPSIwLjIgMC4yIDAuNCAwLjg7MC4yIDAuMiAwLjQgMC44OzAuMiAwLjIgMC40IDAuOCIgY2FsY01vZGU9InNwbGluZSIgLz4KICA8L2NpcmNsZT4KICA8Y2lyY2xlIHRyYW5zZm9ybT0icm90YXRlKDMxNSAxNiAxNikiIGN4PSIxNiIgY3k9IjMiIHI9IjAiPgogICAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iciIgdmFsdWVzPSIwOzM7MDswIiBkdXI9IjFzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgYmVnaW49IjAuODc1cyIga2V5U3BsaW5lcz0iMC4yIDAuMiAwLjQgMC44OzAuMiAwLjIgMC40IDAuODswLjIgMC4yIDAuNCAwLjgiIGNhbGNNb2RlPSJzcGxpbmUiIC8+CiAgPC9jaXJjbGU+CiAgPGNpcmNsZSB0cmFuc2Zvcm09InJvdGF0ZSgxODAgMTYgMTYpIiBjeD0iMTYiIGN5PSIzIiByPSIwIj4KICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9InIiIHZhbHVlcz0iMDszOzA7MCIgZHVyPSIxcyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIGJlZ2luPSIwLjVzIiBrZXlTcGxpbmVzPSIwLjIgMC4yIDAuNCAwLjg7MC4yIDAuMiAwLjQgMC44OzAuMiAwLjIgMC40IDAuOCIgY2FsY01vZGU9InNwbGluZSIgLz4KICA8L2NpcmNsZT4KPC9zdmc+Cg==");
 }
 
-.caption{
+#polaroid .caption{
     display:block;
     width:100%;
     height:60px;
@@ -160,54 +153,39 @@ html{
 }
 
 input[type=file]{
-    margin:auto;
+    margin:20px auto;
     display:block;
 }
-</style>
 
+#palette{
+    display:inline-block;
+    margin-left:20px;
+    max-width:100px;
 
-<script>
-function preview(input){
-    if (input.files && input.files[0]) {
+}
 
-          var reader = new FileReader();
-          var container = $("#image_preview_container");
-          var image     = $("#image_preview");
-          var polaroid  = $("#polaroid");
-          reader.onload = function (e) {
+#palette .title{
+    font-size:20px;
+    margin-bottom:10px;
+}
 
-              polaroid.removeClass('notify');
-              image.removeClass('active');
-              image.css('margin-left', '');
-              image.css('margin-top', '');
-              image.removeClass('active');
-              container.addClass('busy');
-              container.removeClass('blur');
-              container.css('background-image', '');
+#palette .palette_container{}
 
-              image.attr('src', e.target.result);
-              image.css('margin-left', -(parseInt(image.css('width'))/2) + 'px');
-              image.css('margin-top', -(parseInt(image.css('height'))/2)-20 + 'px');
-
-              var colorThief = new ColorThief();
-              var color = colorThief.getColor(image[0]);
-              color = "rgb("+ color[0]+","+color[1]+","+color[2]+")";
-              container.css('background-color',color);
-
-
-              setTimeout(function(){
-                polaroid.addClass('notify');
-                image.addClass('active');
-                container.addClass('blur');
-                container.css('background-image', 'url('+e.target.result+')');
-                container.removeClass('busy');
-              },1000);
-          }
-
-          reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-
-
-  </script>
+#palette .swab{
+    width: 50px;
+    height: 50px;
+    display: inline-block;
+    vertical-align:top;
+    -webkit-border-radius:100%;
+    -moz-border-radius:100%;
+    -ms-border-radius:100%;
+    border-radius:100%;
+    border: 4px solid rgb(255, 255, 255);
+    -o-box-shadow: 0 0 4px 0 rgb(0, 0, 0) inset;
+    -ms-box-shadow: 0 0 4px 0 rgb(0, 0, 0) inset;
+    -moz-box-shadow: 0 0 4px 0 rgb(0, 0, 0) inset;
+    -khtml-box-shadow: 0 0 4px 0 rgb(0, 0, 0) inset;
+    -webkit-box-shadow: 0 0 4px 0 rgb(0, 0, 0) inset;
+    box-shadow: 0 0 4px 0 rgb(0, 0, 0) inset;
+    margin:0 10px 10px 0;
+}
