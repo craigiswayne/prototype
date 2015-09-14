@@ -13,11 +13,11 @@ function twentyfour_gallery (selector, options){
     nav_left_icon_class:"icon-angle-left",
     nav_right_icon_class:"icon-angle-right",
     toggle_tray_icon_class:"icon-th",
-    gallery_template_selector:"#nexus_gallery_template",
-    tray_template_selector:"#nexus_gallery_tray_template",
-    media_bar_template_selector:"#nexus_gallery_media_bar_template",
-    stage_template_selector:"#nexus_gallery_stage_template",
-    query_selector: ".nexus.gallery"
+    gallery_template_selector:"#twentyfour_gallery_template",
+    tray_template_selector:"#twentyfour_gallery_tray_template",
+    media_bar_template_selector:"#twentyfour_gallery_media_bar_template",
+    stage_template_selector:"#twentyfour_gallery_stage_template",
+    query_selector: ".gallery24"
   };
 
   this.go_to_slide = function(index){
@@ -66,25 +66,23 @@ function twentyfour_gallery (selector, options){
   };
 
   this.init = function(selector){
-      var candidates = $(selector);
+      this.selector = selector || this.settings.query_selector;
+      this.element = $(selector).first();
+
+      console.debug($("div").outerHTML());
       gallery = this;
-      $(candidates).each(function(){
-        gallery.element = $(this);
-        var slides = $(this).find(".slide");
-        $(slides).each(function(index){
-          gallery.slides[index] = $(this);
-        });
-        gallery.update_templates();
-        //gallery.element = $(gallery.element).replaceWith(gallery.templates.gallery).html();
-        $(gallery.element).html(gallery.templates.gallery);
-        console.debug(gallery.element);
-
-        //gallery.add_event_listeners();
-
+      var slides = $(this.element).find(".slide");
+      $(slides).each(function(index){
+        gallery.slides[index] = $(this);
       });
+
+      this.update_templates();
+
+      //console.debug($(this.element).outerHTML);
+      //this.element = $(this.element).replaceWith(this.templates.gallery);
+      //this.add_event_listeners();
       return this.element;
   }.bind(this);
 
-  selector = selector || ".gallery24";
   return this.init(selector);
 }
