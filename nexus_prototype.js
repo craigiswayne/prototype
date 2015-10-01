@@ -1,5 +1,5 @@
 //TODO CHROME APP
-//OPTION TO LAUNCH AS CHROME APP... 
+//OPTION TO LAUNCH AS CHROME APP...
 //must be installed first...
 //also that option must only be enabled if on chrome... maybe!?
 
@@ -13,7 +13,7 @@ nexus.prototype = {
     preview_frame:          null,
     resize_bar:             null,
     interface:              null,
-    
+
     catch_save:             function() {
         document.addEventListener("keydown", function(e) {
             if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
@@ -23,7 +23,7 @@ nexus.prototype = {
             }
         }, false);
     },
-    
+
     catch_open:             function() {
         document.addEventListener("keydown", function(e) {
             if (e.keyCode == 79 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
@@ -32,9 +32,9 @@ nexus.prototype = {
             }
         }, false);
     },
-    
+
     code_box:               function(language){
-        
+
         language                        = language || "html"; //nexus.prototype.languages["html"];
 
         var code_box                    = document.createElement("div");
@@ -62,13 +62,13 @@ nexus.prototype = {
         code_box.editor.setValue(nexus.prototype.settings.editors.languages[language].default_value || "");
         code_box.editor.setTheme(nexus.prototype.settings.editors.theme);
         code_box.editor.on("change",nexus.prototype.show_preview);
-        
+
         code_box.editor.setShowPrintMargin(false);
         code_box.editor.setDisplayIndentGuides(nexus.prototype.settings.editors.show_indent_guides);
         code_box.editor.getSession().setMode(nexus.prototype.settings.editors.languages[language].session || "ace/mode/" + language);
-        
-        
-        
+
+
+
         code_box.value      = function(){return this.editor.getValue()};
         code_box.focus      = function(){this.editor.focus()};
         code_box.set_value  = function(value){this.editor.setValue(value,-1);};
@@ -86,16 +86,16 @@ nexus.prototype = {
         nexus.prototype.code_boxes.push(code_box);
 
         return code_box;
-        
+
     },
-     
+
     construct:              function(){
-        
+
         //construct menu
         var menu_tree = {
             "file":{
                 "open":{
-                
+
                     "hello":{}
                 },
                 "import":{},
@@ -108,43 +108,43 @@ nexus.prototype = {
             "github":{},
             "about":{}
         };
-        
+
         //console.debug(new nexus.menu(menu_tree).outerHTML);
-        
+
         //nexus.prototype.main_menu = document.querySelector("");
-    
+
         nexus.prototype.mask            =  document.body.appendChild(document.createElement("div"));
         nexus.prototype.mask.id         = "mask";
         nexus.prototype.mask.className  = "nexus mask";
         nexus.prototype.mask.onclick    = nexus.prototype.hide_all_menus;
-        
+
         document.querySelector("#color_converter_btn").onclick = function(){
             nexus.prototype.hide_all_menus();
             nexus.show_popup({url:"color_converter.html"});
         };
-        
+
         document.querySelector("#base64_encoder_btn").onclick = function(){
             nexus.prototype.hide_all_menus();
             nexus.show_popup({url:"http://dataurl.net/#dataurlmaker"});
         };
-        
+
         document.querySelector("#lorem_ipsum_generator_btn").onclick = function(){
             nexus.prototype.hide_all_menus();
             nexus.show_popup({url:"http://www.blindtextgenerator.com/lorem-ipsum"});
         };
-        
+
         //TODO escape key to return to work space
         //document.querySelector("");
-        
+
     },
-    
+
     export_to_codepen:      function() {
-        
+
         if(!nexus.prototype.has_user_code()){nexus.show_error("No Code To Share"); return;}
         else{
             nexus.show_error("has user code");
         }
-        
+
         var form = document.createElement("form");
         form.style.display = "none";
         form.target = "_blank";
@@ -155,18 +155,18 @@ nexus.prototype = {
         data.name = "data";
         //set the name as the same name as the download OR! nexus prototype
         //TODO this data object should be a generic function to be fetched, i.e. get_all code as json, maybe extend the current get code and then implement in the chrome app show preview
-        
+
         data_obj = {
             "title": nexus.prototype.get_filename(),
             "html": document.querySelector(".code_box.html").value() || "",
             "css": document.querySelector(".code_box.css").value() || "" ,
             "js": document.querySelector(".code_box.js").value() || ""
         }
-        
+
         data.value = JSON.stringify(data_obj).replace(/"/g, "&quot;").replace(/'/g, "&apos;"); //TODO replace all single quotes should be part of the string prototype
         form.submit();
     },
-    
+
     get_preview_code:       function() {
         var preview_code = "";
         for(var i=0; i<nexus.prototype.code_boxes.length; i++){
@@ -174,23 +174,23 @@ nexus.prototype = {
             if(code_box.editor.getValue().trim() == ""){continue;}
             preview_code += "\n<" + nexus.prototype.settings.editors.languages[code_box.language].tag + " id='nexus_prototype_preview_"+code_box.language+"' >\n" + code_box.editor.getValue() + "\n</" + nexus.prototype.settings.editors.languages[code_box.language].tag + ">\n";
         }
-        
+
         if(nexus.prototype.settings.include_jquery){preview_code = "<script src=jquery.js></script>" + preview_code;}
-        
+
         return preview_code;
-    },    
-    
+    },
+
     has_user_code:          function(){
-        
+
         for(var i=0; i<nexus.prototype.code_boxes.length; i++){
             if(nexus.prototype.code_boxes[i].value() != ""){return true;}
         }
-        
+
         return false;
     },
-    
+
     local_functionality_notice: function(){},
-       
+
     toggle_main_menu:       function(){
         $('#main_menu_toggle').toggleClass('fa-bars fa-times');
         document.querySelector("#share_menu_toggle").className = "fa fa-share action";
@@ -202,9 +202,9 @@ nexus.prototype = {
             nexus.hide_mask();
         }
     },
-        
+
     toggle_share_menu:      function(){
-    
+
         document.querySelector("#main_menu_toggle").className = "fa fa-bars action";
         $('#share_menu').toggleClass('active');
         $('#main_menu').removeClass('active');
@@ -214,9 +214,9 @@ nexus.prototype = {
         } else {
             nexus.hide_mask();
         }
-        
+
     },
-    
+
     editor_width_min:       function() {
         nexus.prototype.code_boxes_container.style.width = '0';
         preview.style.width                              = "calc(100% - " + nexus.prototype.code_boxes_container.style.width + ")";
@@ -237,25 +237,25 @@ nexus.prototype = {
         } else {
             codepen_export_button.addEventListener("click", nexus.prototype.export_to_codepen, false);
         }
-        
+
 		if (nexus.prototype.interface == "chrome_app") {}
 		else {
             window.onbeforeunload = function() {
                 return "All your work will be erased!";
             }
         }
-		
+
 		if(nexus.prototype.interface == "chrome_app"){
 			nexus.link("nexus.prototype_chrome_app.css");
 		}
-		
-		
+
+
     },
-    
+
     import:                 function(file){
         nexus.prototype.reset();
         if(file == null){return;}
-        
+
         nexus.prototype.set_filename(file.name);
         $(document.querySelector("html")).addClass("importing");
         nexus.file.read(file).then(function(data){
@@ -267,9 +267,9 @@ nexus.prototype = {
         });
         //this function must take the given code and strip it into boxes, and add necessary boxes where needed
         //make use of the supported languages and create necessary boxes. to test this, maybe only show html and css boxes at first
-       
+
     },
-    
+
     import_from_codepen:    function(url) {
         url = url || window.prompt("Paste codepen url...");
         if (!url) {
@@ -293,29 +293,29 @@ nexus.prototype = {
         document.querySelector(".code_area.html").value = codepen_embed.outerHTML;
         codepen_embed.parentNode.removeChild(codepen_embed);
     },
-    
+
     open:                   function() {
         nexus.prototype.import(document.querySelector('#open_btn').files[0]);
     },
-    
+
     refresh_code_boxes:     function(){
         for(var i=0; i<nexus.prototype.code_boxes.length; i++){nexus.prototype.code_boxes[i].refresh();}
     },
-    
+
     reset:                  function() {
         nexus.prototype.set_filename("prototype.html");
         for (var i = 0; i < nexus.prototype.code_boxes.length; i++) {
             nexus.prototype.code_boxes[i].set_value("");
             nexus.prototype.code_boxes[i].querySelector('.code_box_toggler').setAttribute("checked","checked");
         }
-        
+
         nexus.prototype.hide_all_menus();
         nexus.prototype.resize_code_boxes();
         nexus.prototype.code_boxes_container.removeAttribute("style");
         nexus.prototype.preview_container.removeAttribute("style");
         nexus.hide_mask(true);
     },
-    
+
     resize_code_boxes:      function() {
         var showing_code_boxes = new Array();
         for (var i = 0; i < nexus.prototype.code_boxes.length; i++) {
@@ -328,40 +328,40 @@ nexus.prototype = {
         var not_showing = nexus.prototype.code_boxes.length - showing_code_boxes.length;
         for (var i = 0; i < showing_code_boxes.length; i++) {
             showing_code_boxes[i].style.height = "calc((100% - 25px*" + not_showing + ")/" + showing_code_boxes.length + ")";
-            
+
             setTimeout(function(code_box){
                 code_box.refresh();
             },300,showing_code_boxes[i]);
         }
     },
-    
+
 	show_about:             function() {
         nexus.prototype.hide_all_menus();
         nexus.show_popup({url:"about.html"});
     },
-    
+
 	show_settings:          function(){
         nexus.prototype.hide_all_menus();
         nexus.show_popup({url:"settings.html"});
 	},
-    
+
     show_preview:           function() {
 
         nexus.prototype.last_updated = new Date();
-        
+
 		setTimeout(function(event){
             var now = new Date();
             if(Math.abs((now.getTime() - nexus.prototype.last_updated.getTime())/1000) < nexus.prototype.settings.preview_delay) return;
-            
+
             console.clear();
             if (nexus.prototype.interface == "chrome_app") {
-                
+
                 for(var i=0, code_box=null; i<nexus.prototype.code_boxes.length; i++){
                     code_box = nexus.prototype.code_boxes[i];
                     //TODO FIX THIS chrome.storage.local.set({code_box.language: code_box.get_value()});
                 }
                 chrome.storage.local.set({"preview": nexus.prototype.get_preview_code()});
-                
+
             } else {
                 var tmp_preview         = nexus.prototype.preview_frame;
                 var tmp_preview_doc     = tmp_preview.contentDocument || tmp_preview.contentWindow.document;
@@ -369,10 +369,10 @@ nexus.prototype = {
                 tmp_preview_doc.write(nexus.prototype.get_preview_code());
                 tmp_preview_doc.close();
             }
-            
+
 		},(nexus.prototype.settings.preview_delay*1000),event);
     },
-    
+
     hide_all_menus:         function() {
         $("#main_menu").removeClass('active');
         $("#share_menu").removeClass('active');
@@ -380,28 +380,28 @@ nexus.prototype = {
         document.querySelector("#share_menu_toggle").className = "fa fa-share action";
         nexus.hide_mask();
     },
-    
+
     set_filename:           function(name) {
         document.querySelector("#filename").value = name;
     },
-    
+
     get_filename:           function() {
         var filename = document.querySelector("#filename").value;
         return filename;
     },
-          
+
     save:                   function() {
         var data = 'data:application/xml;charset=utf-8,' + encodeURIComponent(nexus.prototype.get_preview_code());
         document.querySelector("#download_btn").download = nexus.prototype.get_filename();
         document.querySelector("#download_btn").href = data;
     },
-    
+
     send_via: {
         email: function() {
             document.querySelector("#export_email").href = "mailto:?subject=Prototype&body=" + encodeURIComponent(nexus.prototype.get_preview_code());
         }
     },
-    
+
     settings: {
 		save: function(){
 			nexus.prototype.settings.preview_delay = document.querySelector("[name=preview_delay]") ? parseInt(document.querySelector("[name=preview_delay]").value) : 0;
@@ -412,7 +412,7 @@ nexus.prototype = {
                     tag:"script",
                     session:"ace/mode/javascript",
                     media_type:"application/javascript"
-                    
+
                 },
                 css:{
                     tag:"style",
@@ -431,37 +431,37 @@ nexus.prototype = {
             //theme:"ace/theme/idle_fingers",
             default:["html","css","js"]
         },
-        
+
 		include_jquery: false,
         include_font_awesome: false,
-        
+
         preview_time: 0,
         update: function(){
             console.debug("settings updated");
             nexus.prototype.settings.include_jquery = document.querySelector("input[type=checkbox][name=include_jquery]").checked
-            
+
         }
 	},
-    
-    
+
+
     //todo the addEventlisteners should just be the on whatever functions
-    
+
     editor_width: null,
-    
+
     resize_start: null,
-    
+
     init_resize_functionality: function(){
-    
+
         nexus.prototype.resize_bar.addEventListener("mousedown", function(event) {
             $(document.body).addClass("resizing");
             nexus.prototype.resize_start = event.clientX;
             nexus.prototype.editor_width = parseInt(window.getComputedStyle(nexus.prototype.code_boxes_container).width);
         }, false);
-        
+
         nexus.prototype.resize_bar.addEventListener("contextmenu", function() {
             $(document.body).removeClass("resizing");
         }, false);
-        
+
         //dont need this, just check if the src element is the resizer
         document.addEventListener("mouseup", function() {
             if($(document.body).hasClass("resizing")){
@@ -469,7 +469,7 @@ nexus.prototype = {
                 nexus.prototype.refresh_code_boxes();
             }
         }, false);
-        
+
         document.addEventListener("mousemove", function(event) {
             //NOTE: the new_width is a percentage of the container not in pixels (px)
 
@@ -483,13 +483,13 @@ nexus.prototype = {
             }
         }, false);
     },
-    
+
     init:                   function() {
-        
+
         nexus.prototype.construct();
-        
+
         new nexus.dropzone(document.querySelector("html"));
-        
+
         var mask = new nexus.dropzone(document.querySelector(".mask"),{
             "accept":       ["js","css","html"], //TODO make this dynamic
             "ondrop":       function(file){
@@ -498,25 +498,25 @@ nexus.prototype = {
             },
             "ondragenter":  nexus.prototype.hide_all_menus
         });
-        
-        
+
+
         ace.require("ace/ext/language_tools");
         if (chrome) {
             if (chrome.storage) nexus.prototype.interface = "chrome_app";
         }
-        
+
         nexus.prototype.code_boxes_container    = document.querySelector("#code_boxes_container");
         nexus.prototype.preview_container       = document.querySelector("#preview_container");
         nexus.prototype.preview_frame           = nexus.prototype.preview_container.querySelector("iframe");
         nexus.prototype.resize_bar              = document.querySelector("#resize_bar");
         nexus.prototype.workspace               = document.querySelector("#workspace");
-        
+
         //add code_boxes //todo make this better man
         for(var i=0; i<nexus.prototype.settings.editors.default.length; i++){
             nexus.prototype.code_boxes_container.appendChild(new nexus.prototype.code_box(nexus.prototype.settings.editors.default[i]));
         }
         nexus.prototype.code_boxes[0].editor.focus();
-        
+
         document.querySelector(".reset").addEventListener("click", nexus.prototype.reset, false);
         document.querySelector("#export_codepen").addEventListener("click", nexus.prototype.export_to_codepen, false);
         document.querySelector("#download_btn").addEventListener("click", nexus.prototype.save, false);
@@ -524,24 +524,24 @@ nexus.prototype = {
         document.querySelector("#share_menu_toggle").addEventListener("click", nexus.prototype.toggle_share_menu, false);
         document.querySelector("#btn_editor_min").addEventListener("click", nexus.prototype.editor_width_min, false);
         document.querySelector("#btn_editor_max").addEventListener("click", nexus.prototype.editor_width_max, false);
-        
-       
+
+
         document.querySelector("#export_email").addEventListener("click", nexus.prototype.send_via.email, false);
-       
+
         nexus.prototype.catch_save();
         nexus.prototype.catch_open();
         document.querySelector("#open_btn").onchange = nexus.prototype.open;
         document.querySelector("#share_btn").addEventListener("click", nexus.prototype.toggle_share_menu, false);
         document.querySelector("#about_btn").addEventListener("click", nexus.prototype.show_about, false);
         document.querySelector("#settings_btn").addEventListener("click", nexus.prototype.show_settings, false);
-        
+
         document.querySelector("#toggle_grid").addEventListener("click", function() {
             $(document.body).toggleClass("grid");
         }, false);
-        
+
         nexus.prototype.code_boxes = document.querySelectorAll(".code_box");
         nexus.prototype.form = document.querySelector("#main");
-       
+
         //todo fix the continuously selecting on mouse down on any box
         nexus.prototype.init_resize_functionality();
 

@@ -8,6 +8,7 @@ $stage_nav_size:30px;
 $tray_nav_size:20px;
 $media_bar_height:30px;
 $tray_height:80px;
+$gap:10px;
 
 .twentyfour.gallery{
   background-color:$foreground_color_dark;
@@ -93,6 +94,10 @@ $tray_height:80px;
         cursor:pointer;
     }
 
+    .slider{
+      padding:$gap;
+    }
+
   }
 
   .media_bar{
@@ -166,6 +171,7 @@ $tray_height:80px;
       }
     }
   }
+
 
   &.playing{
     .media_bar{

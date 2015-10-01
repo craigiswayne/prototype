@@ -93,6 +93,8 @@ select[disabled] {
       font-size: 30px;
       z-index: 3;
       cursor: pointer; }
+    .twentyfour.gallery .stage .slider {
+      padding: 10px; }
   .twentyfour.gallery .media_bar {
     width: 100%;
     height: 30px;

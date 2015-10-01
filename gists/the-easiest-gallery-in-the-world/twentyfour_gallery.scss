@@ -8,6 +8,8 @@ $stage_nav_size:30px;
 $tray_nav_size:20px;
 $media_bar_height:30px;
 $tray_height:80px;
+$gap:10px;
+$stage_gap:$gap;
 
 .twentyfour.gallery{
   background-color:$foreground_color_dark;
@@ -19,6 +21,7 @@ $tray_height:80px;
   font-family:Tahoma, Arial;
   position:relative;
   overflow:hidden;
+  padding:0 0 $media_bar_height 0;
   @include user-select(none);
 
   &:not(.ready){
@@ -71,8 +74,13 @@ $tray_height:80px;
 
   .stage{
     position:relative;
-    height:500px;
+    height:100%;
+    padding:0;
     z-index:1;
+
+    .slide{
+      padding:$gap;
+    }
 
     .action_area{
       width:100px;
@@ -99,7 +107,9 @@ $tray_height:80px;
     width:100%;
     height:$media_bar_height;;
     line-height:$media_bar_height;
-    position:relative;
+    position:absolute;
+    bottom:0;
+    left:0;
     z-index:2;
     /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#45484d+0,000000+100;Black+3D+%231 */
     background: rgb(69,72,77); /* Old browsers */
@@ -182,5 +192,15 @@ $tray_height:80px;
     .tray{
       bottom:$media_bar_height;
     }
+  }
+
+
+  &.fullscreen{
+    height:100%;
+    width:100%;
+    position:fixed;
+    top:0;
+    left:0;
+    margin:0;
   }
 }

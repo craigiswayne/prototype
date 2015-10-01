@@ -8,6 +8,7 @@
   <script src="../jquery.tmpl.js"></script>
   <script src="../nexus.js"></script>
   <script src="twentyfour_gallery.min.js"></script>
+  <title>The Easiest Gallery In The World</title>
 
 </head>
 
@@ -25,7 +26,7 @@
   <p>use the jquery templating thang</p>
 
   <script type="text/template" id="twentyfour_gallery_template">
-    <div class="twentyfour gallery ready" id="">
+    <div class="twentyfour gallery ready" id="(#id#)">
       (#stage#)
       (#tray#)
       (#media_bar#)
@@ -90,15 +91,7 @@
     <img src="images/large_9.jpg" title="large_9.jpg" class="slide"/>
   </div>
 
-  <div class="nexus gallery" id="secondgal">
-    <div class=slide><img src="images/hongqiao1.jpg" title="hongqiao1.jpg"/></div>
-    <img src="images/hongqiao2.jpg" title="hongqiao2.jpg" class="slide"/>
-    <img src="images/hongqiao3.jpg" title="hongqiao3.jpg" class="slide"/>
-    <img src="images/hongqiao4.jpg" title="hongqiao4.jpg" class="slide"/>
-    <img src="images/hongqiao5.jpg" title="hongqiao5.jpg" class="slide"/>
-  </div>
-
-<script>
+  <script>
 
     $(document).ready(function(){
       var demo_gallery = new twentyfour_gallery('.nexus.gallery');

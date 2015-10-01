@@ -6,25 +6,26 @@
     <meta charset="utf-8">
     <title>Prototype</title>
     <link rel="icon" type="image/png" href="nexus_prototype.png">
-    
+
     <link rel="stylesheet" href="nexus.css">
     <!--<link rel="stylesheet" href="http://craigwayne.github.io/nexus/css/nexus.css">-->
-      
-      
+
+
     <script src="nexus.js"></script>
     <!--<script src="http://craigwayne.github.io/nexus/js/nexus.js"></script>-->
-      
+
     <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
-	  
+
     <script src="jquery.js"></script>
     <script src="jquery.cookie.js"></script>
 
-    <!--<script src="http://ace.c9.io/build/src/ace.js"></script>-->
-    <script src="https://rawgit.com/ajaxorg/ace-builds/master/src-min-noconflict/ace.js"></script>
-      
+    <!-- <script src="http://ace.c9.io/build/src/ace.js"></script> -->
+    <!-- <script src="https://rawgit.com/ajaxorg/ace-builds/master/src-min-noconflict/ace.js"></script> -->
+    <script src="ace.js"></script>
+    <!-- <script src="http://ace.c9.io/build/src/ace.js"></script> -->
     <script src="nexus_prototype.js"></script>
     <link rel="stylesheet" href="nexus_prototype.css">
-      
+
   </head>
 
   <body class="initializing">
@@ -42,19 +43,19 @@
     <form id="main" class="flex box">
 
       <nav id="main_menu" class="menu accordion">
-       
+
         <ul>File
           <label class="fa fa-folder-open">Open<input id="open_btn" type="file" style="display:none;" accept=".html,.css,.js"></label>
-          <a id="import_btn" class="nexus fa fa-cloud-download disabled">Import</a> 
+          <a id="import_btn" class="nexus fa fa-cloud-download disabled">Import</a>
           <a class="fa fa-save" id="download_btn" href="" download>Save</a>
           <a class="fa fa-share" id="share_btn">Share</a>
           <span class="fa fa-eraser reset">Reset</span>
         </ul>
-          
+
         <ul><span class="fa fa-wrench">Toolbox</span>
           <a id="color_converter_btn" class="fa fa-paint-brush">Color Converter</a>
           <a id="base64_encoder_btn">Base64 Encoder</a>
-          <a id="lorem_ipsum_generator_btn">Lorem Ipsum Generator</a>  
+          <a id="lorem_ipsum_generator_btn">Lorem Ipsum Generator</a>
         </ul>
 
         <span class="fa fa-cog" id="settings_btn">Settings</span>
