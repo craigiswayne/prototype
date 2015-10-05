@@ -84,10 +84,34 @@ $stage_gap:$gap;
 
     .action_area{
       width:100px;
+      max-width: 15%;
+      @include transition(background-color 0.1s ease-in-out);
+
+      &:hover{
+        background-color: rgba(0,0,0,0.5);
+
+        .icon{
+          &.left{
+            left:0;
+          }
+
+          &.right{
+            right:0;
+          }
+        }
+      }
 
       .icon{
         font-size:$stage_nav_size;
         margin-top:-($stage_nav_size/2);
+
+        &.left{
+          left:-100%;
+        }
+
+        &.right{
+          right:-100%;
+        }
       }
     }
 

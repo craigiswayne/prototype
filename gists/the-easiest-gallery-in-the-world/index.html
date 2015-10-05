@@ -9,7 +9,12 @@
   <script src="../nexus.js"></script>
   <script src="twentyfour_gallery.min.js"></script>
   <title>The Easiest Gallery In The World</title>
-
+  <style>
+    #demogallery{
+      width:400px;
+      height:350px;
+    }
+  </style>
 </head>
 
 <body>
@@ -37,11 +42,11 @@
     <div class="stage">
       <div class="fullscreen toggler icon (#fullscreen_icon_class#)"></div>
       <div class="action_area nav left">
-        <div class="icon (#nav_left_icon_class#)"></div>
+        <div class="icon left (#nav_left_icon_class#)"></div>
       </div>
       <div class="slider">(#slides#)</div>
       <div class="action_area nav right">
-        <div class="right icon (#nav_right_icon_class#)"></div>
+        <div class="icon right (#nav_right_icon_class#)"></div>
       </div>
     </div>
   </script>
@@ -71,7 +76,7 @@
   </script>
 
 
-  <div class="nexus gallery" id="randomID">
+  <div class="nexus gallery" id="demogallery">
     <div class=slide><img src="images/hongqiao1.jpg" title="hongqiao1.jpg"/></div>
     <img src="images/hongqiao2.jpg" title="hongqiao2.jpg" class="slide"/>
     <img src="images/hongqiao3.jpg" title="hongqiao3.jpg" class="slide"/>

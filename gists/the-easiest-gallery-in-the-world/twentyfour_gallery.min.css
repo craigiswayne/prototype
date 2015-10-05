@@ -85,10 +85,25 @@ select[disabled] {
     .twentyfour.gallery .stage .slide {
       padding: 10px; }
     .twentyfour.gallery .stage .action_area {
-      width: 100px; }
+      width: 100px;
+      max-width: 15%;
+      -webkit-transition: background-color 0.1s ease-in-out;
+      -moz-transition: background-color 0.1s ease-in-out;
+      -o-transition: background-color 0.1s ease-in-out;
+      transition: background-color 0.1s ease-in-out; }
+      .twentyfour.gallery .stage .action_area:hover {
+        background-color: rgba(0, 0, 0, 0.5); }
+        .twentyfour.gallery .stage .action_area:hover .icon.left {
+          left: 0; }
+        .twentyfour.gallery .stage .action_area:hover .icon.right {
+          right: 0; }
       .twentyfour.gallery .stage .action_area .icon {
         font-size: 30px;
         margin-top: -15px; }
+        .twentyfour.gallery .stage .action_area .icon.left {
+          left: -100%; }
+        .twentyfour.gallery .stage .action_area .icon.right {
+          right: -100%; }
     .twentyfour.gallery .stage .fullscreen.toggler {
       position: absolute;
       top: 0;

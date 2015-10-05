@@ -127,12 +127,13 @@ function twentyfour_gallery (selector, options){
       this.selector = selector || this.settings.query_selector;
       this.container = $(selector).first();
       gallery = this;
+
       var slides = $(this.container).find(".slide");
       $(slides).each(function(index){
         gallery.slides[index] = $(this);
       });
 
-      var generated_id = this.prefix + "_gallery_" + Math.round(Math.random()*100);
+      var generated_id = this.container.attr("id") || this.prefix + "_gallery_" + Math.round(Math.random()*100);
       this.update_templates({"id":generated_id});
       this.container.replaceWith(this.templates.gallery);
       this.container = $("#" + generated_id);
