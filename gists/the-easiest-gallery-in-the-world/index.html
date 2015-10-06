@@ -5,12 +5,10 @@
   <link rel="stylesheet" href="../fonts/nexus_icons/style.css" />
   <link rel="stylesheet" href="twentyfour_gallery.min.css" />
   <script src="../jquery.min.js"></script>
-  <script src="../jquery.tmpl.js"></script>
-  <script src="../nexus.js"></script>
   <script src="twentyfour_gallery.min.js"></script>
   <title>The Easiest Gallery In The World</title>
   <style>
-    #demogallery{
+    .twentyfour.gallery{
       width:400px;
       height:350px;
     }
@@ -18,17 +16,39 @@
 </head>
 
 <body>
+  <details closed>
+    <summary>Notes</summary>
   <ol>
     <li>assign listeners via js not inline</li>
     <li>use the jquery template function</li>
+    <li><a href="http://trunk.netwerk24.com/Nuus/Wereld/Na-7-jaar-van-hel-in-oorsese-tronk-sit-sy-siek-op-straat-20150908">an example article with a gallery component</a</li>
+    <li>based on the anything slideer... <a href="http://css-tricks.github.io/AnythingSlider/#&panel1-2&panel2-5">link</a></li>
+    <li>templates must be used whereever possible for the components of the slider</li>
+    <li>slides must also be able to contain html</li>
+    <li>responsive</li>
+    <li>swipe left and right</li>
+    <li>hongikat slider</li>
+    <li>use the jquery templating thang</li>
+    <li>customizable jquery selector (setting)</li>
+    <li>gallery minimum of 2 gallery slides (setting)</li>
+    <li>auto init setting</li>
+    <li>autoplay setting</li>
+    <li>dataattribute settings</li>
+    <li>merge settings, gotta figure out the preference order</li>
+    <li>multiple galleries on a single page</li>
+    <li>templates must be embedded into the script</li>
+    <li>autolink css min file (setting)</li>
+    <li>check that the middle and left attributes work well</li>\
+    <li>merge datasets</li>
+    <li>merge classnames</li>
+    <li>reinitialize</li>
+    <li>check the fullscreen index (maybe setting?)</li>
+    <li>when linking the css file, place just after the script file</li>
+    <li>test all browsers</li>
+    <li>bookmarking fullscreen galleries?</li>
+    <li><a href="http://www.netwerk24.com/nuus/2015-10-03-bokke-rol-skotte-maar-oortuig-nog-nie-copy">based on</a></li>
   </ol>
-  <p>based on the anything slideer... <a href="http://css-tricks.github.io/AnythingSlider/#&panel1-2&panel2-5">link</a></p>
-  <p>templates must be used whereever possible for the components of the slider</p>
-  <p>slides must also be able to contain html</p>
-  <p>responsive</p>
-  <p>swipe left and right</p>
-  <p>hongikat slider</p>
-  <p>use the jquery templating thang</p>
+</details>
 
   <script type="text/template" id="twentyfour_gallery_template">
     <div class="twentyfour gallery ready" id="(#id#)">
@@ -69,12 +89,11 @@
 
   <script type="text/template" id="twentyfour_gallery_media_bar_template">
     <div class="media_bar">
-      <div class="play_pause_toggle toggler button" onclick="$(this).closest('.twentyfour.gallery').toggleClass('playing pause');"><span class="icon play (#play_icon_class#)"></span><span class="icon pause (#pause_icon_class#)"></span></div>
-      <div class="status"><span class=current>x</span>/<span class="total">y</span></div>
-      <div class="tray_toggle toggler button icon (#toggle_tray_icon_class#)" onclick="$(this).closest('.twentyfour.gallery').toggleClass('show_tray')"></div>
+      <div class="play_pause_toggle toggler button"><span class="icon play (#play_icon_class#)"></span><span class="icon pause (#pause_icon_class#)"></span></div>
+      <div class="status"><span class=current>1</span>/<span class="total">(#total_slides#)</span></div>
+      <div class="tray_toggle toggler button icon (#toggle_tray_icon_class#)"></div>
     </div>
   </script>
-
 
   <div class="nexus gallery" id="demogallery">
     <div class=slide><img src="images/hongqiao1.jpg" title="hongqiao1.jpg"/></div>
@@ -96,235 +115,25 @@
     <img src="images/large_9.jpg" title="large_9.jpg" class="slide"/>
   </div>
 
+  <div contenteditable="false" data-embed24="Images" data-pos="middle" id="fe84075a">
+    <div class="slide">
+      <img data-imageid="32d027aa-953c-4678-8edd-bbd939d24d57" data-imageurl="http://dev.cdn.24.co.za/files/Cms/General/d/3384/81ae2ed66f1e41929adccb58b546797b.jpg" src="http://dev.cdn.24.co.za/files/Cms/General/d/3384/bd5b156c5d2c4ebcb28540af5ec99e06.jpg" title="Pragtige Blom">
+      <div class="caption">Pragtige Blom</div>
+    </div>
+    <div class="slide">
+      <img data-imageid="6269b671-6b20-46d0-861b-5d3a377694ee" data-imageurl="http://dev.cdn.24.co.za/files/Cms/General/d/3384/5995de8cee55450c9eefcd55481bb2b0.jpg" src="http://dev.cdn.24.co.za/files/Cms/General/d/3384/695360a15b8e480eb30434a30dbe41f2.jpg" title="Pragtige Woestyn">
+      <div class="caption">Pragtige Woestyn</div>
+    </div>
+  </div>
+
   <script>
 
     $(document).ready(function(){
       var demo_gallery = new twentyfour_gallery('.nexus.gallery');
+      var test_case_gallery = new twentyfour_gallery("[data-embed24='Images']",{
+        thumbnail_selector:'img'
+      });
     });
-
-
-    // var siteGallery = {
-    //     galleryComponent: null,
-    //     slideIndex: null,
-    //     totalSlides: 0,
-    //     canFullscreen: false,
-    //     goFullScreen: function () {
-    //
-    //         var docElement, request;
-    //         docElement = document.getElementById('galleryComponent');
-    //
-    //         element = docElement;
-    //         if (element.requestFullscreen) {
-    //
-    //             element.requestFullscreen();
-    //             siteGallery.galleryComponent.addClass('fullscreen');
-    //             siteGallery.goToSlide(siteGallery.slideIndex);
-    //         } else if (element.mozRequestFullScreen) {
-    //             element.mozRequestFullScreen();
-    //             siteGallery.galleryComponent.addClass('fullscreen');
-    //             siteGallery.goToSlide(siteGallery.slideIndex);
-    //         } else if (element.webkitRequestFullscreen) {
-    //
-    //             element.webkitRequestFullscreen();
-    //             siteGallery.galleryComponent.addClass('fullscreen');
-    //             siteGallery.goToSlide(siteGallery.slideIndex);
-    //         } else if (element.msRequestFullscreen) {
-    //             element.msRequestFullscreen();
-    //             siteGallery.galleryComponent.addClass('fullscreen');
-    //             siteGallery.goToSlide(siteGallery.slideIndex);
-    //         }
-    //     },
-    //     exitFullScreen: function () {
-    //
-    //         if (document.exitFullscreen) {
-    //             document.exitFullscreen();
-    //         } else if (document.mozCancelFullScreen) {
-    //             document.mozCancelFullScreen();
-    //         } else if (document.webkitExitFullscreen) {
-    //             document.webkitExitFullscreen();
-    //         } else if (document.msExitFullscreen) {
-    //             document.msExitFullscreen();
-    //         }
-    //
-    //         siteGallery.galleryComponent.removeClass('fullscreen');
-    //         siteGallery.goToSlide(siteGallery.slideIndex);
-    //     },
-    //     checkFullscreenFunctionality: function () {
-    //         var element = document.getElementById('galleryComponent');
-    //         if (element.requestFullscreen) {
-    //             siteGallery.canFullscreen = true;
-    //         } else if (element.mozRequestFullScreen) {
-    //             siteGallery.canFullscreen = true;
-    //         } else if (element.webkitRequestFullscreen) {
-    //             siteGallery.canFullscreen = true;
-    //         } else if (element.msRequestFullscreen) {
-    //             siteGallery.canFullscreen = true;
-    //         }
-    //
-    //         if (siteGallery.canFullscreen != true) {
-    //             siteGallery.galleryComponent.addClass('no_fullscreen');
-    //         }
-    //     },
-    //     init: function () {
-    //         this.galleryComponent = this.galleryComponent || $j("#galleryComponent");
-    //         siteGallery.checkFullscreenFunctionality();
-    //         //icons
-    //         this.galleryComponent.find(".stage").append("<a class='icon icon-expand fullscreen'></a>");
-    //         this.galleryComponent.find(".stage").append("<a class='icon icon-compress minimize'></a>");
-    //         this.galleryComponent.find(".stage").append("<div class='nav_container left'><a class='icon icon-arrow-circle-o-left nav left'></a></div>");
-    //         this.galleryComponent.find(".stage").append("<div class='nav_container right'><a class='icon icon-arrow-circle-o-right nav right'></a></div>");
-    //         this.galleryComponent.find(".thumbnails.widget").append("<a class='icon icon-angle-left nav left'></a>");
-    //         this.galleryComponent.find(".thumbnails.widget").append("<a class='icon icon-angle-right nav right'></a>");
-    //
-    //         //event listeners
-    //         //fullscreen
-    //         this.galleryComponent.find('.stage .icon.fullscreen').on('click', function () {
-    //             siteGallery.goFullScreen();
-    //         });
-    //
-    //         this.galleryComponent.find('.stage .icon.minimize').on('click', function () {
-    //             siteGallery.exitFullScreen();
-    //         });
-    //
-    //         $j(document).bind('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', function (e) {
-    //
-    //             var state = document.mozFullScreen || document.webkitIsFullScreen || document.msFullscreenEnabled || document.fullScreen;
-    //             var event = state ? 'FullscreenOn' : 'FullscreenOff';
-    //             if (document.msFullscreenEnabled && document.msFullscreenElement == null) {
-    //                 event = 'FullscreenOff';
-    //             }
-    //             if (event == 'FullscreenOff') {
-    //                 siteGallery.exitFullScreen();
-    //             }
-    //         });
-    //
-    //         this.galleryComponent.find('.stage .icon.nav.left').click(function () {
-    //             siteGallery.goToSlide(siteGallery.slideIndex - 1);
-    //         });
-    //
-    //         this.galleryComponent.find('.stage .icon.nav.right').click(function () {
-    //             siteGallery.goToSlide(siteGallery.slideIndex + 1);
-    //         });
-    //
-    //         this.galleryComponent.find('.thumbnails.widget .icon.nav.left').click(function () {
-    //             siteGallery.goToSlide(siteGallery.slideIndex - 1);
-    //         });
-    //
-    //         this.galleryComponent.find('.thumbnails.widget .icon.nav.right').click(function () {
-    //             siteGallery.goToSlide(siteGallery.slideIndex + 1);
-    //         });
-    //
-    //         this.galleryComponent.find(".widget.thumbnails .item").each(function (i) {
-    //             siteGallery.totalSlides++;
-    //             $j(this).click(function () {
-    //                 siteGallery.goToSlide(i);
-    //                 return false;
-    //             });
-    //         });
-    //
-    //         if (siteGallery.galleryComponent.hasClass('images')) {
-    //             //center large images
-    //             $j(this.galleryComponent).find('.stage .slider .slide img').each(function (i) {
-    //                 $j(this).parent().css('background-image', 'url(' + $j(this).attr('src') + ')');
-    //                 $j(this).remove();
-    //             });
-    //         }
-    //
-    //
-    //         if (siteGallery.galleryComponent.hasClass('video')) {
-    //             siteGallery.initVideos();
-    //         }
-    //
-    //         //fix for thumbnail widget
-    //         if(siteGallery.totalSlides)
-    //
-    //         this.goToSlide(0);
-    //     },
-    //     initVideos: function () {
-    //
-    //         var tag = document.createElement('script');
-    //
-    //         tag.src = "https://www.youtube.com/iframe_api";
-    //         var firstScriptTag = document.getElementsByTagName('script')[0];
-    //         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    //
-    //         siteGallery.galleryComponent.find('.stage .slider .item .media').each(function (i) {
-    //             var video_url = $j(this).attr("src");
-    //
-    //             if (video_url.indexOf("youtube") > -1 || video_url.indexOf("youtu.be") > -1) {
-    //                 $j(this).replaceWith('<div class="media youtube" src="' + $j(this).attr("src") + '"></div');
-    //             }
-    //             else if (video_url.indexOf("cdn.24.co.za") > -1) {
-    //                 var new_tag_id = "jwplayer_"+i;
-    //                 $j(this).replaceWith('<div class="media jwplayer" id="' + new_tag_id + '"></div');
-    //
-    //                 var playerInstance = jwplayer(new_tag_id);
-    //                 playerInstance.setup({
-    //                     file: video_url,
-    //                     image: "http://dev.cdn.24.co.za/files/Cms/General/d/682/ae0b812114644fe59ec692ef3e9df42a.jpg",
-    //                     width: siteGallery.galleryComponent.width(),
-    //                     height: siteGallery.galleryComponent.find(".stage").height(),
-    //                     title: $j(this).attr("title"),
-    //                     description: $j(this).parent().find(".caption").text()
-    //                 });
-    //             }
-    //         });
-    //
-    //         window.onYouTubeIframeAPIReady = function() {
-    //             siteGallery.galleryComponent.find('.stage .slider .slide .youtube').each(function () {
-    //                 var source = $j(this).attr('src');
-    //                 var videoId = null;
-    //                 if (source.indexOf("youtu.be") > -1) {
-    //                     videoId = source.substring(source.indexOf("youtu.be") + 9, source.length);
-    //                 } else {
-    //                     videoId = source.substring(source.indexOf('watch?v=') + 8, source.length);
-    //                 }
-    //
-    //                 var player = new YT.Player(this, {
-    //                     height: 'auto',
-    //                     width: siteGallery.galleryComponent.width(),
-    //                     videoId: videoId
-    //                 });
-    //             });
-    //         };
-    //     },
-    //     goToSlide: function (index) {
-    //         //zeroBased
-    //         index = (index < 0) ? 0 : index;
-    //         index = (index >= siteGallery.totalSlides) ? siteGallery.totalSlides - 1 : index;
-    //         siteGallery.slideIndex = index;
-    //         var slideWidth = this.galleryComponent.find('.stage .slider').width();
-    //         siteGallery.galleryComponent.find('.stage .slider').css('left', -(index * slideWidth));
-    //
-    //         siteGallery.galleryComponent.find('.widget.thumbnails .item').removeClass('active');
-    //         $j(siteGallery.galleryComponent.find('.widget.thumbnails .item')[index]).addClass('active');
-    //
-    //         siteGallery.galleryComponent.removeClass('first');
-    //         siteGallery.galleryComponent.removeClass('last');
-    //
-    //         if (index == 0) {
-    //             siteGallery.galleryComponent.addClass('first');
-    //         }
-    //
-    //         if (index == siteGallery.totalSlides - 1) {
-    //             siteGallery.galleryComponent.addClass('last');
-    //         }
-    //
-    //         if ($j(siteGallery.galleryComponent).not('.fullscreen')) {
-    //
-    //             if (index > 5) {
-    //                 var shift_multiplier = index - 5;
-    //                 siteGallery.galleryComponent.find('.thumbnails.widget .slider').css('left', "-" + (shift_multiplier * 90) + 'px');
-    //             }
-    //             else {
-    //                 siteGallery.galleryComponent.find('.thumbnails.widget .slider').css('left', "0");
-    //             }
-    //         }
-    //     }
-    // };
-    // $j(document).ready(function () {
-    //     siteGallery.init();
-    // });
 
   </script>
 </body>
