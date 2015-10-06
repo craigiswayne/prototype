@@ -397,10 +397,9 @@ function twentyfour_gallery (selector, settings){
 
   this.init = function(selector,settings){
       this.selector = selector || this.settings.query_selector;
-      $.extend(this.settings, settings);
       this.container = $(selector).first();
       this.attributes = this.container.attr();
-
+      $.extend(this.settings, settings,this.container.data());
       gallery = this;
 
       var slides = $(this.container).find(".slide");
@@ -423,6 +422,7 @@ function twentyfour_gallery (selector, settings){
       //todo allow for multiple results from selctor
       this.go_to_slide(0);
       this.container.addClass("ready");
+      console.debug(this.settings);
       return this;
   }.bind(this);
 

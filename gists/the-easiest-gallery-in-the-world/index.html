@@ -12,6 +12,14 @@
       width:400px;
       height:350px;
     }
+    [data-embed24="Images"][data-pos="left"]{
+      float:left;
+      margin:0 10px 10px 0;
+    }
+
+    [data-embed24="Images"][data-pos="left"] + *{
+      clear:both;
+    }
   </style>
 </head>
 
@@ -19,7 +27,7 @@
   <details closed>
     <summary>Notes</summary>
   <ol>
-    <li>assign listeners via js not inline</li>
+
     <li>use the jquery template function</li>
     <li><a href="http://trunk.netwerk24.com/Nuus/Wereld/Na-7-jaar-van-hel-in-oorsese-tronk-sit-sy-siek-op-straat-20150908">an example article with a gallery component</a</li>
     <li>based on the anything slideer... <a href="http://css-tricks.github.io/AnythingSlider/#&panel1-2&panel2-5">link</a></li>
@@ -121,7 +129,7 @@
     <img src="images/large_9.jpg" title="large_9.jpg" class="slide"/>
   </div>
 
-  <div contenteditable="false" data-embed24="Images" data-pos="middle" id="fe84075a">
+  <div contenteditable="false" data-embed24="Images" data-pos="left" id="fe84075a" data-show_speed="10">
     <div class="slide">
       <img data-imageid="32d027aa-953c-4678-8edd-bbd939d24d57" data-imageurl="http://dev.cdn.24.co.za/files/Cms/General/d/3384/81ae2ed66f1e41929adccb58b546797b.jpg" src="http://dev.cdn.24.co.za/files/Cms/General/d/3384/bd5b156c5d2c4ebcb28540af5ec99e06.jpg" title="Pragtige Blom">
       <div class="caption">Pragtige Blom</div>
