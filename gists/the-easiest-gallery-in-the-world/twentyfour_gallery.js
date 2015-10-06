@@ -1,3 +1,24 @@
+//extend jquery
+(function($) {
+          // duck-punching to make attr() return a map
+          var _old = $.fn.attr;
+          $.fn.attr = function() {
+            var a, aLength, attributes, map;
+            if (this[0] && arguments.length === 0) {
+                    map = {};
+                    attributes = this[0].attributes;
+                    aLength = attributes.length;
+                    for (a = 0; a < aLength; a++) {
+                            map[attributes[a].name.toLowerCase()] = attributes[a].value;
+                    }
+                    return map;
+            } else {
+                    return _old.apply(this, arguments);
+            }
+    }
+  }(jQuery));
+//end extend jquery
+
 $(document).ready(function(){
     set_active_links();
 });
@@ -124,7 +145,7 @@ $(document).ready(nexus.init);
 
 
 
-function twentyfour_gallery (selector, options){
+function twentyfour_gallery (selector, settings){
   this.prefix = "twentyfour";
   this.container = null;
   this.interval  = null;
@@ -149,6 +170,7 @@ function twentyfour_gallery (selector, options){
   };
 
   this.settings = {
+    container_class:"twentyfour gallery",
     fullscreen_icon_class:"icon-screen-full",
     play_icon_class: "icon-playback-play",
     pause_icon_class:"icon-playback-pause",
@@ -331,17 +353,31 @@ function twentyfour_gallery (selector, options){
     return thumbnails;
   };
 
+  this.generate_attributes = function(){
+    var html = "";
+    this.attributes["class"] = this.attributes["class"] || "";
+    this.attributes["class"] += " " + this.settings.container_class;
+    for(var i=0; i<Object.keys(this.attributes).length; i++){
+        var label = Object.keys(this.attributes)[i];
+        var value = this.attributes[label];
+        html += label + "='" + value + "'";
+    }
+
+    return html;
+  };
+
   this.update_settings = function(settings){
     $.extend(this.settings, settings);
   };
 
   this.update_templates = function(data){
 
-    data = data || {};
-    data.slides = this.generate_slides();
-    data.thumbnails = this.generate_thumbnails();
+    data                  = data || {};
     $.extend(data, this.settings);
-    data.total_slides = this.slides.length;
+    data.slides           = this.generate_slides();
+    data.thumbnails       = this.generate_thumbnails();
+    data.total_slides     = this.slides.length;
+    data.attributes       = this.generate_attributes();
 
     this.templates.stage     = nexus.get_template(this.settings.stage_template_selector);
     this.templates.stage     = nexus.parse_template(this.templates.stage, data);
@@ -359,9 +395,12 @@ function twentyfour_gallery (selector, options){
     this.templates.gallery   = nexus.parse_template(this.templates.gallery, data);
   };
 
-  this.init = function(selector){
+  this.init = function(selector,settings){
       this.selector = selector || this.settings.query_selector;
+      $.extend(this.settings, settings);
       this.container = $(selector).first();
+      this.attributes = this.container.attr();
+
       gallery = this;
 
       var slides = $(this.container).find(".slide");
@@ -376,7 +415,6 @@ function twentyfour_gallery (selector, options){
       this.stage      = $(this.container).find(">.stage");
       this.tray       = $(this.container).find(">.tray");
       this.media_bar  = $(this.container).find(">.media_bar");
-
       //todo sort out the buttons initialize function
       this.buttons.fullscreen = this.container.find(".icon.fullscreen");
       //console.debug($(this.element).outerHTML);
@@ -384,10 +422,11 @@ function twentyfour_gallery (selector, options){
       this.add_event_listeners();
       //todo allow for multiple results from selctor
       this.go_to_slide(0);
+      this.container.addClass("ready");
       return this;
   }.bind(this);
 
-  return this.init(selector);
+  return this.init(selector,settings);
 }
 
 

@@ -49,9 +49,15 @@
     <li><a href="http://www.netwerk24.com/nuus/2015-10-03-bokke-rol-skotte-maar-oortuig-nog-nie-copy">based on</a></li>
   </ol>
 </details>
+  <script>
+    console.group("TODO");
+    console.info("merge datasets");
+    console.info("merge classnames");
+    console.groupEnd();
+  </script>
 
   <script type="text/template" id="twentyfour_gallery_template">
-    <div class="twentyfour gallery ready" id="(#id#)">
+    <div id="(#id#)" (#attributes#)>
       (#stage#)
       (#tray#)
       (#media_bar#)
@@ -127,11 +133,12 @@
   </div>
 
   <script>
-
+    var test_case_gallery;
     $(document).ready(function(){
       var demo_gallery = new twentyfour_gallery('.nexus.gallery');
-      var test_case_gallery = new twentyfour_gallery("[data-embed24='Images']",{
-        thumbnail_selector:'img'
+      test_case_gallery = new twentyfour_gallery("[data-embed24='Images']",{
+        thumbnail_selector:'img',
+        show_speed:1000
       });
     });
 
