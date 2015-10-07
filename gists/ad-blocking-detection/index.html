@@ -1,157 +1,8 @@
 <html>
 <head>
   <title>Ad Blocking Detection Demo</title>
-  <style>
-
-    *{
-      -moz-box-sizing:border-box;
-      box-sizing:border-box;
-    }
-
-    html{
-      height:100%;
-      overflow:hidden;
-      font-family:Tahoma,Arial;
-    }
-    head{
-      display:block;
-    }
-
-    title:first-child{
-      display:block;
-      text-align:center;
-      margin:10px auto;
-      font-size:50px;
-      color:#4F4F4F;
-    }
-
-    body{
-      background: -webkit-linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* Chrome 10+, Saf5.1+ */
-      background:    -moz-linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* FF3.6+ */
-      background:     -ms-linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* IE10 */
-      background:      -o-linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* Opera 11.10+ */
-      background:         linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* W3C */
-    }
-
-    @-webkit-keyframes pulse {
-        0% {
-            -webkit-transform: scale3d(1,1,1);
-            transform: scale3d(1,1,1)
-        }
-
-        50% {
-            -webkit-transform: scale3d(1.05,1.05,1.05);
-            transform: scale3d(1.05,1.05,1.05)
-        }
-
-        100% {
-            -webkit-transform: scale3d(1,1,1);
-            transform: scale3d(1,1,1)
-        }
-    }
-
-    @keyframes pulse {
-        0% {
-            -webkit-transform: scale3d(1,1,1);
-            transform: scale3d(1,1,1)
-        }
-
-        50% {
-            -webkit-transform: scale3d(1.05,1.05,1.05);
-            transform: scale3d(1.05,1.05,1.05)
-        }
-
-        100% {
-            -webkit-transform: scale3d(1,1,1);
-            transform: scale3d(1,1,1)
-        }
-    }
-
-
-    .credits{
-      position:fixed;
-      bottom:10px;
-      right:10px;
-      color:black;
-      font-size:12px;
-    }
-
-    .notice{
-      display:block;
-      text-align:center;
-      border-radius:10px;
-      border:3px solid #51B983;
-      background-color:#41cb83;
-      color:white;
-      margin:5px auto;
-      width:550px;
-      height:60px;
-      line-height:60px;
-      font-size:30px;
-      margin:10px auto;
-      -webkit-animation-duration: 1s;
-      animation-duration: 1s;
-      animation-iteration-count: infinite;
-      -webkit-animation-iteration-count: infinite;
-      -webkit-animation-fill-mode: both;
-      animation-fill-mode: both
-      -webkit-animation-name: pulse;
-      animation-name: pulse;
-      display:none;
-    }
-
-    .notice.error{
-      background-color:#ff5548;
-      border-color:#B43F36;
-    }
-
-    body.ad_blocking .error{
-      display:block;
-    }
-
-    body.ads_visible .success{
-      display:block;
-    }
-
-    #test_results{
-      margin-top:50px;
-    }
-
-    #test_results>.title{
-      font-size:20px;
-    }
-
-    #test_results fieldset.group {
-        margin-top: 20px;
-    }
-
-    #test_results >.title + fieldset.group,
-    #test_results fieldset.group:first-child {
-        margin-top: 0px;
-    }
-
-    #test_results .result{
-      display:block;
-      margin-top:10px;
-      text-decoration: none;
-    }
-
-    #test_results .result img {
-        max-width: 20px;
-        max-height: 20px;
-        margin-right:10px;
-    }
-
-    #test_results .result input[type=checkbox] {
-        position: relative;
-        top: -3px;
-    }
-  </style>
+  <link rel=stylesheet href=styles.min.css />
   <script src="../jquery.min.js"></script>
-  <script>
-    document.write('<div id="adsense" style="visibility:hidden">yipee! an advertisement</div>');
-  </script>
-
 </head>
 <body>
   <div class="notice success">Ad Blocking software is NOT installed</div>
@@ -222,7 +73,7 @@
         <input type=checkbox>
         <img src="https://extensions.apple.com/home/images/ext-icons/adguard-notspam.png" />Adguard AdBlocker (buggy)
       </a>
-
+s
     </fieldset>
 
     <fieldset class=group>
@@ -245,18 +96,6 @@
 
     </fieldset>
   </div>
-  <!--Adblock Check-->
-  <script type="text/javascript"> jQuery(document).ready(checkAds());
-    function checkAds(){
-      if ($("#adsense").is(":visible")){
-        $("body").addClass("ads_visible");
-        //document.write("<script>_gaq.push(['_trackEvent', 'Adblock', 'Unblocked', 'false',,true]);</sc" + "ript>");
-      }else{
-        $("body").addClass("ad_blocking");
-        //document.write("<script>_gaq.push(['_trackEvent', 'Adblock', 'Blocked', 'true',,true]);</sc" + "ript>");
-      }
-    }
-  </script>
-  <!--End Adblock Check-->
+  <script src="scripts.min.js"></script>
 </body>
 </html>
