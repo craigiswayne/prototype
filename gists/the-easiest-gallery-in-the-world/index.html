@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="twentyfour_gallery.min.css" />
   <script src="../jquery.min.js"></script>
   <script src="twentyfour_gallery.min.js"></script>
-  <script src="demo.min.js"></script>
   <title>The Easiest Gallery In The World</title>
   <style>
     *{
@@ -60,17 +59,10 @@
         <li>hongikat slider</li>
         <li>use the jquery templating thang</li>
         <li>customizable jquery selector (setting)</li>
-        <li>gallery minimum of 2 gallery slides (setting)</li>
-        <li>auto init setting</li>
-        <li>autoplay setting</li>
-        <li>dataattribute settings</li>
-        <li>merge settings, gotta figure out the preference order</li>
         <li>multiple galleries on a single page</li>
         <li>templates must be embedded into the script</li>
         <li>autolink css min file (setting)</li>
         <li>check that the middle and left attributes work well</li>\
-        <li>merge datasets</li>
-        <li>merge classnames</li>
         <li>reinitialize</li>
         <li>check the fullscreen index (maybe setting?)</li>
         <li>when linking the css file, place just after the script file</li>
@@ -82,16 +74,10 @@
         <li>mobile lowend</li>
         <li>Lazy loading</li>
         <li>adjust the fullscreen feature</li>
-        <li>fix the fullscreen icon show</li>
+        <li>replace thumbnail with large image</li>
         <li>show the progress of the slide show when it plays?</li>
       </ol>
     </details>
-    <script>
-      console.group("TODO");
-      console.info("merge datasets");
-      console.info("merge classnames");
-      console.groupEnd();
-    </script>
 
     <script type="text/template" id="twentyfour_gallery_template">
       <div id="(#id#)" (#attributes#)>
@@ -158,7 +144,7 @@
   doing things that you probably think are cool when driving with your mates:
   &nbsp;YOU ARE NOT COOL. You belong in a school for ants where humans skate
   over ants on skateboards.</p>
-  <div contenteditable="false" data-embed24="Images" data-pos="middle" id="fe84075afirst" data-show_speed="10">
+  <div contenteditable="false" data-embed24="Images" data-pos="middle" id="fe84075afirst">
     <div class="slide">
       <img data-imageid="32d027aa-953c-4678-8edd-bbd939d24d57" data-imageurl="http://dev.cdn.24.co.za/files/Cms/General/d/3384/81ae2ed66f1e41929adccb58b546797b.jpg" src="http://dev.cdn.24.co.za/files/Cms/General/d/3384/bd5b156c5d2c4ebcb28540af5ec99e06.jpg" title="Pragtige Blom">
       <div class="caption">Pragtige Blom</div>
@@ -196,7 +182,7 @@
   vegetables through a sippy cup?</p><p>We know you're young and fearless and you probably feel as though you
   have some sort of guardian angel modified into your exhaust system who
   protects you from flying through your car window head-first into a lamp
-  post at 140 km's an hour.<div contenteditable="false" data-embed24="Images" data-pos="left" id="single_slide_left" data-show_speed="10">
+  post at 140 km's an hour.<div contenteditable="false" data-embed24="Images" data-pos="left" id="single_slide_left">
     <div class="slide">
       <img data-imageid="32d027aa-953c-4678-8edd-bbd939d24d57" data-imageurl="http://dev.cdn.24.co.za/files/Cms/General/d/3384/81ae2ed66f1e41929adccb58b546797b.jpg" src="http://dev.cdn.24.co.za/files/Cms/General/d/3384/bd5b156c5d2c4ebcb28540af5ec99e06.jpg" title="Pragtige Blom">
       <div class="caption">Pragtige Blom</div>
@@ -218,7 +204,7 @@
   gap year, leaving you behind, only for your mom to have to feed you puréed
   vegetables through a sippy cup?</p>
 
-  <p>Sorry to put a <div contenteditable="false" data-embed24="Images" data-pos="middle" id="single_slide" data-show_speed="10">
+  <p>Sorry to put a <div contenteditable="false" data-embed24="Images" data-pos="middle" id="single_slide">
     <div class="slide">
       <img data-imageid="32d027aa-953c-4678-8edd-bbd939d24d57" data-imageurl="http://dev.cdn.24.co.za/files/Cms/General/d/3384/81ae2ed66f1e41929adccb58b546797b.jpg" src="http://dev.cdn.24.co.za/files/Cms/General/d/3384/bd5b156c5d2c4ebcb28540af5ec99e06.jpg" title="Pragtige Blom">
       <div class="caption">Pragtige Blom</div>
@@ -233,7 +219,7 @@
 
   <p>Here's an idea: why don't you and all your fellow smart driving friends
   team up and make a point of telling your less intelligent driving friends
-  how stupid they look when they <div contenteditable="false" data-embed24="Images" data-pos="left" id="fe84075a" data-show_speed="10">
+  how stupid they look when they <div contenteditable="false" data-embed24="Images" data-pos="left" id="fe84075a">
     <div class="slide">
       <img data-imageid="32d027aa-953c-4678-8edd-bbd939d24d57" data-imageurl="http://dev.cdn.24.co.za/files/Cms/General/d/3384/81ae2ed66f1e41929adccb58b546797b.jpg" src="http://dev.cdn.24.co.za/files/Cms/General/d/3384/bd5b156c5d2c4ebcb28540af5ec99e06.jpg" title="Pragtige Blom">
       <div class="caption">Pragtige Blom</div>
@@ -310,8 +296,6 @@
   target="_blank">chatback@parent24.com</a></strong>.<em></em></p>
 
   <p><br></p>
-
-
 
     </div>
   </div>

@@ -190,6 +190,7 @@ $thumbnail_active_color:#00afea;
       top:0;
       border-color:black;
       border-width:1px;
+      font-size:16px;
 
       &:hover{
         background-color:$foreground_color_dark;
@@ -296,7 +297,7 @@ $thumbnail_active_color:#00afea;
 [data-embed24="Images"]{
   min-height:100px;
   display:block;
-  background-color:black;
+  background-color:$foreground_color_dark;
   font-size:13px;
   color:white;
   text-align: center;
