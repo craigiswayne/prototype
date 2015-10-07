@@ -6,130 +6,159 @@
   <link rel="stylesheet" href="twentyfour_gallery.min.css" />
   <script src="../jquery.min.js"></script>
   <script src="twentyfour_gallery.min.js"></script>
+  <script src="demo.min.js"></script>
   <title>The Easiest Gallery In The World</title>
   <style>
-    .twentyfour.gallery{
-      width:400px;
-      height:350px;
+    *{
+      box-sizing:border-box;
+      -moz-box-sizing:border-box;
     }
-    [data-embed24="Images"][data-pos="left"]{
-      float:left;
-      margin:0 10px 10px 0;
+    html{
+      background-color:#efefef;
+    }
+    body{
+      padding:10px;
+      background-color:white;
+      width:980px;
+      display:block;
+      margin:20px auto;
+      box-shadow: -2px 2px 5px 0 rgba(0,0,0,0.2);
+      font-family:Tahoma, Arial;
     }
 
-    [data-embed24="Images"][data-pos="left"] + *{
-      clear:both;
+    #left_column, #right_column{
+      display:inline-block;
+      vertical-align: top;
+      min-height:100%;
+    }
+
+    #left_column{
+      width:650px;
+      background-color:#f9f9f9;
+      padding:10px;
+    }
+
+    #right_column{
+      width:300px;
+      background-color: #f2f2f2;
     }
   </style>
 </head>
 
 <body>
-  <details closed>
-    <summary>Notes</summary>
-  <ol>
-    <li><a href="http://www.fin24.com/Wealth-and-Investment/In-studio/What-super-rich-want-in-top-estates-20151006">another example of existing gallery</a></li>
-    <li>use the jquery template function</li>
-    <li><a href="http://trunk.netwerk24.com/Nuus/Wereld/Na-7-jaar-van-hel-in-oorsese-tronk-sit-sy-siek-op-straat-20150908">an example article with a gallery component</a</li>
-    <li>based on the anything slideer... <a href="http://css-tricks.github.io/AnythingSlider/#&panel1-2&panel2-5">link</a></li>
-    <li>templates must be used whereever possible for the components of the slider</li>
-    <li>slides must also be able to contain html</li>
-    <li>responsive</li>
-    <li>swipe left and right</li>
-    <li>hongikat slider</li>
-    <li>use the jquery templating thang</li>
-    <li>customizable jquery selector (setting)</li>
-    <li>gallery minimum of 2 gallery slides (setting)</li>
-    <li>auto init setting</li>
-    <li>autoplay setting</li>
-    <li>dataattribute settings</li>
-    <li>merge settings, gotta figure out the preference order</li>
-    <li>multiple galleries on a single page</li>
-    <li>templates must be embedded into the script</li>
-    <li>autolink css min file (setting)</li>
-    <li>check that the middle and left attributes work well</li>\
-    <li>merge datasets</li>
-    <li>merge classnames</li>
-    <li>reinitialize</li>
-    <li>check the fullscreen index (maybe setting?)</li>
-    <li>when linking the css file, place just after the script file</li>
-    <li>test all browsers</li>
-    <li>bookmarking fullscreen galleries?</li>
-    <li><a href="http://www.netwerk24.com/nuus/2015-10-03-bokke-rol-skotte-maar-oortuig-nog-nie-copy">based on</a></li>
-  </ol>
-</details>
-  <script>
-    console.group("TODO");
-    console.info("merge datasets");
-    console.info("merge classnames");
-    console.groupEnd();
-  </script>
+  <div id="left_column">
+    <details closed>
+      <summary>Notes</summary>
+      <ol>
+        <li><a href="http://www.fin24.com/Wealth-and-Investment/In-studio/What-super-rich-want-in-top-estates-20151006">another example of existing gallery</a></li>
+        <li>use the jquery template function</li>
+        <li><a href="http://trunk.netwerk24.com/Nuus/Wereld/Na-7-jaar-van-hel-in-oorsese-tronk-sit-sy-siek-op-straat-20150908">an example article with a gallery component</a</li>
+        <li>based on the anything slideer... <a href="http://css-tricks.github.io/AnythingSlider/#&panel1-2&panel2-5">link</a></li>
+        <li>templates must be used whereever possible for the components of the slider</li>
+        <li>responsive</li>
+        <li>swipe left and right</li>
+        <li>hongikat slider</li>
+        <li>use the jquery templating thang</li>
+        <li>customizable jquery selector (setting)</li>
+        <li>gallery minimum of 2 gallery slides (setting)</li>
+        <li>auto init setting</li>
+        <li>autoplay setting</li>
+        <li>dataattribute settings</li>
+        <li>merge settings, gotta figure out the preference order</li>
+        <li>multiple galleries on a single page</li>
+        <li>templates must be embedded into the script</li>
+        <li>autolink css min file (setting)</li>
+        <li>check that the middle and left attributes work well</li>\
+        <li>merge datasets</li>
+        <li>merge classnames</li>
+        <li>reinitialize</li>
+        <li>check the fullscreen index (maybe setting?)</li>
+        <li>when linking the css file, place just after the script file</li>
+        <li>test all browsers</li>
+        <li>bookmarking fullscreen galleries?</li>
+        <li><a href="http://www.netwerk24.com/nuus/2015-10-03-bokke-rol-skotte-maar-oortuig-nog-nie-copy">based on</a></li>
+        <li>should mobile swipe be allowed?</li>
+        <li>dont forget about mobile highend</li>
+        <li>mobile lowend</li>
+        <li>Lazy loading</li>
+        <li>adjust the fullscreen feature</li>
+        <li>fix the fullscreen icon show</li>
+        <li>show the progress of the slide show when it plays?</li>
+      </ol>
+    </details>
+    <script>
+      console.group("TODO");
+      console.info("merge datasets");
+      console.info("merge classnames");
+      console.groupEnd();
+    </script>
 
-  <script type="text/template" id="twentyfour_gallery_template">
-    <div id="(#id#)" (#attributes#)>
-      (#stage#)
-      (#tray#)
-      (#media_bar#)
-    </div>
-  </script>
-
-  <script type="text/template" id="twentyfour_gallery_stage_template">
-    <div class="stage">
-      <div class="fullscreen toggler icon (#fullscreen_icon_class#)"></div>
-      <div class="action_area nav left">
-        <div class="icon left (#nav_left_icon_class#)"></div>
+    <script type="text/template" id="twentyfour_gallery_template">
+      <div id="(#id#)" (#attributes#)>
+        (#stage#)
+        (#tray#)
+        (#media_bar#)
       </div>
-      <div class="slider">(#slides#)</div>
-      <div class="action_area nav right">
-        <div class="icon right (#nav_right_icon_class#)"></div>
+    </script>
+
+    <script type="text/template" id="twentyfour_gallery_stage_template">
+      <div class="stage">
+        <div class="fullscreen toggler icon (#fullscreen_icon_class#)"></div>
+        <div class="action_area nav left">
+          <div class="icon left (#nav_left_icon_class#)"></div>
+        </div>
+        <div class="slider">(#slides#)</div>
+        <div class="action_area nav right">
+          <div class="icon right (#nav_right_icon_class#)"></div>
+        </div>
       </div>
-    </div>
-  </script>
+    </script>
 
-  <script type="text/template" id="twentyfour_gallery_tray_template">
-    <div class="tray">
+    <script type="text/template" id="twentyfour_gallery_tray_template">
+      <div class="tray">
 
-      <div class="action_area nav left">
-        <div class="icon (#nav_left_icon_class#)"></div>
+        <div class="action_area nav left">
+          <div class="icon (#nav_left_icon_class#)"></div>
+        </div>
+
+        <div class="slider">(#thumbnails#)</div>
+
+        <div class="action_area nav right">
+          <div class="icon (#nav_right_icon_class#)"></div>
+        </div>
+
       </div>
+    </script>
 
-      <div class="slider">(#thumbnails#)</div>
-
-      <div class="action_area nav right">
-        <div class="icon (#nav_right_icon_class#)"></div>
+    <script type="text/template" id="twentyfour_gallery_media_bar_template">
+      <div class="media_bar">
+        <div class="play_pause_toggle toggler button"><span class="icon play (#play_icon_class#)"></span><span class="icon pause (#pause_icon_class#)"></span></div>
+        <div class="status"><span class=current>1</span>/<span class="total">(#total_slides#)</span></div>
+        <div class="tray_toggle toggler button icon (#toggle_tray_icon_class#)"></div>
       </div>
+    </script>
 
-    </div>
-  </script>
+    <div class="content">
 
-  <script type="text/template" id="twentyfour_gallery_media_bar_template">
-    <div class="media_bar">
-      <div class="play_pause_toggle toggler button"><span class="icon play (#play_icon_class#)"></span><span class="icon pause (#pause_icon_class#)"></span></div>
-      <div class="status"><span class=current>1</span>/<span class="total">(#total_slides#)</span></div>
-      <div class="tray_toggle toggler button icon (#toggle_tray_icon_class#)"></div>
-    </div>
-  </script>
 
-  <div class="nexus gallery" id="demogallery">
-    <div class=slide><img src="images/hongqiao1.jpg" title="hongqiao1.jpg"/></div>
-    <img src="images/hongqiao2.jpg" title="hongqiao2.jpg" class="slide"/>
-    <img src="images/hongqiao3.jpg" title="hongqiao3.jpg" class="slide"/>
-    <img src="images/hongqiao4.jpg" title="hongqiao4.jpg" class="slide"/>
-    <img src="images/hongqiao5.jpg" title="hongqiao5.jpg" class="slide"/>
-    <img src="images/hongqiao6.jpg" title="hongqiao6.jpg" class="slide"/>
-    <img src="images/hongqiao7.jpg" title="hongqiao7.jpg" class="slide"/>
-    <img src="images/hongqiao8.jpg" title="hongqiao8.jpg" class="slide"/>
-    <img src="images/large_1.jpg" title="large_1.jpg" class="slide"/>
-    <img src="images/large_2.jpg" title="large_2.jpg" class="slide"/>
-    <img src="images/large_3.jpg" title="large_3.jpg" class="slide"/>
-    <img src="images/large_4.jpg" title="large_4.jpg" class="slide"/>
-    <img src="images/large_5.jpg" title="large_5.jpg" class="slide"/>
-    <img src="images/large_6.jpg" title="large_6.jpg" class="slide"/>
-    <img src="images/large_7.jpg" title="large_7.jpg" class="slide"/>
-    <img src="images/large_8.jpg" title="large_8.jpg" class="slide"/>
-    <img src="images/large_9.jpg" title="large_9.jpg" class="slide"/>
-  </div>
 
-  <div contenteditable="false" data-embed24="Images" data-pos="left" id="fe84075a" data-show_speed="10">
+      <p>It’s becoming a familiar scenario, even in school parking areas, where
+  you narrowly miss being knocked over by an obnoxious 18-year-old driver
+  who’s roaring towards the school gates.<br></p>
+
+  <p>I’d like to appeal to the parents of new drivers when I say, “drive like
+  a retard and so will your kids.”</p>
+
+  <p><strong>Read more: <a href=
+  "http://www.parent24.com/Preschool_2-6/development_behaviour/DONT-try-this-at-home-20150731"
+  target="_blank">DON'T try this at home</a></strong></p>
+
+  <p>And to the new teenage drivers who have no clue how quick and easy it is
+  to land up in a coma (at best) or to kill yourself and others (at worst) by
+  doing things that you probably think are cool when driving with your mates:
+  &nbsp;YOU ARE NOT COOL. You belong in a school for ants where humans skate
+  over ants on skateboards.</p>
+  <div contenteditable="false" data-embed24="Images" data-pos="middle" id="fe84075afirst" data-show_speed="10">
     <div class="slide">
       <img data-imageid="32d027aa-953c-4678-8edd-bbd939d24d57" data-imageurl="http://dev.cdn.24.co.za/files/Cms/General/d/3384/81ae2ed66f1e41929adccb58b546797b.jpg" src="http://dev.cdn.24.co.za/files/Cms/General/d/3384/bd5b156c5d2c4ebcb28540af5ec99e06.jpg" title="Pragtige Blom">
       <div class="caption">Pragtige Blom</div>
@@ -139,17 +168,153 @@
       <div class="caption">Pragtige Woestyn</div>
     </div>
   </div>
+  <p>We know you're young and fearless and you probably feel as though you
+  have some sort of guardian angel modified into your exhaust system who
+  protects you from flying through your car window head-first into a lamp
+  post at 140 km's an hour. Have you ever considered what life might be like
+  stuck in a wheel chair while all your friends head off overseas for their
+  gap year, leaving you behind, only for your mom to have to feed you puréed
+  vegetables through a sippy cup?</p>
+  <p>We know you're young and fearless and you probably feel as though you
+  have some sort of guardian angel modified into your exhaust system who
+  protects you from flying through your car window head-first into a lamp
+  post at 140 km's an hour. Have you ever considered what life might be like
+  stuck in a wheel chair while all your friends head off overseas for their
+  gap year, leaving you behind, only for your mom to have to feed you puréed
+  vegetables through a sippy cup?</p><p>We know you're young and fearless and you probably feel as though you
+  have some sort of guardian angel modified into your exhaust system who
+  protects you from flying through your car window head-first into a lamp
+  post at 140 km's an hour. Have you ever considered what life might be like
+  stuck in a wheel chair while all your friends head off overseas for their
+  gap year, leaving you behind, only for your mom to have to feed you puréed
+  vegetables through a sippy cup?</p><p>We know you're young and fearless and you probably feel as though you
+  have some sort of guardian angel modified into your exhaust system who
+  protects you from flying through your car window head-first into a lamp
+  post at 140 km's an hour. Have you ever considered what life might be like
+  stuck in a wheel chair while all your friends head off overseas for their
+  gap year, leaving you behind, only for your mom to have to feed you puréed
+  vegetables through a sippy cup?</p><p>We know you're young and fearless and you probably feel as though you
+  have some sort of guardian angel modified into your exhaust system who
+  protects you from flying through your car window head-first into a lamp
+  post at 140 km's an hour.<div contenteditable="false" data-embed24="Images" data-pos="left" id="single_slide_left" data-show_speed="10">
+    <div class="slide">
+      <img data-imageid="32d027aa-953c-4678-8edd-bbd939d24d57" data-imageurl="http://dev.cdn.24.co.za/files/Cms/General/d/3384/81ae2ed66f1e41929adccb58b546797b.jpg" src="http://dev.cdn.24.co.za/files/Cms/General/d/3384/bd5b156c5d2c4ebcb28540af5ec99e06.jpg" title="Pragtige Blom">
+      <div class="caption">Pragtige Blom</div>
+    </div>
+  </div> Have you ever considered what life might be like
+  stuck in a wheel chair while all your friends head off overseas for their
+  gap year, leaving you behind, only for your mom to have to feed you puréed
+  vegetables through a sippy cup?</p><p>We know you're young and fearless and you probably feel as though you
+  have some sort of guardian angel modified into your exhaust system who
+  protects you from flying through your car window head-first into a lamp
+  post at 140 km's an hour. Have you ever considered what life might be like
+  stuck in a wheel chair while all your friends head off overseas for their
+  gap year, leaving you behind, only for your mom to have to feed you puréed
+  vegetables through a sippy cup?</p><p>We know you're young and fearless and you probably feel as though you
+  have some sort of guardian angel modified into your exhaust system who
+  protects you from flying through your car window head-first into a lamp
+  post at 140 km's an hour. Have you ever considered what life might be like
+  stuck in a wheel chair while all your friends head off overseas for their
+  gap year, leaving you behind, only for your mom to have to feed you puréed
+  vegetables through a sippy cup?</p>
 
-  <script>
-    var test_case_gallery;
-    $(document).ready(function(){
-      var demo_gallery = new twentyfour_gallery('.nexus.gallery');
-      test_case_gallery = new twentyfour_gallery("[data-embed24='Images']",{
-        thumbnail_selector:'img',
-        show_speed:1000
-      });
-    });
+  <p>Sorry to put a <div contenteditable="false" data-embed24="Images" data-pos="middle" id="single_slide" data-show_speed="10">
+    <div class="slide">
+      <img data-imageid="32d027aa-953c-4678-8edd-bbd939d24d57" data-imageurl="http://dev.cdn.24.co.za/files/Cms/General/d/3384/81ae2ed66f1e41929adccb58b546797b.jpg" src="http://dev.cdn.24.co.za/files/Cms/General/d/3384/bd5b156c5d2c4ebcb28540af5ec99e06.jpg" title="Pragtige Blom">
+      <div class="caption">Pragtige Blom</div>
+    </div>
+  </div>damper on your day, kids, but this has to stop.</p>
 
-  </script>
+  <p>Perhaps you're not one of those sorts of drivers and you do your best to
+  be vigilant and smart when driving, in which case I applaud and thank you
+  for saving lives today.&nbsp;</p>
+
+
+
+  <p>Here's an idea: why don't you and all your fellow smart driving friends
+  team up and make a point of telling your less intelligent driving friends
+  how stupid they look when they <div contenteditable="false" data-embed24="Images" data-pos="left" id="fe84075a" data-show_speed="10">
+    <div class="slide">
+      <img data-imageid="32d027aa-953c-4678-8edd-bbd939d24d57" data-imageurl="http://dev.cdn.24.co.za/files/Cms/General/d/3384/81ae2ed66f1e41929adccb58b546797b.jpg" src="http://dev.cdn.24.co.za/files/Cms/General/d/3384/bd5b156c5d2c4ebcb28540af5ec99e06.jpg" title="Pragtige Blom">
+      <div class="caption">Pragtige Blom</div>
+    </div>
+    <div class="slide">
+      <img data-imageid="6269b671-6b20-46d0-861b-5d3a377694ee" data-imageurl="http://dev.cdn.24.co.za/files/Cms/General/d/3384/5995de8cee55450c9eefcd55481bb2b0.jpg" src="http://dev.cdn.24.co.za/files/Cms/General/d/3384/695360a15b8e480eb30434a30dbe41f2.jpg" title="Pragtige Woestyn">
+      <div class="caption">Pragtige Woestyn</div>
+    </div>
+  </div> aksjd kasaslkdl; asjdl kashdljashd jhaqs jkdha kjxdh akjshd kjashd kajhd ajshd ajhd jkahd akjsdh akjsdyh j dklajs dklasj dlkaj dlkaj xdlkajs dlkja slkdja lkdj alksdj alksdj laksjd alksjd laksjd dodge red robots or attempt wheel spins
+  through the school grounds while blasting music that would prevent them
+  from noticing a zombie apocalypse emeaksjd kasaslkdl; asjdl kashdljashd jhaqs jkdha kjxdh akjshd kjashd kajhd ajshd ajhd jkahd akjsdh akjsdyh j dklajs dklasj dlkaj dlkaj xdlkajs dlkja slkdja lkdj alksdj alksdj laksjd alksjd laksjd dodge red robots or attempt wheel spins
+  through the school grounds while blasting music that would prevent them
+  from noticing a zombie apocalypse emeaksjd kasaslkdl; asjdl kashdljashd jhaqs jkdha kjxdh akjshd kjashd kajhd ajshd ajhd jkahd akjsdh akjsdyh j dklajs dklasj dlkaj dlkaj xdlkajs dlkja slkdja lkdj alksdj alksdj laksjd alksjd laksjd dodge red robots or attempt wheel spins
+  through the school grounds while blasting music that would prevent them
+  from noticing a zombie apocalypse emeaksjd kasaslkdl; asjdl kashdljashd jhaqs jkdha kjxdh akjshd kjashd kajhd ajshd ajhd jkahd akjsdh akjsdyh j dklajs dklasj dlkaj dlkaj xdlkajs dlkja slkdja lkdj alksdj alksdj laksjd alksjd laksjd dodge red robots or attempt wheel spins
+  through the school grounds while blasting music that would prevent them
+  from noticing a zombie apocalypse emeaksjd kasaslkdl; asjdl kashdljashd jhaqs jkdha kjxdh akjshd kjashd kajhd ajshd ajhd jkahd akjsdh akjsdyh j dklajs dklasj dlkaj dlkaj xdlkajs dlkja slkdja lkdj alksdj alksdj laksjd alksjd laksjd dodge red robots or attempt wheel spins
+  through the school grounds while blasting music that would prevent them
+  from noticing a zombie apocalypse emeaksjd kasaslkdl; asjdl kashdljashd jhaqs jkdha kjxdh akjshd kjashd kajhd ajshd ajhd jkahd akjsdh akjsdyh j dklajs dklasj dlkaj dlkaj xdlkajs dlkja slkdja lkdj alksdj alksdj laksjd alksjd laksjd dodge red robots or attempt wheel spins
+  through the school grounds while blasting music that would prevent them
+  from noticing a zombie apocalypse emeaksjd kasaslkdl; asjdl kashdljashd jhaqs jkdha kjxdh akjshd kjashd kajhd ajshd ajhd jkahd akjsdh akjsdyh j dklajs dklasj dlkaj dlkaj xdlkajs dlkja slkdja lkdj alksdj alksdj laksjd alksjd laksjd dodge red robots or attempt wheel spins
+  through the school grounds while blasting music that would prevent them
+  from noticing a zombie apocalypse emeaksjd kasaslkdl; asjdl kashdljashd jhaqs jkdha kjxdh akjshd kjashd kajhd ajshd ajhd jkahd akjsdh akjsdyh j dklajs dklasj dlkaj dlkaj xdlkajs dlkja slkdja lkdj alksdj alksdj laksjd alksjd laksjd dodge red robots or attempt wheel spins
+  through the school grounds while blasting music that would prevent them
+  from noticing a zombie apocalypse emerging from their car engine?</p>
+
+  <p>And to those of you who aren't yet driving: if you get into a car with
+  someone who you suspect is under the influence or someone who you know has
+  bad driving habits, DON'T EVER THINK for a second that it's 'not cool' to
+  ask the driver to stop the car. Wait until your parents (or an Uber) or
+  someone with half a brain can come and get you. (Also tell the driver what
+  a loser he or she is once you're out of the car). &nbsp;&nbsp;</p>
+
+  <p>Now that that’s out of the way let’s chat about how to be a responsible
+  (really cool) teen driver who everyone will love and aspire to be like
+  because... well because you still have your arms and legs. Thanks to your
+  (very cool) safe and mature driving skills, you also care about other
+  people on the road. This means that you don’t ever do any of the following
+  (seriously UNCOOL) things:</p>
+
+  <p><strong>Speeding</strong> through orange robots (lame).</p>
+
+  <p><strong>Blasting loud music</strong> that stops you from hearing
+  important sirens or things happening around you (retard).&nbsp;</p>
+
+  <p><strong>Not wearing a seat belt</strong>&nbsp;(ha...flying teens with
+  missing teeth...awesome).&nbsp;</p>
+
+  <p>Dangerous <strong>wheel spins and turns</strong>&nbsp;(well, you could
+  always haunt Tiger Tiger if you really miss it when you're gone).
+  &nbsp;</p>
+
+  <p><strong>Never checking</strong> a blind spot (because you're too lazy
+  and too busy texting).&nbsp;</p>
+
+  <p><strong>Texting</strong> and driving (you're not good at multitasking,
+  you're just stupid. Also lame).&nbsp;</p>
+
+  <p>Driving too far or <strong>too close to the steering
+  wheel</strong>&nbsp;(You're not a Granny, nor are you Snoop Dog, so get
+  over it and drive as if driving responsibly means that you'll never have to
+  face a hospital bed, a wheel chair or a prison cell for the rest of your
+  life).&nbsp;</p>
+
+  <p>Be smart, be safe, stay cool and remember: bad driving habits = bad
+  accidents.&nbsp;</p>
+
+  <p><em>Disclaimer: The views of columnists published on Parent24 are their
+  own and therefore do not necessarily represent the views of
+  Parent24.</em></p>
+
+  <p><strong>Are you teaching your teen good driving habits?</strong>
+  <strong>Send us your comment to&nbsp;<a href="mailto:chatback@parent24.com"
+  target="_blank">chatback@parent24.com</a></strong>.<em></em></p>
+
+  <p><br></p>
+
+
+
+    </div>
+  </div>
+  <div id=right_column></div>
 </body>
 </html>
