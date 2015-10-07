@@ -3,9 +3,10 @@
 <head>
 
   <link rel="stylesheet" href="../fonts/nexus_icons/style.css" />
-  <link rel="stylesheet" href="twentyfour_gallery.min.css" />
-  <script src="../jquery.min.js"></script>
-  <script src="twentyfour_gallery.min.js"></script>
+
+  <script src="../jquery-1.11.3.min.js"></script>
+  <script src="twentyfour_gallery.js"></script>
+  <link rel=stylesheet href="twentyfour_gallery.min.css" />
   <title>The Easiest Gallery In The World</title>
   <style>
     *{
@@ -49,23 +50,19 @@
     <details closed>
       <summary>Notes</summary>
       <ol>
+        <li>use only min files</li>
+        <li>inject css</li>
         <li><a href="http://www.fin24.com/Wealth-and-Investment/In-studio/What-super-rich-want-in-top-estates-20151006">another example of existing gallery</a></li>
         <li>use the jquery template function</li>
         <li><a href="http://trunk.netwerk24.com/Nuus/Wereld/Na-7-jaar-van-hel-in-oorsese-tronk-sit-sy-siek-op-straat-20150908">an example article with a gallery component</a</li>
         <li>based on the anything slideer... <a href="http://css-tricks.github.io/AnythingSlider/#&panel1-2&panel2-5">link</a></li>
-        <li>templates must be used whereever possible for the components of the slider</li>
+
         <li>responsive</li>
         <li>swipe left and right</li>
         <li>hongikat slider</li>
         <li>use the jquery templating thang</li>
         <li>customizable jquery selector (setting)</li>
-        <li>multiple galleries on a single page</li>
-        <li>templates must be embedded into the script</li>
-        <li>autolink css min file (setting)</li>
-        <li>check that the middle and left attributes work well</li>\
-        <li>reinitialize</li>
         <li>check the fullscreen index (maybe setting?)</li>
-        <li>when linking the css file, place just after the script file</li>
         <li>test all browsers</li>
         <li>bookmarking fullscreen galleries?</li>
         <li><a href="http://www.netwerk24.com/nuus/2015-10-03-bokke-rol-skotte-maar-oortuig-nog-nie-copy">based on</a></li>
@@ -76,53 +73,9 @@
         <li>adjust the fullscreen feature</li>
         <li>replace thumbnail with large image</li>
         <li>show the progress of the slide show when it plays?</li>
+        <li>maybe remove get template function</li>
       </ol>
     </details>
-
-    <script type="text/template" id="twentyfour_gallery_template">
-      <div id="(#id#)" (#attributes#)>
-        (#stage#)
-        (#tray#)
-        (#media_bar#)
-      </div>
-    </script>
-
-    <script type="text/template" id="twentyfour_gallery_stage_template">
-      <div class="stage">
-        <div class="fullscreen toggler icon (#fullscreen_icon_class#)"></div>
-        <div class="action_area nav left">
-          <div class="icon left (#nav_left_icon_class#)"></div>
-        </div>
-        <div class="slider">(#slides#)</div>
-        <div class="action_area nav right">
-          <div class="icon right (#nav_right_icon_class#)"></div>
-        </div>
-      </div>
-    </script>
-
-    <script type="text/template" id="twentyfour_gallery_tray_template">
-      <div class="tray">
-
-        <div class="action_area nav left">
-          <div class="icon (#nav_left_icon_class#)"></div>
-        </div>
-
-        <div class="slider">(#thumbnails#)</div>
-
-        <div class="action_area nav right">
-          <div class="icon (#nav_right_icon_class#)"></div>
-        </div>
-
-      </div>
-    </script>
-
-    <script type="text/template" id="twentyfour_gallery_media_bar_template">
-      <div class="media_bar">
-        <div class="play_pause_toggle toggler button"><span class="icon play (#play_icon_class#)"></span><span class="icon pause (#pause_icon_class#)"></span></div>
-        <div class="status"><span class=current>1</span>/<span class="total">(#total_slides#)</span></div>
-        <div class="tray_toggle toggler button icon (#toggle_tray_icon_class#)"></div>
-      </div>
-    </script>
 
     <div class="content">
 
