@@ -1,0 +1,262 @@
+<html>
+<head>
+  <title>Ad Blocking Detection Demo</title>
+  <style>
+
+    *{
+      -moz-box-sizing:border-box;
+      box-sizing:border-box;
+    }
+
+    html{
+      height:100%;
+      overflow:hidden;
+      font-family:Tahoma,Arial;
+    }
+    head{
+      display:block;
+    }
+
+    title:first-child{
+      display:block;
+      text-align:center;
+      margin:10px auto;
+      font-size:50px;
+      color:#4F4F4F;
+    }
+
+    body{
+      background: -webkit-linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* Chrome 10+, Saf5.1+ */
+      background:    -moz-linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* FF3.6+ */
+      background:     -ms-linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* IE10 */
+      background:      -o-linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* Opera 11.10+ */
+      background:         linear-gradient(90deg, #ECE9E6 10%, #FFFFFF 90%); /* W3C */
+    }
+
+    @-webkit-keyframes pulse {
+        0% {
+            -webkit-transform: scale3d(1,1,1);
+            transform: scale3d(1,1,1)
+        }
+
+        50% {
+            -webkit-transform: scale3d(1.05,1.05,1.05);
+            transform: scale3d(1.05,1.05,1.05)
+        }
+
+        100% {
+            -webkit-transform: scale3d(1,1,1);
+            transform: scale3d(1,1,1)
+        }
+    }
+
+    @keyframes pulse {
+        0% {
+            -webkit-transform: scale3d(1,1,1);
+            transform: scale3d(1,1,1)
+        }
+
+        50% {
+            -webkit-transform: scale3d(1.05,1.05,1.05);
+            transform: scale3d(1.05,1.05,1.05)
+        }
+
+        100% {
+            -webkit-transform: scale3d(1,1,1);
+            transform: scale3d(1,1,1)
+        }
+    }
+
+
+    .credits{
+      position:fixed;
+      bottom:10px;
+      right:10px;
+      color:black;
+      font-size:12px;
+    }
+
+    .notice{
+      display:block;
+      text-align:center;
+      border-radius:10px;
+      border:3px solid #51B983;
+      background-color:#41cb83;
+      color:white;
+      margin:5px auto;
+      width:550px;
+      height:60px;
+      line-height:60px;
+      font-size:30px;
+      margin:10px auto;
+      -webkit-animation-duration: 1s;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+      -webkit-animation-iteration-count: infinite;
+      -webkit-animation-fill-mode: both;
+      animation-fill-mode: both
+      -webkit-animation-name: pulse;
+      animation-name: pulse;
+      display:none;
+    }
+
+    .notice.error{
+      background-color:#ff5548;
+      border-color:#B43F36;
+    }
+
+    body.ad_blocking .error{
+      display:block;
+    }
+
+    body.ads_visible .success{
+      display:block;
+    }
+
+    #test_results{
+      margin-top:50px;
+    }
+
+    #test_results>.title{
+      font-size:20px;
+    }
+
+    #test_results fieldset.group {
+        margin-top: 20px;
+    }
+
+    #test_results >.title + fieldset.group,
+    #test_results fieldset.group:first-child {
+        margin-top: 0px;
+    }
+
+    #test_results .result{
+      display:block;
+      margin-top:10px;
+      text-decoration: none;
+    }
+
+    #test_results .result img {
+        max-width: 20px;
+        max-height: 20px;
+        margin-right:10px;
+    }
+
+    #test_results .result input[type=checkbox] {
+        position: relative;
+        top: -3px;
+    }
+  </style>
+  <script src="../jquery.min.js"></script>
+  <script>
+    document.write('<div id="adsense" style="visibility:hidden">yipee! an advertisement</div>');
+  </script>
+
+</head>
+<body>
+  <div class="notice success">Ad Blocking software is NOT installed</div>
+
+  <div class="notice error">Ad Blocking software is installed</div>
+
+  <div class="credits">
+    gradient provided by: <a href="http://uigradients.com/#Clouds" target="_blank">uiGraidents</a> |
+    animation provided by: <a href="https://daneden.github.io/animate.css/" target="_blank">Animate.css</a>
+  </div>
+
+  <div id="test_results">
+    <div class=title>Test Results</div>
+    <fieldset class=group>
+      <legend class=title>Chrome on Windows</legend>
+
+      <a class=result target="_blank" href="https://chrome.google.com/webstore/detail/adblock-pro/ocifcklkibdehekfnmflempfgjhbedch">
+        <input type=checkbox checked=checked>
+        <img src="https://lh3.googleusercontent.com/adNdbLAPC9rdHIxcqIqMk07La-BA45P8_QRgl-4UL5f_TjToPEzWdOmJuMdJDRDs-4YUf0vn2Q=s26-h26-e365-rw" />Ad Block Pro
+      </a>
+
+      <a class=result target="_blank" href="https://chrome.google.com/webstore/detail/adblock/gighmmpiobklfepjocnamgkkbiglidom">
+        <input type=checkbox checked=checked>
+        <img src="https://extensions.apple.com/home/images/ext-icons/adblock_20101221.png" />AdBlock
+      </a>
+
+      <a class=result target="_blank" href="https://chrome.google.com/webstore/detail/adblock-plus/cfhdojbkjhnklbpkdaibdccddilifddb">
+        <input type=checkbox checked=checked>
+        <img src="https://extensions.apple.com/home/images/ext-icons/adblockplus.png" />AdBlock Plus
+      </a>
+
+    </fieldset>
+
+    <fieldset class=group>
+      <legend class=title>Firefox on Windows</legend>
+
+      <a class=result target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/adblock-plus/">
+        <input type=checkbox checked=checked>
+        <img src="https://extensions.apple.com/home/images/ext-icons/adblockplus.png" />Ad Block Plus
+      </a>
+
+      <a class=result target="_blank" href="https://addons.mozilla.org/en-us/firefox/addon/adblock-edge/">
+        <input type=checkbox>
+        <img src="https://bitbucket-assetroot.s3.amazonaws.com/c/photos/2014/Feb/16/adblockedge-logo-1231619658-2_avatar.png" />Ad Block Edge
+      </a>
+
+    </fieldset>
+
+    <fieldset class=group>
+      <legend class=title>Safari on Windows</legend>
+
+      <a class=result target="_blank" href="https://extensions.apple.com/details/?id=com.betafish.adblockforsafari-UAMUU4S2D9">
+        <input type=checkbox checked=checked>
+        <img src="https://extensions.apple.com/home/images/ext-icons/adblock_20101221.png" />Ad Block
+      </a>
+
+      <a class=result target="_blank" href="https://extensions.apple.com/details/?id=org.adblockplus.adblockplussafari-GRYYZR985A">
+        <input type=checkbox checked=checked>
+        <img src="https://extensions.apple.com/home/images/ext-icons/adblockplus.png" />Adblock Plus
+      </a>
+
+      <a class=result target="_blank" href="https://extensions.apple.com/details/?id=com.add0n.adblock-76829B2D75">
+        <input type=checkbox>
+        <img src="https://extensions.apple.com/home/images/ext-icons/adblocklite.png" />AdBlock Lite
+      </a>
+
+      <a class=result target="_blank" href="https://extensions.apple.com/details/?id=com.adguard.safari-N33TQXN8C7">
+        <input type=checkbox>
+        <img src="https://extensions.apple.com/home/images/ext-icons/adguard-notspam.png" />Adguard AdBlocker (buggy)
+      </a>
+
+    </fieldset>
+
+    <fieldset class=group>
+      <legend class=title>Opera on Windows</legend>
+
+      <a class=result target="_blank" href="https://addons.opera.com/en/extensions/details/opera-adblock/?display=el#">
+        <input type=checkbox checked=checked>
+        <img src="https://extensions.apple.com/home/images/ext-icons/adblockplus.png" />Adblock Plus
+      </a>
+
+      <a class=result target="_blank" href="https://addons.opera.com/en/extensions/details/adblockforopera/?display=en">
+        <input type=checkbox checked=checked>
+        <img src="https://extensions.apple.com/home/images/ext-icons/adblock_20101221.png" />Ad Block
+      </a>
+
+      <a class=result target="_blank" href="https://addons.opera.com/en/extensions/details/adguard/?display=en">
+        <input type=checkbox checked=checked>
+        <img src="https://addons.opera.com/media/extensions/65/134665/2.0.15-rev1/icons/icon_64x64.png" />Adguard
+      </a>
+
+    </fieldset>
+  </div>
+  <!--Adblock Check-->
+  <script type="text/javascript"> jQuery(document).ready(checkAds());
+    function checkAds(){
+      if ($("#adsense").is(":visible")){
+        $("body").addClass("ads_visible");
+        //document.write("<script>_gaq.push(['_trackEvent', 'Adblock', 'Unblocked', 'false',,true]);</sc" + "ript>");
+      }else{
+        $("body").addClass("ad_blocking");
+        //document.write("<script>_gaq.push(['_trackEvent', 'Adblock', 'Blocked', 'true',,true]);</sc" + "ript>");
+      }
+    }
+  </script>
+  <!--End Adblock Check-->
+</body>
+</html>
