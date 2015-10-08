@@ -70,6 +70,7 @@ $thumbnail_active_color:#00afea;
     height:100%;
     text-align:center;
     cursor:pointer;
+    z-index:10;
 
     &.left{
       left:0;
@@ -96,6 +97,7 @@ $thumbnail_active_color:#00afea;
     .slide{
       padding:$gap;
       width:100%;
+      position:relative;
 
       .caption{
         display:block;
@@ -152,7 +154,7 @@ $thumbnail_active_color:#00afea;
         top: -30px;
         right: -30px;
         font-size: 20px;
-        z-index:3;
+        z-index:11;
         cursor:pointer;
         background-color:black;
         background-color:rgba(0,0,0,0.8);
@@ -231,7 +233,7 @@ $thumbnail_active_color:#00afea;
     @include transition(bottom 0.3s ease);
 
     .slider{
-      .slide{
+      .slide.thumbnail{
         width:80px;
         margin-left:5px;
         cursor:pointer;

@@ -64,14 +64,16 @@ function twentyfour_gallery (selector, settings){
     pause_icon_class:"icon-playback-pause",
     nav_left_icon_class:"icon-angle-left",
     nav_right_icon_class:"icon-angle-right",
+    thumbnail_selector:">img",
     toggle_tray_icon_class:"icon-th",
     show_speed:3000,
     autolink_css:true,
     minimum_slides:2,
-    fullsize_image_attribute:'data-original-url',
+    fullsize_image_attribute:'data-imageurl',
     templates:{
       gallery:'<div id="(#id#)" (#attributes#)>(#stage#)(#tray#)(#media_bar#)</div>',
       stage:'<div class="stage"><div class="fullscreen toggler icon (#fullscreen_icon_class#)"></div><div class="action_area nav left"> <div class="icon left (#nav_left_icon_class#)"></div></div><div class="slider">(#slides#)</div><div class="action_area nav right"><div class="icon right (#nav_right_icon_class#)"></div></div></div>',
+      // slide:'<div class="slide">(#content#)</div>',
       tray:'<div class="tray"><div class="action_area nav left"> <div class="icon (#nav_left_icon_class#)"></div></div><div class="slider">(#thumbnails#)</div><div class="action_area nav right"><div class="icon (#nav_right_icon_class#)"></div></div></div>',
       media_bar:'<div class="media_bar"><div class="play_pause_toggle toggler button"><span class="icon play (#play_icon_class#)"></span><span class="icon pause (#pause_icon_class#)"></span></div><div class="status"><span class=current>1</span>/<span class="total">(#total_slides#)</span></div><div class="tray_toggle toggler button icon (#toggle_tray_icon_class#)"></div></div>'
     }
@@ -222,19 +224,32 @@ function twentyfour_gallery (selector, settings){
   };
 
   this.generate_slides = function(){
-    var slides = '';
+    var gallery = this;
+    var html = '';
     for(var i=0; i<this.slides.length; i++){
-      slides += $(this.slides[i])[0].outerHTML;
+      var slide = $(this.slides[i]).clone();
+      var original_image_holders = $(slide).find("img["+this.settings.fullsize_image_attribute+"]");
+      $(original_image_holders).each(function(){
+        var new_image = $(this).clone();
+        new_image.attr("src",$(this).attr(gallery.settings.fullsize_image_attribute));
+        $(this).replaceWith(new_image);
+      });
+
+      slide = $(slide)[0].outerHTML;
+      html += slide;
     }
-    return slides;
+    return html;
   };
 
   this.generate_thumbnails = function(){
-    thumbnails = '';
+    html = '';
     for(var i=0; i<this.slides.length; i++){
-      thumbnails += $(this.slides[i])[0].outerHTML;
+      var thumbnail = $(this.slides[i]).find(this.settings.thumbnail_selector).clone();
+      $(thumbnail).addClass("slide thumbnail");
+      thumbnail = $(thumbnail)[0].outerHTML;
+      html += thumbnail;
     }
-    return thumbnails;
+    return html;
   };
 
   this.generate_attributes = function(){
@@ -265,12 +280,14 @@ function twentyfour_gallery (selector, settings){
     data.media_bar    = nexus.parse_template(this.settings.templates.media_bar, data);
     return nexus.parse_template(this.settings.templates.gallery, data);
   };
+
   this.inject_css = function(){
     if($('style.'+this.settings.prefix).length == 0){
       $('head').prepend('<style class="'+this.settings.prefix+'">'+this.settings.css+'</style>');
     }
     return this.settings.css;
   };
+
   this.init = function(jElement,settings){
 
       gallery = this;
