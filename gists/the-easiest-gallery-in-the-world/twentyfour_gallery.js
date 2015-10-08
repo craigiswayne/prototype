@@ -191,21 +191,23 @@ function twentyfour_gallery (selector, settings){
 
     $(this.media_bar).find(".play_pause_toggle").click(function(){
         gallery.toggle_show();
-    }).bind(gallery);
+    });
 
     $(this.media_bar).find(".tray_toggle").click(function(){
       gallery.toggle_tray();
-    }).bind(gallery);
+    });
 
     $(this.container).find('.action_area.nav.left').click(function(){
       gallery.go_to_slide(gallery.slide_index-1);
-    }).bind(gallery);
+    });
 
     $(this.container).find('.action_area.nav.right').click(function(){
       gallery.go_to_slide(gallery.slide_index+1);
-    }).bind(gallery);
+    });
 
-    this.buttons.fullscreen.click(gallery.toggle_fullscreen.bind(gallery));
+    this.buttons.fullscreen.click(function(){
+      gallery.toggle_fullscreen();
+    });
 
     $(document).bind('webkitfullscreenchange mozfullscreenchange fullscreenchange MSFullscreenChange', function (e) {
         var state = document.mozFullScreen || document.webkitIsFullScreen || document.msFullscreenEnabled || document.fullScreen;
@@ -240,14 +242,8 @@ function twentyfour_gallery (selector, settings){
     this.attributes["class"] = this.attributes["class"] || "";
     this.attributes["class"] += " " + this.settings.container_class;
 
-    $(this.attributes).each(function(i){
-      console.debug(this[i]);
-    });
-
-    for(var i=0; i<Object.keys(this.attributes).length; i++){
-        var label = Object.keys(this.attributes)[i];
-        var value = this.attributes[label];
-        html += label + "='" + value + "'";
+    for(var i in this.attributes){
+      html += i + "='" + this.attributes[i]+ "'";
     }
 
     return html;
