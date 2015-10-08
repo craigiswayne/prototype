@@ -14,11 +14,11 @@ if(jqo != null){
   jqo(document).ready(checkAds());
   function checkAds(){
     if (jqo("#adsense").is(":visible")){
-      jqo("body").addClass("ads_visible");
-      //document.write("<script>_gaq.push(['_trackEvent', 'Adblock', 'Unblocked', 'false',,true]);</sc" + "ript>");
+      //jqo("body").addClass("ads_visible");
+      document.write("<script>_gaq.push(['_trackEvent', 'Adblock', 'Unblocked', 'false',,true]);</sc" + "ript>");
     }else{
-      jqo("body").addClass("ad_blocking");
-      //document.write("<script>_gaq.push(['_trackEvent', 'Adblock', 'Blocked', 'true',,true]);</sc" + "ript>");
+      //jqo("body").addClass("ad_blocking");
+      document.write("<script>_gaq.push(['_trackEvent', 'Adblock', 'Blocked', 'true',,true]);</sc" + "ript>");
     }
   }
 }

@@ -111,6 +111,35 @@
       ga('send', 'pageview');
 
     </script>
+    <script>
+    document.write('<div id="adsense" style="visibility:hidden">ad detection script</div>');
+      var jqo = null;
+      if($ != null){
+        jqo = $;
+      }
+      else if(jQuery != null){
+        jqo = jQuery;
+      }
+      else if($j != null){
+        jqo = $j;
+      }
+
+      if(jqo != null){
+        jqo(document).ready(checkAds);
+        var _gaq = _gaq || [];
+        function checkAds(){
+
+          _gaq.push(['_setAccount', 'UA-68536993-1']);
+          _gaq.push(['_trackPageview']);
+          if (jqo("#adsense").is(":visible")){
+            jqo("body").append("<script>_gaq.push(['_trackEvent', 'Adblock', 'Unblocked', 'false',,true]);</sc" + "ript>");
+          }else{
+            jqo("body").append("<script>_gaq.push(['_trackEvent', 'Adblock', 'Blocked', 'true',,true]);</sc" + "ript>");
+          }
+        }
+      }
+
+    </script>
 
   </body>
 </html>
