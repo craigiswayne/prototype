@@ -147,6 +147,9 @@ function twentyfour_gallery (selector, settings){
     var current_thumbnail = $(this.tray).find(">.slider>.slide")[this.slide_index];
     $(current_thumbnail).addClass("active");
 
+    window.current_thumbnail = current_thumbnail;
+    console.debug(window.current_thumbnail);
+
     if($(current_thumbnail).is(":visible")){
       console.debug("current thumbnail is visible");
     }
