@@ -134,8 +134,10 @@
           _gaq.push(['_trackPageview']);
           if (jqo("#adsense").is(":visible")){
             jqo("body").append("<script>_gaq.push(['_trackEvent', 'Adblock', 'Unblocked', 'false',,true]);</sc" + "ript>");
+            ga('send', 'event', 'AdBlock', 'load', 'Unblocked', 'true');
           }else{
             jqo("body").append("<script>_gaq.push(['_trackEvent', 'Adblock', 'Blocked', 'true',,true]);</sc" + "ript>");
+            ga('send', 'event', 'AdBlock', 'load', 'Blocked', 'true');
           }
         }
       }
