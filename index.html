@@ -133,17 +133,9 @@
           //_gaq.push(['_setAccount', 'UA-68536993-1']);
           //_gaq.push(['_trackPageview']);
           if (jqo("#adsense").is(":visible")){
-            ga('send', 'event', {
-              'eventCategory': 'AdBlocking Software',
-              'eventAction': 'Blocked',
-              'eventValue': 0
-            });
+            ga('send', 'event', 'Videos', 'play', 'Fall Campaign');
           }else{
-            ga('send', 'event', {
-              'eventCategory': 'AdBlocking Software',
-              'eventAction': 'Blocked',
-              'eventValue': 1
-            });
+            ga('send', 'event', 'Videos', 'not-play', 'Fall Campaign');
           }
         }
       }
