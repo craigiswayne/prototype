@@ -130,14 +130,20 @@
         var _gaq = _gaq || [];
         function checkAds(){
 
-          _gaq.push(['_setAccount', 'UA-68536993-1']);
-          _gaq.push(['_trackPageview']);
+          //_gaq.push(['_setAccount', 'UA-68536993-1']);
+          //_gaq.push(['_trackPageview']);
           if (jqo("#adsense").is(":visible")){
-            jqo("body").append("<script>_gaq.push(['_trackEvent', 'Adblock', 'Unblocked', 'false',,true]);</sc" + "ript>");
-            ga('send', 'event', 'AdBlock', 'load', 'Unblocked', 'true');
+            ga('send', 'event', {
+              'eventCategory': 'AdBlocking Software',
+              'eventAction': 'Blocked',
+              'eventValue': 0
+            });
           }else{
-            jqo("body").append("<script>_gaq.push(['_trackEvent', 'Adblock', 'Blocked', 'true',,true]);</sc" + "ript>");
-            ga('send', 'event', 'AdBlock', 'load', 'Blocked', 'true');
+            ga('send', 'event', {
+              'eventCategory': 'AdBlocking Software',
+              'eventAction': 'Blocked',
+              'eventValue': 1
+            });
           }
         }
       }
