@@ -5,8 +5,9 @@
   <link rel="stylesheet" href="../fonts/nexus_icons/style.css" />
 
   <script src="../jquery-1.11.3.min.js"></script>
-  <script src="twentyfour_gallery.js"></script>
-  <!-- <link rel=stylesheet href="twentyfour_gallery.min.css" /> -->
+  <script src="twentyfour_gallery_mobile.js"></script>
+  <link rel=stylesheet href="twentyfour_gallery_mobile.min.css" />
+  <meta name="viewport" content="user-scalable=0, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height">
   <title>The Easiest Gallery In The World</title>
   <script>
     var test_results = {
@@ -25,38 +26,21 @@
     body{
       padding:10px;
       background-color:white;
-      width:980px;
+      
       display:block;
       margin:20px auto;
       box-shadow: -2px 2px 5px 0 rgba(0,0,0,0.2);
       font-family:Tahoma, Arial;
     }
 
-    #left_column, #right_column{
-      display:inline-block;
-      vertical-align: top;
-      min-height:100%;
-    }
-
-    #left_column{
-      width:650px;
-      background-color:#f9f9f9;
-      padding:10px;
-    }
-
-    #right_column{
-      width:300px;
-      background-color: #f2f2f2;
-    }
   </style>
 </head>
 
 <body>
-  <div id="left_column">
+
     <details closed>
       <summary>Notes</summary>
       <ol>
-        <li>keyboard navigation</li>
         <li>choose between animation option on the slides</li>
         <li>use only min files</li>
         <li><a href="http://www.fin24.com/Wealth-and-Investment/In-studio/What-super-rich-want-in-top-estates-20151006">another example of existing gallery</a></li>
@@ -303,7 +287,7 @@
   <p><br></p>
 
     </div>
-  </div>
-  <div id=right_column></div>
+
+
 </body>
 </html>

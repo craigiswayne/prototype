@@ -321,9 +321,10 @@ $thumbnail_active_color:#00afea;
 
 [data-embed24="Images"][data-pos="middle"]{
   width:100%;
-  max-height:100%;
   clear:both;
+  max-height:100%;
   margin:10px auto;
+  float:none;
 }
 
 [data-embed24="Images"][data-pos="left"]{
