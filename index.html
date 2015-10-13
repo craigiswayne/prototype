@@ -113,30 +113,14 @@
 
     </script>
     <script>
-    document.write('<div id="adsense" style="visibility:hidden">ad detection script</div>');
-      var jqo = null;
-      if($ != null){
-        jqo = $;
-      }
-      else if(jQuery != null){
-        jqo = jQuery;
-      }
-      else if($j != null){
-        jqo = $j;
-      }
-
-      if(jqo != null){
-        jqo(document).ready(checkAds);
-        var _gaq = _gaq || [];
-        function checkAds(){
-
-          //_gaq.push(['_setAccount', 'UA-68536993-1']);
-          //_gaq.push(['_trackPageview']);
-          if (jqo("#adsense").is(":visible")){
-            ga('send', 'event', 'Videos', 'play', 'Fall Campaign');
-          }else{
-            ga('send', 'event', 'Videos', 'not-play', 'Fall Campaign');
-          }
+      document.write('<div id="adsense" style="visibility:hidden">ad detection script</div>');
+      $(document).ready(checkAds);
+      function checkAds(){
+        if ($("#adsense").is(":visible")){
+          //ga('send', 'event', category, action, label);
+          ga('send', 'event', 'Advertising', 'false', 'AdBlocking');
+        }else{
+          ga('send', 'event', 'Advertising', 'true', 'AdBlocking');
         }
       }
 
