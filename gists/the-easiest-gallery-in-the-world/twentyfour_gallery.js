@@ -301,6 +301,7 @@ function twentyfour_gallery (selector, settings){
   };
 
   this.inject_css = function(){
+    return;
     if($('style.'+this.settings.prefix).length == 0){
       $('head').prepend('<style class="'+this.settings.prefix+'">'+this.settings.css+'</style>');
     }

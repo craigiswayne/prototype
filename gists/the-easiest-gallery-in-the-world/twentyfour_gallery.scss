@@ -1,3 +1,4 @@
+//out:twentyfour_gallery.min.css
 //http://www.news24.com/Modals/SuperSized/Gallery.aspx?articleId=d9568f77-580a-4fd4-904e-e191caa41230&slide=2
 @import "../../../nexus/core/nexus/stylesheets/nexus_base.scss";
 $cod_gray:#141414;
@@ -21,7 +22,7 @@ $thumbnail_active_color:#00afea;
   position:relative;
   overflow:hidden;
   padding:0 0 $media_bar_height 0;
-  width:50%;
+  width:100%;
   height:300px;
   @include user-select(none);
 
@@ -50,20 +51,6 @@ $thumbnail_active_color:#00afea;
     }
   }
 
-
-
-  // &.first{
-  //   .action_area.left{
-  //     display:none;
-  //   }
-  // }
-  //
-  // &.last{
-  //   .action_area.right{
-  //     display:none;
-  //   }
-  // }
-  //
   .action_area{
     position:absolute;
     top:0;
@@ -286,6 +273,7 @@ $thumbnail_active_color:#00afea;
   &.fullscreen{
     height:100%;
     width:100%;
+    max-width:100%;
     position:fixed;
     top:0;
     left:0;
@@ -309,6 +297,7 @@ $thumbnail_active_color:#00afea;
     padding:0 5px;
     img{
       margin:5px auto;
+      display:block;
     }
 
     .caption{
@@ -320,9 +309,7 @@ $thumbnail_active_color:#00afea;
 }
 
 [data-embed24="Images"][data-pos="middle"]{
-  width:100%;
   clear:both;
-  max-height:100%;
   margin:10px auto;
   float:none;
 }
@@ -330,4 +317,5 @@ $thumbnail_active_color:#00afea;
 [data-embed24="Images"][data-pos="left"]{
   float:left;
   margin:0 10px 10px 0;
+  max-width:50%;
 }
