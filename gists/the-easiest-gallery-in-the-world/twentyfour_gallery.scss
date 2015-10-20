@@ -1,5 +1,12 @@
 //http://www.news24.com/Modals/SuperSized/Gallery.aspx?articleId=d9568f77-580a-4fd4-904e-e191caa41230&slide=2
 @import "../../../nexus/core/nexus/stylesheets/nexus_base.scss";
+@mixin vertical-align($position: relative) {
+  position: $position;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
 $cod_gray:#141414;
 $foreground_color_dark:$cod_gray;
 $stage_nav_size:30px;
@@ -84,6 +91,18 @@ $thumbnail_active_color:#00afea;
       padding:$gap;
       width:100%;
       position:relative;
+      -webkit-transform-style: preserve-3d;
+      -moz-transform-style: preserve-3d;
+      transform-style: preserve-3d;
+
+      img{
+        @include vertical-align();
+        @media all\0 {
+          position:static;
+        }
+
+      }
+
 
       .caption{
         display:block;

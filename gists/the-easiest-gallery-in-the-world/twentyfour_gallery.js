@@ -84,7 +84,7 @@ function twentyfour_gallery (selector, settings){
     templates:{
       gallery:'<div id="(#id#)" (#attributes#)>(#stage#)(#tray#)(#media_bar#)</div>',
       stage:'<div class="stage"><div class="fullscreen toggler icon (#fullscreen_icon_class#)"></div><div class="action_area nav left"> <div class="icon left (#nav_left_icon_class#)"></div></div><div class="slider">(#slides#)</div><div class="action_area nav right"><div class="icon right (#nav_right_icon_class#)"></div></div></div>',
-      // slide:'<div class="slide">(#content#)</div>',
+      slide:'<div class="slide"><div class="aligner">(#slide_content#)</div></div>',
       tray:'<div class="tray"><div class="action_area nav left"> <div class="icon (#nav_left_icon_class#)"></div></div><div class="slider">(#thumbnails#)</div><div class="action_area nav right"><div class="icon (#nav_right_icon_class#)"></div></div></div>',
       media_bar:'<div class="media_bar"><div class="play_pause_toggle toggler button"><span class="icon play (#play_icon_class#)"></span><span class="icon pause (#pause_icon_class#)"></span></div><div class="status"><span class=current>1</span>/<span class="total">(#total_slides#)</span></div><div class="tray_toggle toggler button icon (#toggle_tray_icon_class#)"></div></div>'
     }

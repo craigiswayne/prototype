@@ -7,7 +7,7 @@ FOR IE 7, place an asteriks before your css style, for e.g.
 div{
 *background-color:red;
 }
-           
+
 
 detecting IE in JS
 http://stackoverflow.com/questions/19999388/jquery-check-if-user-is-using-ie
@@ -25,3 +25,29 @@ when creating mailers
 2. images must use width and height attributes
 3. divs are allowed
 4. tr's must have a bgcolor attribute
+
+http://stackoverflow.com/questions/3043094/is-there-any-ie8-only-css-hack
+/* IE6/7 uses media, */
+@media, {
+        .dude { color: green; }
+        .gal { color: red; }
+}
+
+/* IE8 uses \0 */
+@media all\0 {
+        .dude { color: brown; }
+        .gal { color: orange; }
+}
+
+/* IE9 uses \9 */
+@media all and (monochrome:0) {
+          .dude { color: yellow\9; }
+          .gal { color: blue\9; }
+}
+
+/* IE10 and IE11 both use -ms-high-contrast */
+@media all and (-ms-high-contrast:none)
+ {
+ .foo { color: green } /* IE10 */
+ *::-ms-backdrop, .foo { color: red } /* IE11 */
+ }
