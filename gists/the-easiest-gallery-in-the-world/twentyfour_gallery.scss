@@ -1,4 +1,3 @@
-//out:twentyfour_gallery.min.css
 //http://www.news24.com/Modals/SuperSized/Gallery.aspx?articleId=d9568f77-580a-4fd4-904e-e191caa41230&slide=2
 @import "../../../nexus/core/nexus/stylesheets/nexus_base.scss";
 $cod_gray:#141414;
@@ -100,6 +99,7 @@ $thumbnail_active_color:#00afea;
         overflow:hidden;
         font-size:12px;
         border:none;
+        white-space:normal;
       }
     }
 
@@ -278,6 +278,14 @@ $thumbnail_active_color:#00afea;
     top:0;
     left:0;
     margin:0;
+
+    .stage{
+      .slide{
+        .caption{
+          font-size:1.5em;
+        }
+      }
+    }
   }
 
 
