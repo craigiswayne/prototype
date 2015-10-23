@@ -97,6 +97,10 @@ $thumbnail_active_color:#00afea;
 
       img{
         @include vertical-align();
+        display:block;
+        margin:auto;
+        float:none;
+
         @media all\0 {
           position:static;
         }
@@ -331,6 +335,8 @@ $thumbnail_active_color:#00afea;
       text-align:left;
       border-top:1px solid #ef3f3f;
       padding:5px 10px;
+      float:none;
+      clear:both; 
     }
   }
 }
