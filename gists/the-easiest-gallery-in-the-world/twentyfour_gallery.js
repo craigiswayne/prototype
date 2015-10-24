@@ -102,6 +102,7 @@ function twentyfour_gallery (selector, settings){
       container.msRequestFullscreen();
     }
     this.container.addClass("fullscreen");
+    $("html").addClass(this.settings.prefix+"fullscreen");
   };
 
   this.exit_fullscreen = function(){
@@ -116,6 +117,7 @@ function twentyfour_gallery (selector, settings){
     }
 
     this.container.removeClass('fullscreen');
+    $("html").removeClass(this.settings.prefix+"fullscreen");
   };
 
   this.toggle_fullscreen = function(force){
