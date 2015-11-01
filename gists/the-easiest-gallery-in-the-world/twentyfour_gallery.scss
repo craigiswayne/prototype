@@ -239,12 +239,11 @@ $thumbnail_active_color:#00afea;
     width:100%;
     background-color:black;
     height:70px;
-    padding:10px 20px;
+    padding:10px $tray_nav_size;
     @include transition(bottom 0.3s ease);
 
     .slider{
       .slide.thumbnail{
-        width:80px;
         margin-left:5px;
         cursor:pointer;
         @extend .blur;
@@ -260,7 +259,7 @@ $thumbnail_active_color:#00afea;
     }
 
     .action_area{
-      width:20px;
+      width:$tray_nav_size;
       background-color:black;
       .icon{
         font-size:$tray_nav_size;
@@ -336,7 +335,7 @@ $thumbnail_active_color:#00afea;
       border-top:1px solid #ef3f3f;
       padding:5px 10px;
       float:none;
-      clear:both; 
+      clear:both;
     }
   }
 }

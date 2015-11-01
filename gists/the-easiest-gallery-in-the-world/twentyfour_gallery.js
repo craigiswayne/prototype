@@ -58,6 +58,10 @@ function twentyfour_gallery (selector, settings){
   this.container = null;
   this.html      = null;
   this.interval  = null;
+  this.tray      = null;
+  this.tray_slider = null;
+  this.tray_nav_right = null;
+  this.tray_nav_left = null;
   this.stage     = null;
   this.slide_index = 0;
   this.slides = [];
@@ -152,24 +156,40 @@ function twentyfour_gallery (selector, settings){
     this.slide_index = index;
 
     $(this.stage).find(">.slider").css("margin-left",(-(index*100))+"%");
-    $(this.tray).find(">.slider>.slide").each(function(i){
+    $(this.tray_slider).find(".slide").each(function(i){
       $(this).removeClass("active");
     });
 
-    var current_thumbnail = $(this.tray).find(">.slider>.slide")[this.slide_index];
+    $(this.media_bar).find(".current").text(this.slide_index+1);
+
+    var current_thumbnail = $(this.tray_slider).find(".slide")[this.slide_index];
     $(current_thumbnail).addClass("active");
 
-    window.current_thumbnail = current_thumbnail;
-    console.debug(window.current_thumbnail);
 
-    if($(current_thumbnail).is(":visible")){
-      console.debug("current thumbnail is visible");
+    //shift if necessary
+    var tray_width = parseInt($(this.tray).width());
+    var tray_x1 = $(this.tray).offset().left;
+    var tray_x2 = tray_x1 + tray_width;
+
+    var ctx1 = $(current_thumbnail).offset().left;
+    var ctx2 = ctx1 + $(current_thumbnail).outerWidth();
+
+    var difference = 0;
+    if(ctx2 > tray_x2){
+      var tray_nav_right_width = parseInt($(this.tray_nav_right).width());
+      difference = ctx2 - tray_x2 - tray_nav_right_width;
+    }
+    else if(ctx1 < tray_x1){
+      var tray_nav_left_width  = parseInt($(this.tray_nav_left).width());
+      difference = ctx1 - tray_x1 - tray_nav_left_width;
     }
     else{
-      console.debug("current thumbnail is NOT visible");
+      //thumbnail is in visible area
     }
 
-    $(this.media_bar).find(".current").text(this.slide_index+1);
+    var slider_margin_left = parseInt($(this.tray_slider).css("margin-left"));
+    $(this.tray_slider).css("margin-left", slider_margin_left - difference);
+
     return this.slide_index;
   };
 
@@ -303,8 +323,8 @@ function twentyfour_gallery (selector, settings){
   };
 
   this.inject_css = function(){
-    return;
-    if($('style.'+this.settings.prefix).length == 0){
+    return null;
+    if($("style[class*='"+this.settings.prefix+"']").length == 0 && $("link[class*='"+this.settings.prefix+"']").length == 0){
       $('head').prepend('<style class="'+this.settings.prefix+'">'+this.settings.css+'</style>');
     }
     return this.settings.css;
@@ -331,11 +351,10 @@ function twentyfour_gallery (selector, settings){
 
       var slides = $(this.container).find(".slide");
       if(slides.length < this.settings.minimum_slides){
-        console.group("TwentyFour Gallery");
-        console.warn("too few slides");
-        console.info(this.container);
-        console.groupEnd();
-
+        // console.group("TwentyFour Gallery");
+        // console.warn("too few slides");
+        // console.info(this.container);
+        // console.groupEnd();
         return null;
       }
       else{
@@ -354,8 +373,11 @@ function twentyfour_gallery (selector, settings){
       this.container  = $("#" + this.settings.id);
       //todo you gotta check that there are no duplicated id's
 
-      this.stage      = $(this.container).find(">.stage");
-      this.tray       = $(this.container).find(">.tray");
+      this.stage = $(this.container).find(">.stage");
+      this.tray = $(this.container).find(">.tray");
+      this.tray_nav_right = $(this.tray).find(">.nav.right");
+      this.tray_nav_left = $(this.tray).find(">.nav.left");
+      this.tray_slider = $(this.tray).find(">.slider");
       this.media_bar  = $(this.container).find(">.media_bar");
       this.buttons.fullscreen = this.container.find(".icon.fullscreen");
       this.add_event_listeners();
