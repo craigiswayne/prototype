@@ -50,7 +50,15 @@ module.exports = function(grunt) {
           }
       }
     },
-    
+      autoprefixer: {
+          development: {
+              browsers: ['last 2 version', 'ie 9'],
+              expand: true,
+              flatten: true,
+              src: 'assets/css/*.css',
+              dest: 'assets/css'
+          }
+      },
       less: {
         development: {
           options: {
@@ -58,7 +66,10 @@ module.exports = function(grunt) {
           },
           files: {
             'assets/css/style.css': 'assets/css/style.less'
-          }
+          },
+          plugins: [
+              new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions", 'ie9']})
+          ]
         },
         production: {
           options: {
@@ -91,7 +102,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  
+  grunt.loadNpmTasks('grunt-autoprefixer');
   grunt.loadNpmTasks('grunt-contrib-less');
   // grunt.loadNpmTasks('less-plugin-clean-css');
   // grunt.loadNpmTasks('less-plugin-autoprefix');

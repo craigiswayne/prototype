@@ -15,7 +15,8 @@ body {
   -moz-user-select: none;
   -khtml-user-select: none;
   -webkit-user-select: none;
-  user-select: none;
+  -ms-user-select: none;
+      user-select: none;
   /* Required to make elements draggable in old WebKit */
   -khtml-user-drag: element;
   -webkit-user-drag: element;
@@ -191,11 +192,6 @@ details summary,
   box-sizing: border-box;
   background: #215a6d;
   background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMTAwJSIgeDI9IjEwMCUiIHkyPSIwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMjE1YTZkIiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzNjYTJhMiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-  background: -moz-linear-gradient(45deg, #215a6d 0%, #3ca2a2 100%);
-  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, #215a6d), color-stop(100%, #3ca2a2));
-  background: -webkit-linear-gradient(45deg, #215a6d 0%, #3ca2a2 100%);
-  background: -o-linear-gradient(45deg, #215a6d 0%, #3ca2a2 100%);
-  background: -ms-linear-gradient(45deg, #215a6d 0%, #3ca2a2 100%);
   background: linear-gradient(45deg, #215a6d 0%, #3ca2a2 100%);
 }
 iframe.ajax.error.fallback {
@@ -550,7 +546,9 @@ input[type=checkbox].nexus:checked:after {
 }
 .no_select {
   -webkit-user-select: none;
-  user-select: none;
+  -moz-user-select: none;
+   -ms-user-select: none;
+       user-select: none;
 }
 .no_shadow,
 .no_shadow:hover {
@@ -602,13 +600,16 @@ input[type=checkbox].nexus:checked:after {
 }
 @keyframes popup {
   0% {
-    transform: scale(0);
+    -webkit-transform: scale(0);
+            transform: scale(0);
   }
   70% {
-    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+            transform: scale(1.1);
   }
   100% {
-    transform: scale(1);
+    -webkit-transform: scale(1);
+            transform: scale(1);
   }
 }
 body {
@@ -811,7 +812,6 @@ body:not(.resizing) #code_boxes_container {
   text-transform: uppercase;
   width: 100%;
   background-color: #3CA2A2;
-  background-image: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0));
   background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0));
   color: white;
   display: inline-block;
@@ -911,7 +911,8 @@ header .action:hover {
 }
 @keyframes spin {
   100% {
-    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
   }
 }
 @-webkit-keyframes spin {
