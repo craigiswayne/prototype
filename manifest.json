@@ -8,14 +8,14 @@
 	"manifest_version": 2,
 	
 	"icons": {
-		"128": "nexus_prototype.png"
+		"128": "assets/images/nexus_prototype.png"
 	},
 
 	"version": "1.0",
 
 	"app": {
 		"background":{
-			"scripts":["background.js"]
+			"scripts":["assets/js/background.js"]
 		}
 	},
 

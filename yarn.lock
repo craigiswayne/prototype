@@ -17,3 +17,13 @@ jquery.cookie@^1.4.1:
 jquery@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
+
+node-promise@^0.5.10:
+  version "0.5.12"
+  resolved "https://registry.yarnpkg.com/node-promise/-/node-promise-0.5.12.tgz#b0acf9bc2229a76407c077b926592f99b3b4e1f1"
+
+uikit@2:
+  version "2.27.4"
+  resolved "https://registry.yarnpkg.com/uikit/-/uikit-2.27.4.tgz#dc0a2dde23f4fbf47fb393c7056fd794f771f255"
+  dependencies:
+    node-promise "^0.5.10"

@@ -25,6 +25,8 @@
     "ace-builds": "^1.2.9",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
-    "jquery.cookie": "^1.4.1"
-  }
+    "jquery.cookie": "^1.4.1",
+    "uikit": "2"
+  },
+  "dependencies": {}
 }
