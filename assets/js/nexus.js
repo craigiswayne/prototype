@@ -445,7 +445,7 @@ var nexus = function(){
                 $(".mask td.aligner .content").html(result);
             }).error(function(e,f){
                 try{
-                    $(".mask td.aligner .content").html("<iframe class='ajax error fallback' src='"+this.url+"'></iframe>");
+                    $(".mask td.aligner .content").html("<iframe class='ajax error fallback uk-width uk-display-block uk-height-1-1 uk-margin-remove' src='"+this.url+"'></iframe>");
                     console.debug(this);
                     console.debug(e);
                     console.debug(f);

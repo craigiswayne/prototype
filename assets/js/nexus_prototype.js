@@ -115,7 +115,7 @@ nexus.prototype = {
 
         nexus.prototype.mask            =  document.body.appendChild(document.createElement("div"));
         nexus.prototype.mask.id         = "mask";
-        nexus.prototype.mask.className  = "nexus mask";
+        nexus.prototype.mask.className  = "nexus mask uk-position-absolute uk-position-top-left uk-width uk-height-1-1";
         nexus.prototype.mask.onclick    = nexus.prototype.hide_all_menus;
 
         document.querySelector("#color_converter_btn").onclick = function(){

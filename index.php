@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css"/>
 </head>
 
-<body class="uk-height-1-1 initializing">
+<body class="uk-height-1-1 uk-width initializing">
 <header class="no_select uk-position-fixed uk-width uk-position-top-left uk-padding-remove">
     <a id="main_menu_toggle" class="fa fa-bars action uk-text-center uk-padding-remove"></a>
     <label id="app_name">Prototype</label>
@@ -51,13 +51,15 @@
     </nav>
 
     <div id="workspace" class="uk-flex-item-1 fill uk-height-1-1 uk-position-relative">
-        <div id="code_boxes_container">
-            <div id="resize_bar" class="no_select">
-                <span id="btn_editor_min" class="fa fa-step-backward"></span><span class="fa fa-ellipsis-v"></span><span id="btn_editor_max" class="fa fa-step-forward"></span>
+        <div id="code_boxes_container" class='uk-width-1-2 uk-height-1-1 uk-position-relative uk-display-inline-block'>
+            <div id="resize_bar" class="no_select uk-height-1-1 uk-position-absolute uk-position-top-right uk-text-center">
+                <span id="btn_editor_min" class="fa fa-step-backward uk-position-absolute uk-text-center uk-width"></span>
+                <span class="fa fa-ellipsis-v uk-position-absolute uk-text-center uk-width"></span>
+                <span id="btn_editor_max" class="fa fa-step-forward uk-position-absolute uk-text-center uk-width"></span>
             </div>
         </div>
-        <div id="preview_container">
-            <div id="preview_mask"></div>
+        <div id="preview_container" class='uk-width-1-2 uk-height-1-1 uk-position-relative uk-display-inline-block'>
+            <div id="preview_mask" class='uk-position-absolute uk-position-top-left uk-width uk-height-1-1'></div>
             <iframe class="preview uk-width uk-height-1-1" src="preview.html" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
             <div id="grid uk-position-absolute uk-width uk-height-1-1 uk-position-top-left">
                 <iframe src="grid.html"></iframe>
@@ -67,7 +69,7 @@
 
     </div>
 
-    <div class="menu" id="share_menu">
+    <div class="menu uk-height-1-1 uk-display-block uk-position-relative uk-text-left" id="share_menu">
         <a class="fa fa-codepen" id="export_codepen">CodePen</a>
         <a href="mailto:?subject=" target="_blank" class="fa fa-envelope-o" id="export_email">Email</a>
     </div>
