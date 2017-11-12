@@ -1,12 +1,12 @@
 <!doctype html>
-<html class="uk-height-1-1">
+<html class="uk-height-1-1 uk-width uk-display-block uk-padding-remove">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=0, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height">
     <title>Prototype</title>
     <link rel="icon" type="image/png" href="nexus_prototype.png"/>
-    <link rel="stylesheet" href="assets/css/style.min.css"/>
-    <link rel="stylesheet" href="node_modules/uikit/dist/css/uikit.min.css"/>
+    <link rel="stylesheet" href="assets/css/style.css"/>
+    <link rel="stylesheet" href="node_modules/uikit/dist/css/uikit.css"/>
     <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css"/>
 </head>
 
@@ -58,8 +58,8 @@
         </div>
         <div id="preview_container">
             <div id="preview_mask"></div>
-            <iframe class=preview src="preview.html" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
-            <div id="grid">
+            <iframe class="preview uk-width uk-height-1-1" src="preview.html" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+            <div id="grid uk-position-absolute uk-width uk-height-1-1 uk-position-top-left">
                 <iframe src="grid.html"></iframe>
                 <div id="grid_mask"></div>
             </div>
