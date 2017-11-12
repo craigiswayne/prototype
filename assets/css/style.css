@@ -615,15 +615,11 @@ html.dropzone.drag.over .mask,
 .mask.dropzone.drag.enter,
 .mask.dropzone.drag.over {
   z-index: 4;
-  background-image: url(assets/images/target.svg);
-  background-repeat: no-repeat;
   background-size: 100px;
-  background-position: 50% 50%;
+  background: url(assets/images/target.svg) no-repeat 50% 50%;
 }
 html.importing .mask {
-  background-image: url(assets/images/loader.svg);
-  background-repeat: no-repeat;
-  background-position: 50% 50%;
+  background: url(assets/images/loader.svg) no-repeat 50% 50%;
   background-size: 100px;
   z-index: 4;
 }
