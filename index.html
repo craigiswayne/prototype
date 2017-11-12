@@ -1,29 +1,16 @@
 <!doctype html>
-
 <html>
-
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="user-scalable=0, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height">
     <title>Prototype</title>
     <link rel="icon" type="image/png" href="nexus_prototype.png">
-
     <link rel="stylesheet" href="nexus.css">
-    <!--<link rel="stylesheet" href="http://craigwayne.github.io/nexus/css/nexus.css">-->
-
-
     <script src="nexus.js"></script>
-    <!--<script src="http://craigwayne.github.io/nexus/js/nexus.js"></script>-->
-
-    <link rel="stylesheet" href="font-awesome-4.3.0/css/font-awesome.min.css">
-
-    <script src="jquery.js"></script>
-    <script src="jquery.cookie.js"></script>
-
-    <!-- <script src="http://ace.c9.io/build/src/ace.js"></script> -->
-    <!-- <script src="https://rawgit.com/ajaxorg/ace-builds/master/src-min-noconflict/ace.js"></script> -->
-    <script src="ace.js"></script>
-    <!-- <script src="http://ace.c9.io/build/src/ace.js"></script> -->
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="node_modules/jquery.cookie/jquery.cookie.js"></script>
+    <script src="node_modules/ace-builds/src-min/ace.js"></script>
     <script src="nexus_prototype.js"></script>
     <link rel="stylesheet" href="nexus_prototype.css">
 
@@ -33,7 +20,7 @@
     <header class=no_select>
       <a id="main_menu_toggle" class="fa fa-bars action"></a>
       <label id="app_name">Prototype</label>
-      <input id=filename type=text value="prototype.html">
+      <input id=filename type=text value="prototype.html" />
       <div id=quick_actions>
         <a id="toggle_grid" class="fa fa-table action"></a>
         <a id="share_menu_toggle" class="fa fa-share action"></a>
@@ -63,7 +50,7 @@
 
         <a class="fa fa-question">Help</a>
 
-        <a href="http://www.github.com/craigwayne" class="fa fa-github" target="_blank">Github</a>
+        <a href="http://www.github.com/craigiswayne" class="fa fa-github" target="_blank">Github</a>
 
         <a id="about_btn" class="fa fa-info">About</a>
 
@@ -94,37 +81,6 @@
           <a class="fa fa-codepen" id="export_codepen">CodePen</a>
           <a href="mailto:?subject=" target="_blank" class="fa fa-envelope-o" id="export_email">Email</a>
       </div>
-
     </form>
-
-    <footer class="status_bar">
-      <a target="_blank" href="mailto:craig.wayne01@gmail.com?subject=Prototype">&copy; The Nexus Gen
-      </a>
-    </footer>
-
-    <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-68536993-1', 'auto');
-      ga('send', 'pageview');
-
-    </script>
-    <script>
-      document.write('<div id="adsense" style="visibility:hidden">ad detection script</div>');
-      $(document).ready(checkAds);
-      function checkAds(){
-        if ($("#adsense").is(":visible")){
-          //ga('send', 'event', category, action, label);
-          ga('send', 'event', 'Advertising', 'false', 'AdBlocking');
-        }else{
-          ga('send', 'event', 'Advertising', 'true', 'AdBlocking');
-        }
-      }
-
-    </script>
-
   </body>
 </html>
