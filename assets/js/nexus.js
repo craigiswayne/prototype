@@ -471,7 +471,7 @@ var nexus = function(){
 	nexus.init = function(){
 		nexus.debug("Initializing nexus...");
 		//install jquery library
-		nexus.scripts.install("jquery.js");
+		nexus.scripts.install("node_modules/jquery/dist/jquery.min.js");
 	};
 	nexus.init();
 };

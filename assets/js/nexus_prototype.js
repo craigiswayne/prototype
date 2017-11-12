@@ -175,7 +175,7 @@ nexus.prototype = {
             preview_code += "\n<" + nexus.prototype.settings.editors.languages[code_box.language].tag + " id='nexus_prototype_preview_"+code_box.language+"' >\n" + code_box.editor.getValue() + "\n</" + nexus.prototype.settings.editors.languages[code_box.language].tag + ">\n";
         }
 
-        if(nexus.prototype.settings.include_jquery){preview_code = "<script src=jquery.js></script>" + preview_code;}
+        if(nexus.prototype.settings.include_jquery){preview_code = "<script src='node_modules/jquery/dist/jquery.min.js'></script>" + preview_code;}
 
         return preview_code;
     },
