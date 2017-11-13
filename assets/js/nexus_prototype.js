@@ -181,7 +181,6 @@ nexus.prototype = {
             preview_code += "\n<" + nexus.prototype.settings.editors.languages[code_box.language].tag + " id='nexus_prototype_preview_"+code_box.language+"' >\n" + code_box.editor.getValue() + "\n</" + nexus.prototype.settings.editors.languages[code_box.language].tag + ">\n";
         }
 
-        if(nexus.prototype.settings.include_jquery){preview_code = "<script src='node_modules/jquery/dist/jquery.min.js'></script>" + preview_code;}
 
         return preview_code;
     },
@@ -433,15 +432,7 @@ nexus.prototype = {
             default:["html","css","js"]
         },
 
-		include_jquery: false,
-        include_font_awesome: false,
-
-        preview_time: 0,
-        update: function(){
-            console.debug("settings updated");
-            nexus.prototype.settings.include_jquery = document.querySelector("input[type=checkbox][name=include_jquery]").checked
-
-        }
+        preview_time: 0
 	},
 
 

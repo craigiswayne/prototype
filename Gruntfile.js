@@ -132,7 +132,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-php2html');
 
 
-    grunt.registerTask('default', ['less', 'cssmin', 'concat', 'uglify']);
-    grunt.registerTask('prod', ['concat', 'uglify']);
+    grunt.registerTask('default', ['less', 'cssmin', 'concat', 'uglify', 'php2html']);
 
 };

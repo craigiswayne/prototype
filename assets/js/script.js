@@ -1,38 +1,5 @@
 /*! Prototype - v - 2017-11-13
 * Copyright (c) 2017 Craig Wayne; Licensed  */
-String.prototype.replaceAll = function(f,r){return this.split(f).join(r);}
-String.prototype.parse_color = function(){
-    //CREDIT http://www.javascripter.net/faq/rgbtohex.htm
-    var color = this.replaceAll(" ", "");
-    var converted_color = "Invalid Input";
-
-    function toHex(n) {
-     n = parseInt(n,10);
-     if (isNaN(n)) return "00";
-     n = Math.max(0,Math.min(n,255));
-     return "0123456789ABCDEF".charAt((n-n%16)/16)
-          + "0123456789ABCDEF".charAt(n%16);
-    }
-
-    if(color.indexOf("rgb(") === 0 && color.length <= 16 && color.length >= 10 && color.indexOf(")") == color.length -1){
-        color = color.replace("rgb(","").replace(")","").split(",");
-        converted_color = "#" + toHex(color[0]) + toHex(color[1]) + toHex(color[2]);
-    }
-    else if(color.length <=7 && color.indexOf("#") == 0){
-        color = color.replace("#","");
-        converted_color = "rgb(" + parseInt(color.substring(0,2),16) + "," + parseInt(color.substring(2,4),16) + "," + parseInt(color.substring(4,6),16) + ")";
-    }
-    else if(color.indexOf("cmyk(" === 0) && color.length <= 21 && color.length >= 13 && color.indexOf(")") == color.length -1){
-        color = color.replace("cmyk(","").replace(")","").split(",");
-        var c = (color[0]/100);
-        var m = (color[1]/100);
-        var y = (color[2]/100);
-        var k = (color[3]/100);
-        converted_color = "rgb(" + Math.round(255 * (1 - c) * (1-k)) + "," + Math.round(255 * (1 - m) * (1-k)) + "," + Math.round(255 * (1 - y) * (1-k)) + ")";
-    }
-
-    return converted_color;
-};
 String.prototype.trim = function(){
     //REF: https://alvinabad.wordpress.com/2009/02/12/extending-javascripts-string-object/
     return this.replace(/^\s+|\s+$/g, "")
@@ -64,64 +31,6 @@ var nexus = function(){
     nexus.show_error = function(title,message){
         alert(title);
     };
-	//nexus google maps module
-	nexus.google = {};
-	nexus.google.maps = {
-
-		api_url     : "https://maps.googleapis.com/maps/api/js?v=3.exp&signed_in=true&callback=nexus.google.maps.post_install",
-		installed   : false,
-		options     : {
-			zoom: 8,
-            latitude: -34.397,
-            longitude: 150.644
-		},
-
-		post_install: function(){
-			nexus.debug("Google Map API installtion complete...");
-			nexus.google.maps.installed = true;
-		},
-
-		create      : function(element){
-			if(!nexus.google.maps.installed){
-				nexus.google.maps.install(function(){
-					nexus.google.maps.create(element);
-				});
-			}
-			else if(element instanceof HTMLElement){
-				nexus.debug("creating the map....");
-
-				//var map_options = array_m
-
-				element.nexus			    = element.nexus || {};
-				element.nexus.google	    = element.nexus.google || {};
-				//element.nexus.google.map =  new google.maps.Map(element,nexus.google.maps.options);
-                var map_options             = nexus.google.maps.options;
-                map_options.center          = new google.maps.LatLng(map_options.latitude, map_options.longitude);
-                element.nexus.google.map    =  new google.maps.Map(element,nexus.google.maps.options);
-				return element.nexus.google.map;
-				nexus.debug("Finished creating map...");
-			}
-			else{
-
-			}
-
-		},
-
-		install     : function(callback){
-			nexus.debug("Installing Google Map API...", nexus.google.maps.api_url);
-			nexus.scripts.install(nexus.google.maps.api_url);
-		},
-
-		init        : function(){
-			//check if the google map script is installed
-			for(var i=0; i<document.scripts.length; i++){
-				if(document.scripts[i].src){
-					if(document.scripts[i].src == nexus.google.maps.api_url) return;
-				}
-			}
-			nexus.google.maps.install();
-		}
-	};
 
     //nexus mask module
     nexus.hide_mask = function(force){
@@ -460,20 +369,12 @@ var nexus = function(){
 	//nexus scripts module
 	nexus.scripts = {};
 	nexus.scripts.install = function(src){
-		nexus.debug("Installing Script:",src);
 		var script	= document.createElement("script");
 		script.type = "text/javascript";
 		script.src	= src;
 		document.body.appendChild(script);
 		return script;
 	};
-
-	nexus.init = function(){
-		nexus.debug("Initializing nexus...");
-		//install jquery library
-		nexus.scripts.install("node_modules/jquery/dist/jquery.min.js");
-	};
-	nexus.init();
 };
 
 document.addEventListener("DOMContentLoaded",nexus,false);
@@ -661,7 +562,6 @@ nexus.prototype = {
             preview_code += "\n<" + nexus.prototype.settings.editors.languages[code_box.language].tag + " id='nexus_prototype_preview_"+code_box.language+"' >\n" + code_box.editor.getValue() + "\n</" + nexus.prototype.settings.editors.languages[code_box.language].tag + ">\n";
         }
 
-        if(nexus.prototype.settings.include_jquery){preview_code = "<script src='node_modules/jquery/dist/jquery.min.js'></script>" + preview_code;}
 
         return preview_code;
     },
@@ -913,15 +813,7 @@ nexus.prototype = {
             default:["html","css","js"]
         },
 
-		include_jquery: false,
-        include_font_awesome: false,
-
-        preview_time: 0,
-        update: function(){
-            console.debug("settings updated");
-            nexus.prototype.settings.include_jquery = document.querySelector("input[type=checkbox][name=include_jquery]").checked
-
-        }
+        preview_time: 0
 	},
 
 
