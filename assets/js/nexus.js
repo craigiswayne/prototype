@@ -1,6 +1,5 @@
 String.prototype.trim = function(){
-    //REF: https://alvinabad.wordpress.com/2009/02/12/extending-javascripts-string-object/
-    return this.replace(/^\s+|\s+$/g, "")
+    return this.replace(/^\s+|\s+$/g, "");
 };
 String.prototype.extension = function(){
     var string = this.trim();
@@ -49,7 +48,7 @@ var nexus = function(){
 
         mask.innerHTML  = "<table class='aligner uk-width uk-height-1-1 uk-text-center'><tr class='aligner'><td class='aligner'><div class='content uk-overflow-hidden popup uk-container-center uk-position-relative animate'></div></td></tr></table>";
 
-        if(content.trim() != ""){content_div.innerHTML   = content;}
+        if(content.trim() !== ""){content_div.innerHTML   = content;}
 
         $(mask).addClass("mask");
         $(mask).addClass("active");
@@ -111,16 +110,6 @@ var nexus = function(){
             e.preventDefault();
             this.remove_drag_states();
             $(this).addClass("drag drop");
-
-            var files = e.dataTransfer.files;
-            for (var i = 0, f; f = files[i]; i++) {
-                var file = null;
-                if(settings.accept.length > 0){
-                    if(settings.accept.indexOf(f.name.extension()) > -1) file = f;
-                    else console.warn("Unsupported Media");
-                }
-                settings.ondrop(file);
-            }
             this.remove_drag_states();
 
         };

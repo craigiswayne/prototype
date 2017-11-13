@@ -1,8 +1,7 @@
 /*! Prototype - v - 2017-11-13
 * Copyright (c) 2017 Craig Wayne; Licensed  */
 String.prototype.trim = function(){
-    //REF: https://alvinabad.wordpress.com/2009/02/12/extending-javascripts-string-object/
-    return this.replace(/^\s+|\s+$/g, "")
+    return this.replace(/^\s+|\s+$/g, "");
 };
 String.prototype.extension = function(){
     var string = this.trim();
@@ -51,7 +50,7 @@ var nexus = function(){
 
         mask.innerHTML  = "<table class='aligner uk-width uk-height-1-1 uk-text-center'><tr class='aligner'><td class='aligner'><div class='content uk-overflow-hidden popup uk-container-center uk-position-relative animate'></div></td></tr></table>";
 
-        if(content.trim() != ""){content_div.innerHTML   = content;}
+        if(content.trim() !== ""){content_div.innerHTML   = content;}
 
         $(mask).addClass("mask");
         $(mask).addClass("active");
@@ -113,16 +112,6 @@ var nexus = function(){
             e.preventDefault();
             this.remove_drag_states();
             $(this).addClass("drag drop");
-
-            var files = e.dataTransfer.files;
-            for (var i = 0, f; f = files[i]; i++) {
-                var file = null;
-                if(settings.accept.length > 0){
-                    if(settings.accept.indexOf(f.name.extension()) > -1) file = f;
-                    else console.warn("Unsupported Media");
-                }
-                settings.ondrop(file);
-            }
             this.remove_drag_states();
 
         };
@@ -533,9 +522,6 @@ nexus.prototype = {
         document.querySelector("#btn_editor_min").addEventListener("click", nexus.prototype.editor_width_min, false);
         document.querySelector("#btn_editor_max").addEventListener("click", nexus.prototype.editor_width_max, false);
 
-
-        document.querySelector("#export_email").addEventListener("click", nexus.prototype.send_via.email, false);
-
         nexus.prototype.catch_save();
         nexus.prototype.catch_open();
         document.querySelector("#open_btn").onchange = nexus.prototype.open;
@@ -552,7 +538,45 @@ nexus.prototype = {
         nexus.prototype.get_functionality();
         nexus.prototype.resize_code_boxes();
         $(document.body).removeClass("initializing");
-    }
+    },
+    settings: {
+        save: function(){
+            nexus.prototype.settings.preview_delay = document.querySelector("[name=preview_delay]") ? parseInt(document.querySelector("[name=preview_delay]").value) : 0;
+        },
+        editors:{
+            languages:{
+                js:{
+                    tag:"script",
+                    session:"ace/mode/javascript",
+                    media_type:"application/javascript"
+
+                },
+                css:{
+                    tag:"style",
+                    session:"ace/mode/css",
+                    media_type:"text/css"
+                },
+                html:{
+                    tag:"body",
+                    session:"ace/mode/html",
+                    media_type:"text/html"
+                }
+            },
+            show_indent_guides: true,
+            theme:"ace/theme/chrome",
+            default:["html","css","js"]
+        },
+
+        include_jquery: false,
+        include_font_awesome: false,
+
+        preview_time: 0,
+        update: function(){
+            console.debug("settings updated");
+            nexus.prototype.settings.include_jquery = document.querySelector("input[type=checkbox][name=include_jquery]").checked
+
+        }
+    },
 };
 
 document.addEventListener("DOMContentLoaded", function() {

@@ -370,9 +370,6 @@ nexus.prototype = {
         document.querySelector("#btn_editor_min").addEventListener("click", nexus.prototype.editor_width_min, false);
         document.querySelector("#btn_editor_max").addEventListener("click", nexus.prototype.editor_width_max, false);
 
-
-        document.querySelector("#export_email").addEventListener("click", nexus.prototype.send_via.email, false);
-
         nexus.prototype.catch_save();
         nexus.prototype.catch_open();
         document.querySelector("#open_btn").onchange = nexus.prototype.open;
@@ -389,7 +386,45 @@ nexus.prototype = {
         nexus.prototype.get_functionality();
         nexus.prototype.resize_code_boxes();
         $(document.body).removeClass("initializing");
-    }
+    },
+    settings: {
+        save: function(){
+            nexus.prototype.settings.preview_delay = document.querySelector("[name=preview_delay]") ? parseInt(document.querySelector("[name=preview_delay]").value) : 0;
+        },
+        editors:{
+            languages:{
+                js:{
+                    tag:"script",
+                    session:"ace/mode/javascript",
+                    media_type:"application/javascript"
+
+                },
+                css:{
+                    tag:"style",
+                    session:"ace/mode/css",
+                    media_type:"text/css"
+                },
+                html:{
+                    tag:"body",
+                    session:"ace/mode/html",
+                    media_type:"text/html"
+                }
+            },
+            show_indent_guides: true,
+            theme:"ace/theme/chrome",
+            default:["html","css","js"]
+        },
+
+        include_jquery: false,
+        include_font_awesome: false,
+
+        preview_time: 0,
+        update: function(){
+            console.debug("settings updated");
+            nexus.prototype.settings.include_jquery = document.querySelector("input[type=checkbox][name=include_jquery]").checked
+
+        }
+    },
 };
 
 document.addEventListener("DOMContentLoaded", function() {
