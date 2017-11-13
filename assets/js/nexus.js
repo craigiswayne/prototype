@@ -146,7 +146,7 @@ var nexus = function(){
             mask = document.querySelector(".mask");
         }
 
-        mask.innerHTML  = "<table class='aligner'><tr class='aligner'><td class='aligner'><div class='content popup animate'></div></td></tr></table>";
+        mask.innerHTML  = "<table class='aligner uk-width uk-height-1-1 uk-text-center'><tr class='aligner'><td class='aligner'><div class='content uk-overflow-hidden popup uk-container-center uk-position-relative animate'></div></td></tr></table>";
 
         if(content.trim() != ""){content_div.innerHTML   = content;}
 
@@ -339,7 +339,7 @@ var nexus = function(){
             var table_header_checkbox_cell  = table_header_row.appendChild(document.createElement("th"));
             var table_header_checkbox       = table_header_checkbox_cell.appendChild(document.createElement("input"));
             table_header_checkbox.type      = "checkbox";
-            table_header_checkbox.className = "nexus";
+            table_header_checkbox.className = "nexus uk-position-relative";
             table_header_checkbox.addEventListener("change",function(){
 
                 var table = this.parentNode.parentNode.parentNode.parentNode;
@@ -348,7 +348,6 @@ var nexus = function(){
                     row_checkboxes[i].checked = this.checked;
 					event.preventDefault();
     				$(row_checkboxes[i]).trigger("change");
-					//$(row_checkboxes[i]).prop('checked', true).change();
                 }
 
             },false);
@@ -370,7 +369,7 @@ var nexus = function(){
                 var row_checkbox            = row_checkbox_cell.appendChild(document.createElement("input"));
                 row_checkbox.type           = "checkbox";
                 row_checkbox.checked        = true;
-                row_checkbox.className      = "nexus row_checkbox";
+                row_checkbox.className      = "nexus uk-position-relative row_checkbox";
                 row_checkbox.addEventListener("change",function(){
 					console.debug("checkbox change function");
                     if(this.checked){$(this.parentNode.parentNode).addClass("selected");}
@@ -417,7 +416,7 @@ var nexus = function(){
     nexus.menu = function(json_tree){
 
         var menu = document.createElement("ul");
-        menu.className = "nexus menu";
+        menu.className = "nexus menu uk-margin-remove";
 
         console.debug(Object.keys(json_tree));
 

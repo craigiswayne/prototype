@@ -24,7 +24,7 @@
 
 <form id="main" class="uk-flex flex box uk-width uk-height-1-1 uk-text-truncate">
 
-    <nav id="main_menu" class="uk-height-1-1 uk-position-relative menu accordion">
+    <nav id="main_menu" class="uk-height-1-1 uk-position-relative menu accordion uk-text-left uk-display-block uk-height-1-1 uk-margin-remove">
 
         <ul>File
             <label class="fa fa-folder-open">Open<input id="open_btn" type="file" style="display:none;" accept=".html,.css,.js"></label>
@@ -51,14 +51,14 @@
     </nav>
 
     <div id="workspace" class="uk-flex-item-1 fill uk-height-1-1 uk-position-relative">
-        <div id="code_boxes_container" class='uk-width-1-2 uk-height-1-1 uk-position-relative uk-display-inline-block'>
+        <div id="code_boxes_container" class='uk-width-1-2 uk-height-1-1 uk-position-relative uk-display-inline-block uk-float-left'>
             <div id="resize_bar" class="no_select uk-height-1-1 uk-position-absolute uk-position-top-right uk-text-center">
-                <span id="btn_editor_min" class="fa fa-step-backward uk-position-absolute uk-text-center uk-width"></span>
-                <span class="fa fa-ellipsis-v uk-position-absolute uk-text-center uk-width"></span>
-                <span id="btn_editor_max" class="fa fa-step-forward uk-position-absolute uk-text-center uk-width"></span>
+                <span id="btn_editor_min" class="fa fa-step-backward uk-position-absolute uk-position-top-left uk-text-center uk-width"></span>
+                <span class="fa fa-ellipsis-v uk-position-absolute uk-text-center uk-width uk-position-top-left"></span>
+                <span id="btn_editor_max" class="fa fa-step-forward uk-position-absolute uk-position-top-left uk-text-center uk-width"></span>
             </div>
         </div>
-        <div id="preview_container" class='uk-width-1-2 uk-height-1-1 uk-position-relative uk-display-inline-block'>
+        <div id="preview_container" class='uk-width-1-2 uk-height-1-1 uk-position-relative uk-display-inline-block uk-float-left'>
             <div id="preview_mask" class='uk-position-absolute uk-position-top-left uk-width uk-height-1-1'></div>
             <iframe class="preview uk-width uk-height-1-1" src="preview.html" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
             <div id="grid uk-position-absolute uk-width uk-height-1-1 uk-position-top-left">

@@ -35,15 +35,14 @@ nexus.prototype = {
 
     code_box:               function(language){
 
-        language                        = language || "html"; //nexus.prototype.languages["html"];
+        language                        = language || "html";
 
         var code_box                    = document.createElement("div");
-        //var code_box                    = container.appendChild(document.createElement("div"));
         code_box.language               = language;
-        code_box.className              = "code_box no_select " + language;
+        code_box.className              = "code_box uk-overflow-hidden uk-display-block uk-position-relative uk-width uk-margin-remove no_select " + language;
 
         var code_box_header             = code_box.appendChild(document.createElement("label"));
-        code_box_header.className       = "code_box_header no_select action";
+        code_box_header.className       = "code_box_header uk-overflow-hidden uk-width uk-display-inline-block uk-position-absolute uk-position-top-left no_select action";
 
         var code_box_title              = code_box_header.appendChild(document.createElement("span"));
         code_box_title.className        = "code_box_title";
@@ -56,7 +55,7 @@ nexus.prototype = {
         code_box_toggler.onchange       = nexus.prototype.resize_code_boxes;
 
         var code_area                   = code_box.appendChild(document.createElement("div"));
-        code_area.className             = "code_area";
+        code_area.className             = "code_area uk-overflow-container uk-width uk-display-block uk-height-1-1";
         code_box.editor                 = ace.edit(code_area); //http://ace.c9.io/api/editor.html
         code_box.editor.$blockScrolling = Infinity
         code_box.editor.setValue(nexus.prototype.settings.editors.languages[language].default_value || "");
@@ -205,7 +204,7 @@ nexus.prototype = {
 
     toggle_share_menu:      function(){
 
-        document.querySelector("#main_menu_toggle").className = "fa fa-bars action";
+        document.querySelector("#main_menu_toggle").className = "fa fa-bars action uk-text-center uk-padding-remove";
         $('#share_menu').toggleClass('active');
         $('#main_menu').removeClass('active');
         $('#share_menu_toggle').toggleClass('fa-share fa-times');
@@ -376,7 +375,7 @@ nexus.prototype = {
     hide_all_menus:         function() {
         $("#main_menu").removeClass('active');
         $("#share_menu").removeClass('active');
-        document.querySelector("#main_menu_toggle").className = "fa fa-bars action";
+        document.querySelector("#main_menu_toggle").className = "fa fa-bars action uk-text-center uk-padding-remove";
         document.querySelector("#share_menu_toggle").className = "fa fa-share action";
         nexus.hide_mask();
     },
@@ -475,7 +474,6 @@ nexus.prototype = {
 
             if (document.querySelector("body.resizing")) {
                 var workspace_width = parseInt(window.getComputedStyle(nexus.prototype.workspace).width);
-                var resizer_width   = parseInt(window.getComputedStyle(nexus.prototype.resize_bar).width);
                 var difference      = event.clientX - nexus.prototype.resize_start;
                 var new_width       = ((nexus.prototype.editor_width + difference) / workspace_width) * 100;
                 nexus.prototype.code_boxes_container.style.width = new_width + "%";
