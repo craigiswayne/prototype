@@ -73,10 +73,10 @@ nexus.prototype = {
 
 
         code_box.value = function () {
-            return this.editor.getValue()
+            return this.editor.getValue();
         };
         code_box.focus = function () {
-            this.editor.focus()
+            this.editor.focus();
         };
         code_box.set_value = function (value) {
             this.editor.setValue(value, -1);
@@ -141,7 +141,7 @@ nexus.prototype = {
     has_user_code: function () {
 
         for (var i = 0; i < nexus.prototype.code_boxes.length; i++) {
-            if (nexus.prototype.code_boxes[i].value() != "") {
+            if (nexus.prototype.code_boxes[i].value() !== "") {
                 return true;
             }
         }
@@ -199,7 +199,7 @@ nexus.prototype = {
             codepen_export_button.addEventListener("click", nexus.prototype.export_to_codepen, false);
         }
 
-        if (nexus.prototype.interface == "chrome_app") {
+        if (nexus.prototype.interface === "chrome_app") {
         }
         else {
             window.onbeforeunload = function () {
@@ -207,7 +207,7 @@ nexus.prototype = {
             }
         }
 
-        if (nexus.prototype.interface == "chrome_app") {
+        if (nexus.prototype.interface === "chrome_app") {
             nexus.link("nexus.prototype_chrome_app.css");
         }
 
@@ -235,7 +235,7 @@ nexus.prototype = {
     },
 
     resize_code_boxes: function () {
-        var showing_code_boxes = new Array();
+        var showing_code_boxes = [];
         for (var i = 0; i < nexus.prototype.code_boxes.length; i++) {
             if (!nexus.prototype.code_boxes[i].querySelector(".code_box_toggler").checked) {
                 nexus.prototype.code_boxes[i].style.height = "";
@@ -244,7 +244,7 @@ nexus.prototype = {
             }
         }
         var not_showing = nexus.prototype.code_boxes.length - showing_code_boxes.length;
-        for (var i = 0; i < showing_code_boxes.length; i++) {
+        for (i = 0; i < showing_code_boxes.length; i++) {
             showing_code_boxes[i].style.height = "calc((100% - 25px*" + not_showing + ")/" + showing_code_boxes.length + ")";
 
             setTimeout(function (code_box) {
@@ -371,7 +371,6 @@ nexus.prototype = {
         nexus.prototype.resize_bar = document.querySelector("#resize_bar");
         nexus.prototype.workspace = document.querySelector("#workspace");
 
-        //add code_boxes //todo make this better man
         for (var i = 0; i < nexus.prototype.settings.editors.default.length; i++) {
             nexus.prototype.code_boxes_container.appendChild(new nexus.prototype.code_box(nexus.prototype.settings.editors.default[i]));
         }
