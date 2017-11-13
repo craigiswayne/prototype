@@ -13,11 +13,11 @@
 		$ace_builds_path_prefix    = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9';
 	} else {
 		$min_prefix                = '';
-		$uikit_path_prefix         = 'node_modules/uikit/dist/css';
-		$font_awesome_path_prefix  = 'node_modules/font-awesome/css';
-		$jquery_path_prefix        = 'node_modules/jquery/dist';
-		$jquery_cookie_path_prefix = 'node_modules/jquery.cookie';
-		$ace_builds_path_prefix    = 'node_modules/ace-builds/src-min';
+		$uikit_path_prefix         = '/node_modules/uikit/dist/css';
+		$font_awesome_path_prefix  = '/node_modules/font-awesome/css';
+		$jquery_path_prefix        = '/node_modules/jquery/dist';
+		$jquery_cookie_path_prefix = '/node_modules/jquery.cookie';
+		$ace_builds_path_prefix    = '/node_modules/ace-builds/src-min';
 	}
 ?>
 <!doctype html>
@@ -28,8 +28,8 @@
     <meta name="theme-color" content="#215A6D" />
     <meta name="viewport" content="user-scalable=0, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
     <title>Prototype</title>
-    <link rel="icon" type="image/png" href="assets/images/nexus_prototype.png" />
-    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="icon" type="image/png" href="/assets/images/nexus_prototype.png" />
+    <link rel="stylesheet" href="/assets/css/style<?php echo $min_prefix; ?>.css" />
     <link rel="stylesheet" href="<?php echo $uikit_path_prefix; ?>/uikit<?php echo $min_prefix; ?>.css" />
     <link rel="stylesheet" href="<?php echo $font_awesome_path_prefix; ?>/font-awesome<?php echo $min_prefix; ?>.css" />
 </head>
@@ -84,9 +84,9 @@
         </div>
         <div id="preview_container" class="uk-width-1-2 uk-height-1-1 uk-position-relative uk-display-inline-block uk-float-left">
             <div id="preview_mask" class="uk-position-absolute uk-position-top-left uk-width uk-height-1-1"></div>
-            <iframe class="preview uk-width uk-height-1-1" src="preview.html" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+            <iframe class="preview uk-width uk-height-1-1" src="/preview.html" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
             <div id="grid uk-position-absolute uk-width uk-height-1-1 uk-position-top-left">
-                <iframe src="grid.html"></iframe>
+                <iframe src="/grid.html"></iframe>
                 <div id="grid_mask"></div>
             </div>
         </div>
@@ -101,6 +101,6 @@
 <script src="<?php echo $jquery_path_prefix; ?>/jquery<?php echo $min_prefix; ?>.js"></script>
 <script src="<?php echo $jquery_cookie_path_prefix; ?>/jquery.cookie<?php echo $min_prefix; ?>.js"></script>
 <script src="<?php echo $ace_builds_path_prefix; ?>/ace.js"></script>
-<script src="assets/js/script.js"></script>
+<script src="/assets/js/script.js"></script>
 </body>
 </html>
