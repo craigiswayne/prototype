@@ -221,8 +221,8 @@ nexus.prototype = {
 
         var code_area = code_box.appendChild(document.createElement("div"));
         code_area.className = "code_area uk-overflow-container uk-width uk-display-block uk-height-1-1";
-        code_box.editor = ace.edit(code_area); //http://ace.c9.io/api/editor.html
-        code_box.editor.$blockScrolling = Infinity
+        code_box.editor = ace.edit(code_area);
+        code_box.editor.$blockScrolling = Infinity;
         code_box.editor.setValue(nexus.prototype.settings.editors.languages[language].default_value || "");
         code_box.editor.setTheme(nexus.prototype.settings.editors.theme);
         code_box.editor.on("change", nexus.prototype.show_preview);
@@ -290,7 +290,7 @@ nexus.prototype = {
         var preview_code = "";
         for (var i = 0; i < nexus.prototype.code_boxes.length; i++) {
             var code_box = nexus.prototype.code_boxes[i];
-            if (code_box.editor.getValue().trim() == "") {
+            if (code_box.editor.getValue().trim() === "") {
                 continue;
             }
             preview_code += "\n<" + nexus.prototype.settings.editors.languages[code_box.language].tag + " id='nexus_prototype_preview_" + code_box.language + "' >\n" + code_box.editor.getValue() + "\n</" + nexus.prototype.settings.editors.languages[code_box.language].tag + ">\n";
@@ -589,16 +589,10 @@ nexus.prototype = {
             default: ["html", "css", "js"]
         },
 
-        include_jquery: false,
         include_font_awesome: false,
 
-        preview_time: 0,
-        update: function () {
-            console.debug("settings updated");
-            nexus.prototype.settings.include_jquery = document.querySelector("input[type=checkbox][name=include_jquery]").checked
-
-        }
-    },
+        preview_time: 0
+    }
 };
 
 document.addEventListener("DOMContentLoaded", function () {
