@@ -1,10 +1,8 @@
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('/assets/js/sw.js').then(function(registration) {
-            // Registration was successful
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
         }, function(err) {
-            // registration failed :(
             console.log('ServiceWorker registration failed: ', err);
         });
     });
@@ -115,62 +113,10 @@ nexus.prototype = {
             "about":{}
         };
 
-        //console.debug(new nexus.menu(menu_tree).outerHTML);
-
-        //nexus.prototype.main_menu = document.querySelector("");
-
         nexus.prototype.mask            =  document.body.appendChild(document.createElement("div"));
         nexus.prototype.mask.id         = "mask";
         nexus.prototype.mask.className  = "nexus mask uk-position-absolute uk-position-top-left uk-width uk-height-1-1";
         nexus.prototype.mask.onclick    = nexus.prototype.hide_all_menus;
-
-        document.querySelector("#color_converter_btn").onclick = function(){
-            nexus.prototype.hide_all_menus();
-            nexus.show_popup({url:"color_converter.html"});
-        };
-
-        document.querySelector("#base64_encoder_btn").onclick = function(){
-            nexus.prototype.hide_all_menus();
-            nexus.show_popup({url:"http://dataurl.net/#dataurlmaker"});
-        };
-
-        document.querySelector("#lorem_ipsum_generator_btn").onclick = function(){
-            nexus.prototype.hide_all_menus();
-            nexus.show_popup({url:"http://www.blindtextgenerator.com/lorem-ipsum"});
-        };
-
-        //TODO escape key to return to work space
-        //document.querySelector("");
-
-    },
-
-    export_to_codepen:      function() {
-
-        if(!nexus.prototype.has_user_code()){nexus.show_error("No Code To Share"); return;}
-        else{
-            nexus.show_error("has user code");
-        }
-
-        var form = document.createElement("form");
-        form.style.display = "none";
-        form.target = "_blank";
-        form.method = "POST";
-        form.action = "http://codepen.io/pen/define";
-        var data = form.appendChild(document.createElement("input"));
-        data.type = "hidden";
-        data.name = "data";
-        //set the name as the same name as the download OR! nexus prototype
-        //TODO this data object should be a generic function to be fetched, i.e. get_all code as json, maybe extend the current get code and then implement in the chrome app show preview
-
-        data_obj = {
-            "title": nexus.prototype.get_filename(),
-            "html": document.querySelector(".code_box.html").value() || "",
-            "css": document.querySelector(".code_box.css").value() || "" ,
-            "js": document.querySelector(".code_box.js").value() || ""
-        }
-
-        data.value = JSON.stringify(data_obj).replace(/"/g, "&quot;").replace(/'/g, "&apos;"); //TODO replace all single quotes should be part of the string prototype
-        form.submit();
     },
 
     get_preview_code:       function() {
@@ -180,8 +126,6 @@ nexus.prototype = {
             if(code_box.editor.getValue().trim() == ""){continue;}
             preview_code += "\n<" + nexus.prototype.settings.editors.languages[code_box.language].tag + " id='nexus_prototype_preview_"+code_box.language+"' >\n" + code_box.editor.getValue() + "\n</" + nexus.prototype.settings.editors.languages[code_box.language].tag + ">\n";
         }
-
-
         return preview_code;
     },
 
@@ -257,52 +201,6 @@ nexus.prototype = {
 
     },
 
-    import:                 function(file){
-        nexus.prototype.reset();
-        if(file == null){return;}
-
-        nexus.prototype.set_filename(file.name);
-        $(document.querySelector("html")).addClass("importing");
-        nexus.file.read(file).then(function(data){
-            document.querySelector('.code_box.html').set_value(data);
-            $(document.querySelector("html")).removeClass("importing");
-            nexus.hide_mask(true);
-            //TODO STRIP INTO CODE BOXES, as dynamic as possible. check what boxes exist.
-            //COLLAPSE UNUSED CODE BOXES
-        });
-        //this function must take the given code and strip it into boxes, and add necessary boxes where needed
-        //make use of the supported languages and create necessary boxes. to test this, maybe only show html and css boxes at first
-
-    },
-
-    import_from_codepen:    function(url) {
-        url = url || window.prompt("Paste codepen url...");
-        if (!url) {
-            sonsole.error("No URL supplied");
-            return;
-        }
-        var user = url.replace("http://codepen.io/", "");
-        user = user.substring(0, user.indexOf("/pen"));
-        var slug_hash = url.substring(url.lastIndexOf('/') + 1, url.length);
-        var codepen_embed = document.body.appendChild(document.createElement("iframe"));
-        var codepen_doc = codepen_embed.contentDocument || codepen_embed.contentWindow.document;
-        codepen_embed.className = "cp_embed_iframe codepen";
-        codepen_embed.id = "cp_embed_" + slug_hash;
-        codepen_embed.src = "//codepen.io/" + user + "/embed/" + slug_hash + "?slug-hash=" + slug_hash + "&amp;user=" + user;
-        codepen_embed.setAttribute("scrolling", "no");
-        codepen_embed.setAttribute("frameborder", "0");
-        codepen_embed.setAttribute("height", parseInt(window.getComputedStyle(nexus.prototype.preview_frame)["height"]));
-        codepen_embed.setAttribute("style", "width:100%;min-height:100%;");
-        codepen_embed.setAttribute("allowtransparency", "true");
-        codepen_embed.setAttribute("allowfullscreen", "true");
-        document.querySelector(".code_area.html").value = codepen_embed.outerHTML;
-        codepen_embed.parentNode.removeChild(codepen_embed);
-    },
-
-    open:                   function() {
-        nexus.prototype.import(document.querySelector('#open_btn').files[0]);
-    },
-
     refresh_code_boxes:     function(){
         for(var i=0; i<nexus.prototype.code_boxes.length; i++){nexus.prototype.code_boxes[i].refresh();}
     },
@@ -342,7 +240,6 @@ nexus.prototype = {
 
 	show_settings:          function(){
         nexus.prototype.hide_all_menus();
-        nexus.show_popup({url:"settings.html"});
 	},
 
     show_preview:           function() {
@@ -358,7 +255,6 @@ nexus.prototype = {
 
                 for(var i=0, code_box=null; i<nexus.prototype.code_boxes.length; i++){
                     code_box = nexus.prototype.code_boxes[i];
-                    //TODO FIX THIS chrome.storage.local.set({code_box.language: code_box.get_value()});
                 }
                 chrome.storage.local.set({"preview": nexus.prototype.get_preview_code()});
 
@@ -395,48 +291,6 @@ nexus.prototype = {
         document.querySelector("#download_btn").download = nexus.prototype.get_filename();
         document.querySelector("#download_btn").href = data;
     },
-
-    send_via: {
-        email: function() {
-            document.querySelector("#export_email").href = "mailto:?subject=Prototype&body=" + encodeURIComponent(nexus.prototype.get_preview_code());
-        }
-    },
-
-    settings: {
-		save: function(){
-			nexus.prototype.settings.preview_delay = document.querySelector("[name=preview_delay]") ? parseInt(document.querySelector("[name=preview_delay]").value) : 0;
-		},
-        editors:{
-            languages:{
-                js:{
-                    tag:"script",
-                    session:"ace/mode/javascript",
-                    media_type:"application/javascript"
-
-                },
-                css:{
-                    tag:"style",
-                    session:"ace/mode/css",
-                    media_type:"text/css"
-                },
-                html:{
-                    tag:"body",
-                    session:"ace/mode/html",
-                    media_type:"text/html"
-                    //default_value:"<!DOCTYPE html>"
-                }
-            },
-            show_indent_guides: true,
-            theme:"ace/theme/chrome",
-            //theme:"ace/theme/idle_fingers",
-            default:["html","css","js"]
-        },
-
-        preview_time: 0
-	},
-
-
-    //todo the addEventlisteners should just be the on whatever functions
 
     editor_width: null,
 
@@ -531,11 +385,7 @@ nexus.prototype = {
 
         nexus.prototype.code_boxes = document.querySelectorAll(".code_box");
         nexus.prototype.form = document.querySelector("#main");
-
-        //todo fix the continuously selecting on mouse down on any box
         nexus.prototype.init_resize_functionality();
-
-        //todo remove this after full implementation of the ace editor
         nexus.prototype.get_functionality();
         nexus.prototype.resize_code_boxes();
         $(document.body).removeClass("initializing");

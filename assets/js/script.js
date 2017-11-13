@@ -21,13 +21,6 @@ var nexus = function(){
 
     };
 
-    //nexus error module
-    nexus.error = function(title,message){
-         if(window.location.search.indexOf("debug=true") < 0) return;
-
-		if(message) console.error(title,message);
-		else console.error(title);
-    };
     nexus.show_error = function(title,message){
         alert(title);
     };
@@ -66,92 +59,6 @@ var nexus = function(){
 
 	//nexus file module
 	nexus.file = {
-        read_san:function(files){
-
-            nexus.debug(this);
-            nexus.debug(event);
-
-            if(!event || !event.srcElement || !event.srcElement instanceof HTMLInputElement || !event.srcElement.type == "file"){return;}
-
-            var file_input = event.srcElement;
-            files = files || file_input.files;
-
-            if(files.length == 0){nexus.error("No files present"); return;}
-
-            var f = files[0];
-            var reader = new FileReader();
-
-            reader.onload = function(e) {
-                var data = e.target.result;
-                var worker = new Worker('./xlsxworker2.js');
-                worker.onmessage = function(e) {
-                    switch(e.data.t) {
-                        case 'ready': break;
-
-                        case 'e': console.error(e.data.d); break;
-                        default:
-
-                            var o = "", l = 0, w = 10240;
-                            for(; l<e.data.byteLength/w; ++l) o+=String.fromCharCode.apply(null,new Uint16Array(e.data.slice(l*w,l*w+w)));
-                            o+=String.fromCharCode.apply(null, new Uint16Array(e.data.slice(l*w)));
-
-                            xx=o.replace(/\n/g,"\\n").replace(/\r/g,"\\r");
-
-                            var temp_2 = JSON.parse(xx);
-                            var result = {};
-                            temp_2.SheetNames.forEach(function(sheetName) {
-                                var roa = XLSX.utils.sheet_to_row_object_array(temp_2.Sheets[sheetName]);
-                                if(roa.length > 0){
-                                    result[sheetName] = roa;
-                                }
-                            });
-                            console.debug(result);
-                            window.test = result["Stores Map"];
-                            nexus.json.table(result["Stores Map"],{generate_header:false});
-                            return result;
-                            break;
-                    }
-                };
-
-                var b = new ArrayBuffer(data.length*2), v = new Uint16Array(b);
-                for (var i=0; i != data.length; ++i) v[i] = data.charCodeAt(i);
-                var val =  [v, b];
-
-                worker.postMessage(val[1], [val[1]]);
-            };
-            reader.readAsBinaryString(f);
-        },
-
-        image_to_base64: function(input){
-            /*//function convertImgToBase64URL(url, callback, outputFormat){
-            //credit: http://stackoverflow.com/questions/6150289/how-to-convert-image-into-base64-string-using-javascript
-            var img = new Image();
-            img.crossOrigin = 'Anonymous';
-            img.onload = function(){
-                var canvas = document.createElement('CANVAS'),
-                ctx = canvas.getContext('2d'), dataURL;
-                canvas.height = img.height;
-                canvas.width = img.width;
-                ctx.drawImage(img, 0, 0);
-                dataURL = canvas.toDataURL(outputFormat);
-                return dataURL;
-                canvas = null;
-            };
-            img.src = url;
-            //}*/
-
-            //credit: http://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
-            //credit: http://jsfiddle.net/LvsYc/
-
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-                reader.onload = function(e){
-                    console.debug(e.target.result);
-                    return e.target.result;
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        },
 
         read: function(file){
             //REF: https://api.jquery.com/deferred.promise/
@@ -232,103 +139,10 @@ var nexus = function(){
 
     };
 
-	//nexus json module
-    nexus.json = {
-		table:function(json, options){
-            nexus.debug(options);
-            options = options || {};
-            //options.generate_header = options.generate_header || true;
-            nexus.debug(options);
-
-            json = json || {};
-
-            var table = document.createElement("table");
-            table.className                 = "nexus enable_row_select";
-            var table_header                = table.appendChild(document.createElement("thead"));
-            var table_header_row            = table_header.appendChild(document.createElement("tr"));
-            var table_header_checkbox_cell  = table_header_row.appendChild(document.createElement("th"));
-            var table_header_checkbox       = table_header_checkbox_cell.appendChild(document.createElement("input"));
-            table_header_checkbox.type      = "checkbox";
-            table_header_checkbox.className = "nexus uk-position-relative";
-            table_header_checkbox.addEventListener("change",function(){
-
-                var table = this.parentNode.parentNode.parentNode.parentNode;
-                var row_checkboxes = table.querySelectorAll(".row_checkbox_cell input[type=checkbox].row_checkbox");
-                for(var i=0; i<row_checkboxes.length; i++){
-                    row_checkboxes[i].checked = this.checked;
-					event.preventDefault();
-    				$(row_checkboxes[i]).trigger("change");
-                }
-
-            },false);
-
-            if(options.generate_header === true){
-
-                for(var i in Object.keys(json)){
-                    var header_cell = table_header_row.appendChild(document.createElement("th"));
-                    header_cell.innerHTML = Object.keys(json)[i];
-                }
-            }
-
-            var table_body = table.appendChild(document.createElement("tbody"));
-            for(var i in Object.keys(json)){
-                var row_entry               = table_body.appendChild(document.createElement("tr"));
-                row_entry.className         = "selected";
-                var row_checkbox_cell       = row_entry.appendChild(document.createElement("td"));
-                row_checkbox_cell.className = "row_checkbox_cell";
-                var row_checkbox            = row_checkbox_cell.appendChild(document.createElement("input"));
-                row_checkbox.type           = "checkbox";
-                row_checkbox.checked        = true;
-                row_checkbox.className      = "nexus uk-position-relative row_checkbox";
-                row_checkbox.addEventListener("change",function(){
-					console.debug("checkbox change function");
-                    if(this.checked){$(this.parentNode.parentNode).addClass("selected");}
-                    else{$(this.parentNode.parentNode).removeClass("selected");}
-                },false);
-
-
-                for(var j in Object.keys(Object.keys(json)[i])){
-                    var cell_value = json[i][Object.keys(json[i])[j]];
-                    if(cell_value !== undefined){
-                        var row_cell = row_entry.appendChild(document.createElement("td"));
-                        row_cell.className = Object.keys(json[i])[j];
-                        row_cell.innerHTML = cell_value;
-                    }
-                }
-            }
-
-            document.querySelector("#table_output").innerHTML = "";
-            document.querySelector("#table_output").appendChild(table);
-            return table;
-        }
-    },
-
-	//nexus jquery module
-	nexus.jquery_url = "http://code.jquery.com/jquery.js";
-
-	nexus.debug = function(title,message){
-        if(window.location.search.indexOf("debug=true") < 0) return;
-
-		if(message) console.debug(title,message);
-		else console.debug(title);
-    };
-
-	nexus.link = function(src){
-
-		if(src.substring(src.length-4, src.length) == ".css"){
-			var link = document.createElement("link");
-			link.rel = "stylesheet";
-			link.href = src;
-			document.head.appendChild(link);
-		}
-	};
-
     nexus.menu = function(json_tree){
 
         var menu = document.createElement("ul");
         menu.className = "nexus menu uk-margin-remove";
-
-        console.debug(Object.keys(json_tree));
 
         for(var i in Object.keys(json_tree)){
             var key = Object.keys(json_tree)[i];
@@ -343,38 +157,6 @@ var nexus = function(){
         return menu;
 
     };
-
-    nexus.show_popup =  function(params){
-        params = params || {};
-
-        if(params.url){
-            $.ajax({
-                url: params.url
-            }).done(function(result) {
-                $(".mask td.aligner .content").html(result);
-            }).error(function(e,f){
-                try{
-                    $(".mask td.aligner .content").html("<iframe class='ajax error fallback uk-width uk-display-block uk-height-1-1 uk-margin-remove' src='"+this.url+"'></iframe>");
-                    console.debug(this);
-                    console.debug(e);
-                    console.debug(f);
-                }
-                catch(e){
-                    console.debug(e);
-                }
-            });
-        }
-    };
-
-	//nexus scripts module
-	nexus.scripts = {};
-	nexus.scripts.install = function(src){
-		var script	= document.createElement("script");
-		script.type = "text/javascript";
-		script.src	= src;
-		document.body.appendChild(script);
-		return script;
-	};
 };
 
 document.addEventListener("DOMContentLoaded",nexus,false);
@@ -382,10 +164,8 @@ document.addEventListener("DOMContentLoaded",nexus,false);
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         navigator.serviceWorker.register('/assets/js/sw.js').then(function(registration) {
-            // Registration was successful
             console.log('ServiceWorker registration successful with scope: ', registration.scope);
         }, function(err) {
-            // registration failed :(
             console.log('ServiceWorker registration failed: ', err);
         });
     });
@@ -496,62 +276,10 @@ nexus.prototype = {
             "about":{}
         };
 
-        //console.debug(new nexus.menu(menu_tree).outerHTML);
-
-        //nexus.prototype.main_menu = document.querySelector("");
-
         nexus.prototype.mask            =  document.body.appendChild(document.createElement("div"));
         nexus.prototype.mask.id         = "mask";
         nexus.prototype.mask.className  = "nexus mask uk-position-absolute uk-position-top-left uk-width uk-height-1-1";
         nexus.prototype.mask.onclick    = nexus.prototype.hide_all_menus;
-
-        document.querySelector("#color_converter_btn").onclick = function(){
-            nexus.prototype.hide_all_menus();
-            nexus.show_popup({url:"color_converter.html"});
-        };
-
-        document.querySelector("#base64_encoder_btn").onclick = function(){
-            nexus.prototype.hide_all_menus();
-            nexus.show_popup({url:"http://dataurl.net/#dataurlmaker"});
-        };
-
-        document.querySelector("#lorem_ipsum_generator_btn").onclick = function(){
-            nexus.prototype.hide_all_menus();
-            nexus.show_popup({url:"http://www.blindtextgenerator.com/lorem-ipsum"});
-        };
-
-        //TODO escape key to return to work space
-        //document.querySelector("");
-
-    },
-
-    export_to_codepen:      function() {
-
-        if(!nexus.prototype.has_user_code()){nexus.show_error("No Code To Share"); return;}
-        else{
-            nexus.show_error("has user code");
-        }
-
-        var form = document.createElement("form");
-        form.style.display = "none";
-        form.target = "_blank";
-        form.method = "POST";
-        form.action = "http://codepen.io/pen/define";
-        var data = form.appendChild(document.createElement("input"));
-        data.type = "hidden";
-        data.name = "data";
-        //set the name as the same name as the download OR! nexus prototype
-        //TODO this data object should be a generic function to be fetched, i.e. get_all code as json, maybe extend the current get code and then implement in the chrome app show preview
-
-        data_obj = {
-            "title": nexus.prototype.get_filename(),
-            "html": document.querySelector(".code_box.html").value() || "",
-            "css": document.querySelector(".code_box.css").value() || "" ,
-            "js": document.querySelector(".code_box.js").value() || ""
-        }
-
-        data.value = JSON.stringify(data_obj).replace(/"/g, "&quot;").replace(/'/g, "&apos;"); //TODO replace all single quotes should be part of the string prototype
-        form.submit();
     },
 
     get_preview_code:       function() {
@@ -561,8 +289,6 @@ nexus.prototype = {
             if(code_box.editor.getValue().trim() == ""){continue;}
             preview_code += "\n<" + nexus.prototype.settings.editors.languages[code_box.language].tag + " id='nexus_prototype_preview_"+code_box.language+"' >\n" + code_box.editor.getValue() + "\n</" + nexus.prototype.settings.editors.languages[code_box.language].tag + ">\n";
         }
-
-
         return preview_code;
     },
 
@@ -638,52 +364,6 @@ nexus.prototype = {
 
     },
 
-    import:                 function(file){
-        nexus.prototype.reset();
-        if(file == null){return;}
-
-        nexus.prototype.set_filename(file.name);
-        $(document.querySelector("html")).addClass("importing");
-        nexus.file.read(file).then(function(data){
-            document.querySelector('.code_box.html').set_value(data);
-            $(document.querySelector("html")).removeClass("importing");
-            nexus.hide_mask(true);
-            //TODO STRIP INTO CODE BOXES, as dynamic as possible. check what boxes exist.
-            //COLLAPSE UNUSED CODE BOXES
-        });
-        //this function must take the given code and strip it into boxes, and add necessary boxes where needed
-        //make use of the supported languages and create necessary boxes. to test this, maybe only show html and css boxes at first
-
-    },
-
-    import_from_codepen:    function(url) {
-        url = url || window.prompt("Paste codepen url...");
-        if (!url) {
-            sonsole.error("No URL supplied");
-            return;
-        }
-        var user = url.replace("http://codepen.io/", "");
-        user = user.substring(0, user.indexOf("/pen"));
-        var slug_hash = url.substring(url.lastIndexOf('/') + 1, url.length);
-        var codepen_embed = document.body.appendChild(document.createElement("iframe"));
-        var codepen_doc = codepen_embed.contentDocument || codepen_embed.contentWindow.document;
-        codepen_embed.className = "cp_embed_iframe codepen";
-        codepen_embed.id = "cp_embed_" + slug_hash;
-        codepen_embed.src = "//codepen.io/" + user + "/embed/" + slug_hash + "?slug-hash=" + slug_hash + "&amp;user=" + user;
-        codepen_embed.setAttribute("scrolling", "no");
-        codepen_embed.setAttribute("frameborder", "0");
-        codepen_embed.setAttribute("height", parseInt(window.getComputedStyle(nexus.prototype.preview_frame)["height"]));
-        codepen_embed.setAttribute("style", "width:100%;min-height:100%;");
-        codepen_embed.setAttribute("allowtransparency", "true");
-        codepen_embed.setAttribute("allowfullscreen", "true");
-        document.querySelector(".code_area.html").value = codepen_embed.outerHTML;
-        codepen_embed.parentNode.removeChild(codepen_embed);
-    },
-
-    open:                   function() {
-        nexus.prototype.import(document.querySelector('#open_btn').files[0]);
-    },
-
     refresh_code_boxes:     function(){
         for(var i=0; i<nexus.prototype.code_boxes.length; i++){nexus.prototype.code_boxes[i].refresh();}
     },
@@ -723,7 +403,6 @@ nexus.prototype = {
 
 	show_settings:          function(){
         nexus.prototype.hide_all_menus();
-        nexus.show_popup({url:"settings.html"});
 	},
 
     show_preview:           function() {
@@ -739,7 +418,6 @@ nexus.prototype = {
 
                 for(var i=0, code_box=null; i<nexus.prototype.code_boxes.length; i++){
                     code_box = nexus.prototype.code_boxes[i];
-                    //TODO FIX THIS chrome.storage.local.set({code_box.language: code_box.get_value()});
                 }
                 chrome.storage.local.set({"preview": nexus.prototype.get_preview_code()});
 
@@ -776,48 +454,6 @@ nexus.prototype = {
         document.querySelector("#download_btn").download = nexus.prototype.get_filename();
         document.querySelector("#download_btn").href = data;
     },
-
-    send_via: {
-        email: function() {
-            document.querySelector("#export_email").href = "mailto:?subject=Prototype&body=" + encodeURIComponent(nexus.prototype.get_preview_code());
-        }
-    },
-
-    settings: {
-		save: function(){
-			nexus.prototype.settings.preview_delay = document.querySelector("[name=preview_delay]") ? parseInt(document.querySelector("[name=preview_delay]").value) : 0;
-		},
-        editors:{
-            languages:{
-                js:{
-                    tag:"script",
-                    session:"ace/mode/javascript",
-                    media_type:"application/javascript"
-
-                },
-                css:{
-                    tag:"style",
-                    session:"ace/mode/css",
-                    media_type:"text/css"
-                },
-                html:{
-                    tag:"body",
-                    session:"ace/mode/html",
-                    media_type:"text/html"
-                    //default_value:"<!DOCTYPE html>"
-                }
-            },
-            show_indent_guides: true,
-            theme:"ace/theme/chrome",
-            //theme:"ace/theme/idle_fingers",
-            default:["html","css","js"]
-        },
-
-        preview_time: 0
-	},
-
-
-    //todo the addEventlisteners should just be the on whatever functions
 
     editor_width: null,
 
@@ -912,11 +548,7 @@ nexus.prototype = {
 
         nexus.prototype.code_boxes = document.querySelectorAll(".code_box");
         nexus.prototype.form = document.querySelector("#main");
-
-        //todo fix the continuously selecting on mouse down on any box
         nexus.prototype.init_resize_functionality();
-
-        //todo remove this after full implementation of the ace editor
         nexus.prototype.get_functionality();
         nexus.prototype.resize_code_boxes();
         $(document.body).removeClass("initializing");
