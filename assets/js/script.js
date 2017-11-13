@@ -364,7 +364,7 @@ nexus.prototype = {
         else {
             window.onbeforeunload = function () {
                 return "All your work will be erased!";
-            }
+            };
         }
 
         if (nexus.prototype.interface === "chrome_app") {
