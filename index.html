@@ -17,11 +17,6 @@
     <a id="main_menu_toggle" class="fa fa-bars action uk-text-center uk-padding-remove"></a>
     <label id="app_name">Prototype</label>
     <input id="filename" type="text" value="prototype.html" class="uk-position-absolute uk-text-center" />
-    <div id="quick_actions" class="uk-position-absolute uk-position-top-right">
-        <a id="toggle_grid" class="fa fa-table action uk-text-center uk-padding-remove"></a>
-        <a id="share_menu_toggle" class="fa fa-share action uk-text-center uk-padding-remove"></a>
-    </div>
-
 </header>
 
 <form id="main" class="uk-flex flex box uk-width uk-height-1-1 uk-text-truncate">
@@ -54,10 +49,10 @@
 
     <div id="workspace" class="uk-flex-item-1 fill uk-height-1-1 uk-position-relative">
         <div id="code_boxes_container" class="uk-width-1-2 uk-height-1-1 uk-position-relative uk-display-inline-block uk-float-left">
-            <div id="resize_bar" class="no_select uk-height-1-1 uk-position-absolute uk-position-top-right uk-text-center">
-                <span id="btn_editor_min" class="fa fa-step-backward uk-position-absolute uk-position-top-left uk-text-center uk-width"></span>
-                <span class="fa fa-ellipsis-v uk-position-absolute uk-text-center uk-width uk-position-top-left"></span>
-                <span id="btn_editor_max" class="fa fa-step-forward uk-position-absolute uk-position-top-left uk-text-center uk-width"></span>
+            <div id="resize_bar" class="no_select uk-height-1-1 uk-position-absolute uk-position-top-right uk-flex uk-flex-middle uk-flex-center uk-flex-column uk-flex-space-between">
+                <span id="btn_editor_min" class="fa fa-step-backward"></span>
+                <span class="fa fa-ellipsis-v"></span>
+                <span id="btn_editor_max" class="fa fa-step-forward"></span>
             </div>
         </div>
         <div id="preview_container" class="uk-width-1-2 uk-height-1-1 uk-position-relative uk-display-inline-block uk-float-left">

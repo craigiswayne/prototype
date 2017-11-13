@@ -1,4 +1,4 @@
-/*! Prototype - v - 2017-11-13
+/*! Prototype - v - 2017-11-14
 * Copyright (c) 2017 Craig Wayne; Licensed  */
 String.prototype.trim = function () {
     return this.replace(/^\s+|\s+$/g, "");
@@ -314,28 +314,12 @@ nexus.prototype = {
 
     toggle_main_menu: function () {
         $('#main_menu_toggle').toggleClass('fa-bars fa-times');
-        document.querySelector("#share_menu_toggle").className = "fa fa-share action";
         $('#main_menu').toggleClass('active');
-        $('#share_menu').removeClass('active');
         if (document.querySelector("#main_menu_toggle.fa-times")) {
             nexus.show_mask();
         } else {
             nexus.hide_mask();
         }
-    },
-
-    toggle_share_menu: function () {
-
-        document.querySelector("#main_menu_toggle").className = "fa fa-bars action uk-text-center uk-padding-remove";
-        $('#share_menu').toggleClass('active');
-        $('#main_menu').removeClass('active');
-        $('#share_menu_toggle').toggleClass('fa-share fa-times');
-        if (document.querySelector("#share_menu_toggle.fa-times")) {
-            nexus.show_mask();
-        } else {
-            nexus.hide_mask();
-        }
-
     },
 
     editor_width_min: function () {
@@ -446,9 +430,7 @@ nexus.prototype = {
 
     hide_all_menus: function () {
         $("#main_menu").removeClass('active');
-        $("#share_menu").removeClass('active');
         document.querySelector("#main_menu_toggle").className = "fa fa-bars action uk-text-center uk-padding-remove";
-        document.querySelector("#share_menu_toggle").className = "fa fa-share action";
         nexus.hide_mask();
     },
 
@@ -536,23 +518,15 @@ nexus.prototype = {
         }
         nexus.prototype.code_boxes[0].editor.focus();
 
-        document.querySelector(".reset").addEventListener("click", nexus.prototype.reset, false);
-        document.querySelector("#export_codepen").addEventListener("click", nexus.prototype.export_to_codepen, false);
         document.querySelector("#download_btn").addEventListener("click", nexus.prototype.save, false);
         document.querySelector("#main_menu_toggle").addEventListener("click", nexus.prototype.toggle_main_menu, false);
-        document.querySelector("#share_menu_toggle").addEventListener("click", nexus.prototype.toggle_share_menu, false);
         document.querySelector("#btn_editor_min").addEventListener("click", nexus.prototype.editor_width_min, false);
         document.querySelector("#btn_editor_max").addEventListener("click", nexus.prototype.editor_width_max, false);
 
         nexus.prototype.catch_save();
         nexus.prototype.catch_open();
         document.querySelector("#open_btn").onchange = nexus.prototype.open;
-        document.querySelector("#share_btn").addEventListener("click", nexus.prototype.toggle_share_menu, false);
         document.querySelector("#settings_btn").addEventListener("click", nexus.prototype.show_settings, false);
-
-        document.querySelector("#toggle_grid").addEventListener("click", function () {
-            $(document.body).toggleClass("grid");
-        }, false);
 
         nexus.prototype.code_boxes = document.querySelectorAll(".code_box");
         nexus.prototype.form = document.querySelector("#main");
