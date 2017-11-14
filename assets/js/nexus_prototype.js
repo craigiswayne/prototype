@@ -173,27 +173,10 @@ nexus.prototype = {
     },
 
     get_functionality: function () {
-        var upload_button = document.querySelector("#open_btn");
-        var codepen_export_button = document.querySelector("#export_codepen");
-        if (!document.domain) {
-            codepen_export_button.addEventListener("click", nexus.prototype.local_functionality_notice, false);
-            upload_button.type = "button";
-            upload_button.addEventListener("click", nexus.prototype.local_functionality_notice, false);
-        } else {
-            codepen_export_button.addEventListener("click", nexus.prototype.export_to_codepen, false);
-        }
 
-        if (nexus.prototype.interface === "chrome_app") {
-        }
-        else {
-            window.onbeforeunload = function () {
-                return "All your work will be erased!";
-            };
-        }
-
-        if (nexus.prototype.interface === "chrome_app") {
-            nexus.link("nexus.prototype_chrome_app.css");
-        }
+        window.onbeforeunload = function () {
+            return "All your work will be erased!";
+        };
 
 
     },
@@ -365,8 +348,6 @@ nexus.prototype = {
 
         nexus.prototype.catch_save();
         nexus.prototype.catch_open();
-        document.querySelector("#open_btn").onchange = nexus.prototype.open;
-        document.querySelector("#settings_btn").addEventListener("click", nexus.prototype.show_settings, false);
 
         nexus.prototype.code_boxes = document.querySelectorAll(".code_box");
         nexus.prototype.form = document.querySelector("#main");
