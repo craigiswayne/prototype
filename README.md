@@ -1,6 +1,6 @@
 # prototype 
 
-[![bitHound Overall Score](https://www.bithound.io/github/craigiswayne/prototype/badges/score.svg)](https://www.bithound.io/github/craigiswayne/prototype)
+[![bitHound Overall Score](https://www.bithound.io/github/craigiswayne/prototype/badges/score.svg)](https://www.bithound.io/github/craigiswayne/prototype)  [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/261/badge)](https://bestpractices.coreinfrastructure.org/projects/261)
 
 A Real Time Front End Tool for HTML, CSS and JavaScript
 
