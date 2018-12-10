@@ -1,24 +1,24 @@
 <?php
-	$min_prefix = $uikit_path_prefix = $font_awesome_path_prefix = $jquery_path_prefix = $jquery_cookie_path_prefix = NULL;
-	
-	/**
-	 * Run from commandline
-	 */
-	if ( PHP_SAPI !== 'fpm-fcgi' ) {
-		$min_prefix                = '.min';
-		$uikit_path_prefix         = 'https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.4/css';
-		$font_awesome_path_prefix  = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css';
-		$jquery_path_prefix        = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1';
-		$jquery_cookie_path_prefix = 'https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1';
-		$ace_builds_path_prefix    = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9';
-	} else {
-		$min_prefix                = '';
-		$uikit_path_prefix         = '/node_modules/uikit/dist/css';
-		$font_awesome_path_prefix  = '/node_modules/font-awesome/css';
-		$jquery_path_prefix        = '/node_modules/jquery/dist';
-		$jquery_cookie_path_prefix = '/node_modules/jquery.cookie';
-		$ace_builds_path_prefix    = '/node_modules/ace-builds/src-min';
-	}
+$min_prefix = $uikit_path_prefix = $font_awesome_path_prefix = $jquery_path_prefix = $jquery_cookie_path_prefix = NULL;
+
+/**
+ * Run from commandline
+ */
+if ( PHP_SAPI !== 'fpm-fcgi' ) {
+	$min_prefix                = '.min';
+	$uikit_path_prefix         = 'https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.4/css';
+	$font_awesome_path_prefix  = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css';
+	$jquery_path_prefix        = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1';
+	$jquery_cookie_path_prefix = 'https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1';
+	$ace_builds_path_prefix    = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9';
+} else {
+	$min_prefix                = '';
+	$uikit_path_prefix         = '/node_modules/uikit/dist/css';
+	$font_awesome_path_prefix  = '/node_modules/font-awesome/css';
+	$jquery_path_prefix        = '/node_modules/jquery/dist';
+	$jquery_cookie_path_prefix = '/node_modules/jquery.cookie';
+	$ace_builds_path_prefix    = '/node_modules/ace-builds/src-min';
+}
 ?>
 <!doctype html>
 <html class="uk-height-1-1 uk-width uk-display-block uk-padding-remove">
@@ -61,7 +61,7 @@
         </div>
         <div id="preview_container" class="uk-width-1-2 uk-height-1-1 uk-position-relative uk-display-inline-block uk-float-left">
             <div id="preview_mask" class="uk-position-absolute uk-position-top-left uk-width uk-height-1-1"></div>
-            <iframe class="preview uk-width uk-height-1-1" src="/preview.html" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+            <iframe class="preview uk-width uk-height-1-1" src="/preview.html" sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-modals"></iframe>
             <div id="grid uk-position-absolute uk-width uk-height-1-1 uk-position-top-left">
                 <iframe src="/grid.html"></iframe>
                 <div id="grid_mask"></div>

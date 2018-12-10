@@ -11,3 +11,10 @@ A Real Time Front End Tool for HTML, CSS and JavaScript
 ### Demo
 
 ![demo](https://github.com/craigiswayne/prototype/wiki/images/demo.gif)
+
+### Usage
+
+```
+git clone git@github.com:craigiswayne/prototype.git
+yarn install
+```

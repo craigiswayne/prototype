@@ -317,6 +317,7 @@ body:not(.resizing) #code_boxes_container {
   font-size: inherit;
   line-height: 18px;
   border: none;
+  margin-top: 3px;
 }
 #code_boxes_container .code_area:not(.ace_editor) {
   background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0) 17px, #87CEEB 18px);
