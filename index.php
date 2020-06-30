@@ -1,3 +1,25 @@
+<?php
+$min_prefix = $uikit_path_prefix = $font_awesome_path_prefix = $jquery_path_prefix = $jquery_cookie_path_prefix = NULL;
+
+/**
+ * Run from commandline
+ */
+if ( PHP_SAPI !== 'fpm-fcgi' ) {
+	$min_prefix                = '.min';
+	$uikit_path_prefix         = 'https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.4/css';
+	$font_awesome_path_prefix  = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css';
+	$jquery_path_prefix        = 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1';
+	$jquery_cookie_path_prefix = 'https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1';
+	$ace_builds_path_prefix    = 'https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9';
+} else {
+	$min_prefix                = '';
+	$uikit_path_prefix         = '/node_modules/uikit/dist/css';
+	$font_awesome_path_prefix  = '/node_modules/font-awesome/css';
+	$jquery_path_prefix        = '/node_modules/jquery/dist';
+	$jquery_cookie_path_prefix = '/node_modules/jquery.cookie';
+	$ace_builds_path_prefix    = '/node_modules/ace-builds/src-min';
+}
+?>
 <!doctype html>
 <html class="uk-height-1-1 uk-width uk-display-block uk-padding-remove">
 <head>
@@ -7,9 +29,9 @@
     <meta name="viewport" content="user-scalable=0, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height" />
     <title>Prototype</title>
     <link rel="icon" type="image/png" href="/assets/images/nexus_prototype.png" />
-    <link rel="stylesheet" href="/assets/css/style.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/2.27.4/css/uikit.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/assets/css/style<?php echo $min_prefix; ?>.css" />
+    <link rel="stylesheet" href="<?php echo $uikit_path_prefix; ?>/uikit<?php echo $min_prefix; ?>.css" />
+    <link rel="stylesheet" href="<?php echo $font_awesome_path_prefix; ?>/font-awesome<?php echo $min_prefix; ?>.css" />
 </head>
 
 <body class="uk-height-1-1 uk-width initializing">
@@ -49,9 +71,9 @@
     </div>
 
 </form>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.9/ace.js"></script>
+<script src="<?php echo $jquery_path_prefix; ?>/jquery<?php echo $min_prefix; ?>.js"></script>
+<script src="<?php echo $jquery_cookie_path_prefix; ?>/jquery.cookie<?php echo $min_prefix; ?>.js"></script>
+<script src="<?php echo $ace_builds_path_prefix; ?>/ace.js"></script>
 <script src="/assets/js/script.js"></script>
 </body>
 </html>

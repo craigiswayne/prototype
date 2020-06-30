@@ -1,149 +1,177 @@
-<script src="jquery.js"></script>
+<head>
+    <style>
+        body {
+            position: relative;
+            margin: 0;
+        }
 
+        #grid {
+            font-family: Tahoma, Arial, serif;
+            font-size: 12px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px 0 20px 20px;
+            box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        #grid * {
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        #grid canvas {
+            width: 100%;
+            height: 100%;
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+            background: linear-gradient(rgba(0, 0, 0, .3) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 0, 0, .3) 1px, transparent 1px),
+            linear-gradient(rgba(0, 0, 0, .1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 0, 0, .1) 1px, transparent 1px) -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+            cursor: crosshair;
+        }
+
+        #grid .ruler {
+            position: absolute;
+            background: #434445;
+            background-size: 100px 100px;
+            overflow: hidden;
+
+        }
+
+        #grid .ruler:after {
+            content: '';
+            display: block;
+            position: absolute;
+            background-size: 10px 10px;
+            background-position: -1px -1px;
+        }
+
+        #grid #horizontalRuler {
+            height: 20px;
+            width: 100% !important;
+            left: 0;
+            box-sizing: border-box;
+            background-clip: content-box;
+            padding-left: 20px;
+            background: linear-gradient(90deg, rgba(255, 255, 255, .4) 1px, transparent 1px) 19px;
+            top: 0;
+        }
+
+        #grid #horizontalRuler:after {
+            top: 50%;
+            left: 20px;
+            width: 100%;
+            height: 50%;
+            background-image: linear-gradient(90deg, rgba(255, 255, 255, .2) 1px, transparent 1px);
+        }
+
+        #grid #verticalRuler {
+            height: 100% !important;
+            width: 20px;
+            top: 0;
+            left: 0;
+            padding-top: 20px;
+            box-sizing: border-box;
+            background-clip: content-box;
+            background: #434445 linear-gradient(rgba(255, 255, 255, .4) 1px, transparent 1px) 0 19px;
+        }
+
+        #grid #verticalRuler:after {
+            top: 20px;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            background-image: linear-gradient(rgba(255, 255, 255, .2) 1px, transparent 1px);
+        }
+
+        #grid ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: #999;
+            position: relative;
+        }
+
+        #grid .ruler li {
+            position: absolute
+        }
+
+        #grid #horizontalRuler li {
+            top: -1px
+        }
+
+        #grid #horizontalRuler li:first-child {
+            display: none
+        }
+
+        #grid #verticalRuler li {
+            right: 0;
+            margin-top: -12px
+        }
+
+        #grid .ruler .marker {
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            background: rgba(0, 255, 255, .8);
+        }
+
+        #grid #hMarker {
+            width: 1px;
+            height: 100%;
+            left: 20px;
+        }
+
+        #grid #vMarker {
+            width: 100%;
+            height: 1px;
+            top: 20px;
+        }
+
+        #grid .tool-box label {
+            padding: 0 .5em
+        }
+
+        #grid #statusBar {
+            display: block;
+            width: 100%;
+            height: 20px;
+            border-top: none;
+            margin: 0;
+            line-height: 20px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            padding-left: 20px;
+            color: #ccc;
+            background: #434445;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="/assets/js/grid.js"></script>
+</head>
+<body>
 <div id="grid">
-	<div id="horizontalRuler" class="ruler">
-		<b id="hMarker" class="marker"></b>
-	</div>
-	
-	<div id="verticalRuler" class="ruler">
-		<b id="vMarker" class="marker"></b>
-	</div>
-	
-	<canvas id="canvas" class="grid" width="480" height="360"></canvas>
+    <div id="horizontalRuler" class="ruler">
+        <b id="hMarker" class="marker"></b>
+    </div>
 
-	<div class="tool-box" id="statusBar"></div>
+    <div id="verticalRuler" class="ruler">
+        <b id="vMarker" class="marker"></b>
+    </div>
+
+    <canvas id="canvas" class="grid" width="480" height="360"></canvas>
+
+    <div class="tool-box" id="statusBar"></div>
 </div>
-
-<style>
-	body{
-		position:relative;
-		margin:0;
-	}
-
-	#grid {
-		font-family:Tahoma,Arial;
-		font-size:12px;
-		position:absolute;
-		top:0;
-		left:0;
-		width:100%;
-		height:100%;
-		padding: 20px 0 20px 20px;
-		box-sizing:border-box;
-		-moz-box-sizing:border-box;
-		-webkit-user-select:none;
-		-moz-user-select:none;
-		-ms-user-select:none;
-		user-select:none;
-	}
-
-	#grid * {
-		-moz-box-sizing:border-box;
-		-webkit-box-sizing:border-box;
-		box-sizing:border-box;
-	}
-
-	#grid canvas{
-		width:100%;
-		height:100%;
-		background-size:100px 100px, 100px 100px, 20px 20px, 20px 20px;
-		background-position:-1px -1px, -1px -1px, -1px -1px, -1px -1px;
-		background-image:linear-gradient(rgba(0,0,0,.3) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(0,0,0,.3) 1px, transparent 1px),
-		linear-gradient(rgba(0,0,0,.1) 1px, transparent 1px),
-		linear-gradient(90deg, rgba(0,0,0,.1) 1px, transparent 1px);
-		cursor:crosshair;
-	}
-
-	#grid .ruler {
-		position:absolute;
-		background:#434445;
-		background-size:100px 100px;
-		overflow:hidden;
-
-	}
-
-	#grid .ruler:after {
-	content:'';
-		display:block;
-		position:absolute;
-		background-size:10px 10px;
-		background-position:-1px -1px;
-	}
-
-	#grid #horizontalRuler {
-		height:20px;
-		width:100% !important;
-		left: 0;
-		background-image:linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px);
-		box-sizing: border-box;
-		background-clip: content-box;
-		padding-left: 20px;
-		background-position: 19px;
-		top: 0;
-	}
-
-	#grid #horizontalRuler:after {
-		top:50%; 
-		left: 20px;
-		width:100%; height:50%;
-		background-image:linear-gradient(90deg, rgba(255,255,255,.2) 1px, transparent 1px);
-	}
-
-	#grid #verticalRuler {
-		height:100% !important;
-		width:20px;
-		top: 0;
-		left:0;
-		background-image:linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px);
-		padding-top: 20px;
-		box-sizing: border-box;
-		background-clip: content-box;
-		background-position: 0 19px;
-		background:#434445;
-	}
-
-	#grid #verticalRuler:after {
-		top: 20px;
-		left:50%;
-		width:50%;
-		height:100%;
-		background-image:linear-gradient(rgba(255,255,255,.2) 1px, transparent 1px);
-	}
-
-	#grid ul { list-style:none; padding:0; margin:0; color:#999; position:relative;}
-	#grid .ruler li { position:absolute }
-	#grid #horizontalRuler li { top:-1px }
-	#grid #horizontalRuler li:first-child { display:none }
-	#grid #verticalRuler li { right:0; margin-top:-12px }
-
-	#grid .ruler .marker {
-		position:absolute;
-		top: 0px; left:0;
-		display:block;
-		background:rgba(0,255,255,.8);
-	}
-
-	#grid #hMarker { width:1px; height:100% ; left: 20px;}
-
-	#grid #vMarker { width:100%; height:1px ; top: 20px;}
-
-	#grid .tool-box label { padding:0 .5em }
-
-	#grid #statusBar {
-		display:block;
-		width: 100%;
-		height:20px;
-		border-top:none;
-		margin: 0;
-		line-height:20px;
-		position: absolute;
-		left: 0;
-		bottom:0;
-		padding-left:20px;
-		color:#ccc;
-		background:#434445;
-	}
-</style>
-
-<script src="grid.js"></script>
+</body>

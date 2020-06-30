@@ -1,27 +1,47 @@
 {
-
-	"name": 			"Prototype",
-	"short_name": 		"Prototype",
-	"description": 		"Front-End Prototyping Tool.",
-	"author": 			"Craig Wayne",
-
-	"manifest_version": 2,
-	
-	"icons": {
-		"128": "nexus_prototype.png"
-	},
-
-	"version": "1.0",
-
-	"app": {
-		"background":{
-			"scripts":["background.js"]
-		}
-	},
-
-	"offline_enabled": true,
-
-	"permissions": ["storage","fileSystem", "unlimitedStorage", "http://*/", "https://*/" ]
+  "name": "Prototype",
+  "short_name": "Prototype",
+  "description": "Front-End Prototyping Tool",
+  "author": {
+    "name": "Craig Wayne"
+  },
+  "start_url": "/",
+  "externals": ["/"],
+  "display": "fullscreen",
+  "theme_color": "#215A6D",
+  "background_color": "#215A6D",
+  "manifest_version": 2,
+  "icons": [
+    {
+      "src": "assets/images/nexus_prototype.png",
+      "type": "image/png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "assets/images/nexus_prototype-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "assets/images/nexus_prototype-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "version": "1.0",
+  "app": {
+    "background": {
+      "scripts": [
+        "assets/js/background.js"
+      ]
+    }
+  },
+  "offline_enabled": true,
+  "permissions": [
+    "storage",
+    "fileSystem",
+    "unlimitedStorage",
+    "http://*/",
+    "https://*/"
+  ]
 }
-
-//https://developer.chrome.com/apps/manifest
