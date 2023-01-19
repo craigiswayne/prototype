@@ -16,5 +16,7 @@ A Real Time Front End Tool for HTML, CSS and JavaScript
 
 ```
 git clone git@github.com:craigiswayne/prototype.git
-yarn install
+npm ci
+npm run grunt
+npm run serve
 ```
