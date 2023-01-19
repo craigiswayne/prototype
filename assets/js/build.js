@@ -1,5 +1,5 @@
-/*! Prototype - v - 2017-11-14
-* Copyright (c) 2017 Craig Wayne; Licensed  */
+/*! Prototype - v - 2023-01-19
+* Copyright (c) 2023 Craig Wayne; Licensed  */
 String.prototype.trim = function () {
     return this.replace(/^\s+|\s+$/g, "");
 };
@@ -531,7 +531,10 @@ nexus.prototype = {
                 css: {
                     tag: "style",
                     session: "ace/mode/css",
-                    media_type: "text/css"
+                    media_type: "text/css",
+                    default_value: `body {
+    padding: 1rem;
+}`
                 },
                 html: {
                     tag: "body",
