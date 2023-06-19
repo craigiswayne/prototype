@@ -371,7 +371,10 @@ nexus.prototype = {
                 css: {
                     tag: "style",
                     session: "ace/mode/css",
-                    media_type: "text/css"
+                    media_type: "text/css",
+                    default_value: `body {
+    padding: 1rem;
+}`
                 },
                 html: {
                     tag: "body",

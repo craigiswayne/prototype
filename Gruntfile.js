@@ -16,23 +16,7 @@ module.exports = function (grunt) {
             },
             js: {
                 src: ['assets/js/nexus.js', 'assets/js/nexus_prototype.js'],
-                dest: 'assets/js/script.js'
-            }
-        },
-        php2html: {
-            default: {
-                options: {
-                    processLinks: false
-                },
-                files: [
-                    {
-                        expand: true,
-                        cwd: '.',
-                        src: ['index.php'],
-                        dest: '.',
-                        ext: '.html'
-                    }
-                ]
+                dest: 'assets/js/build.js'
             }
         },
         uglify: {
@@ -128,9 +112,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-autoprefixer');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
-    grunt.loadNpmTasks('grunt-php2html');
 
-
-    grunt.registerTask('default', ['less', 'cssmin', 'concat', 'uglify', 'php2html']);
+    grunt.registerTask('default', ['less', 'cssmin', 'concat', 'uglify']);
 
 };

@@ -8,6 +8,10 @@
   "engines": {
     "node": ">= 0.10.0"
   },
+  "scripts": {
+    "grunt": "grunt",
+    "serve": "npx serve"
+  },
   "devDependencies": {
     "ace-builds": "^1.2.9",
     "font-awesome": "^4.7.0",
@@ -26,5 +30,7 @@
     "less-plugin-clean-css": "^1.5.1",
     "uikit": "2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "grunt-cli": "^1.4.3"
+  }
 }
