@@ -1,4 +1,4 @@
-/*! Prototype - v - 2023-01-19
+/*! Prototype - v - 2023-09-18
 * Copyright (c) 2023 Craig Wayne; Licensed  */
 String.prototype.trim = function () {
     return this.replace(/^\s+|\s+$/g, "");

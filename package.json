@@ -1,5 +1,5 @@
 {
-  "name": "Prototype",
+  "name": "prototype",
   "author": {
     "name": "Craig Wayne"
   },
@@ -10,7 +10,7 @@
   },
   "scripts": {
     "grunt": "grunt",
-    "serve": "npx serve"
+    "serve": "serve"
   },
   "devDependencies": {
     "ace-builds": "^1.2.9",
@@ -28,6 +28,7 @@
     "jquery.cookie": "^1.4.1",
     "less-plugin-autoprefix": "^1.5.1",
     "less-plugin-clean-css": "^1.5.1",
+    "serve": "^14.2.1",
     "uikit": "2"
   },
   "dependencies": {
