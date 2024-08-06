@@ -1,6 +1,4 @@
-# prototype 
-
-[![bitHound Overall Score](https://www.bithound.io/github/craigiswayne/prototype/badges/score.svg)](https://www.bithound.io/github/craigiswayne/prototype)  [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/261/badge)](https://bestpractices.coreinfrastructure.org/projects/261)
+# prototype
 
 A Real Time Front End Tool for HTML, CSS and JavaScript
 
@@ -15,7 +13,7 @@ A Real Time Front End Tool for HTML, CSS and JavaScript
 ### Usage
 
 ```
-git clone git@github.com:craigiswayne/prototype.git
+git clone
 npm ci
 npm run grunt
 npm run serve

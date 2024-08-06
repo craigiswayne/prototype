@@ -1,5 +1,5 @@
-/*! Prototype - v - 2023-09-18
-* Copyright (c) 2023 Craig Wayne; Licensed  */
+/*! prototype - v - 2024-04-08
+* Copyright (c) 2024 Craig Wayne; Licensed  */
 String.prototype.trim = function () {
     return this.replace(/^\s+|\s+$/g, "");
 };
