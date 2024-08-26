@@ -10,8 +10,8 @@
   },
   "private": true,
   "engines": {
-    "node": "^20.16.0",
-    "npm": "^10.18.1"
+    "node": ">=20",
+    "npm": ">=10"
   },
   "dependencies": {
     "@angular/animations": "^17.3.0",
