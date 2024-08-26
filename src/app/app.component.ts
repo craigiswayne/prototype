@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {PreviewComponent} from './preview/preview.component';
 import {ToolbarComponent} from './toolbar/toolbar.component';
@@ -15,4 +15,9 @@ import {EditorBoxComponent} from './editor-box/editor-box.component';
 })
 export class AppComponent {
   public editorCSSWidth: string = '';
+  @HostListener('window:beforeunload', ['$event'])
+  // @ts-ignore
+  doSomething($event) {
+    $event.returnValue='Your data will be lost!';
+  }
 }
