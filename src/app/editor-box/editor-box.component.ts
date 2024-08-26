@@ -1,9 +1,14 @@
 import {Component, EventEmitter, HostBinding, Input, Output} from '@angular/core';
+import {NgClass} from '@angular/common';
+import {ToggleComponent} from '../toggle/toggle.component';
 
 @Component({
   selector: 'app-editor-box',
   standalone: true,
-  imports: [],
+  imports: [
+    NgClass,
+    ToggleComponent
+  ],
   templateUrl: './editor-box.component.html',
   styleUrl: './editor-box.component.scss'
 })

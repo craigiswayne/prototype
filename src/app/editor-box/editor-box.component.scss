@@ -21,6 +21,7 @@ header {
   line-height: var(--header-height);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .5);
   z-index: 5;
+  position: relative;
 }
 
 textarea {
@@ -36,3 +37,5 @@ textarea {
     outline: none;
   }
 }
+
+

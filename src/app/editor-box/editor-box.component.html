@@ -1,2 +1,5 @@
-<header (click)="this.collapsed = !this.collapsed">{{language}}</header>
+<header (click)="collapsed = !collapsed">
+  {{language}}
+  <app-toggle [checked]="!collapsed" />
+</header>
 <textarea #textarea (change)="changed.emit(textarea.value)"></textarea>

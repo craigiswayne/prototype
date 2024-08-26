@@ -1,0 +1,56 @@
+:host {
+  position: absolute;
+  cursor: pointer;
+  right: 36px;
+  top: 5px;
+  appearance: none;
+
+  &:before {
+    position: absolute;
+    content: "";
+    left: -3px;
+    top: -3px;
+    width: 30px;
+    height: 15px;
+    border: 2px solid;
+    display: block;
+    border-radius: 15px;
+    box-shadow: 0 0 15px 0 rgba(10,10,10,.2) inset;
+    transition: all .1s .1s linear
+  }
+
+  &:after {
+    content: "";
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    border: 1px solid;
+    display: block;
+    position: absolute;
+    top: -2px;
+    left: -1px;
+    transition: left .2s ease;
+    box-shadow: 1px 0 2px 0 rgba(10,10,10,.2)
+  }
+
+  &:after,&:before {
+    border-color: #C1C1C1;
+    background-color: #fff
+  }
+
+  &.checked {
+    &:after,&:before {
+      border-color: #e5a62e;
+    }
+
+    &:after {
+      left: 13px;
+      box-shadow: -1px 0 2px 0 rgba(10,10,10,.2)
+    }
+
+    &:before {
+      border-color: #e5a62e;
+      background-color: #e5a62e;
+    }
+  }
+}
