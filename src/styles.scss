@@ -1,0 +1,21 @@
+:root {
+  --width-editor: 50%;
+  --width-resize-bar: 15px;
+}
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  width: 100vw;
+  font-family: Tahoma, sans-serif;
+  font-size: 12px;
+}
+
+*  {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+svg {
+  max-width: 100%;
+}

@@ -1,0 +1,54 @@
+:host {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: flex;
+  flex-grow: 1;
+}
+
+#workbench {
+  width: var(--width-editor);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+app-resize-bar {
+  z-index: 2;
+}
+
+app-preview {
+  width: calc(100% - var(--width-resize-bar) - var(--width-editor));
+}
+
+#workbench, app-preview {
+  transition: width 0.3s ease;
+}
+
+app-editor-box {
+  transition: height 0.3s ease;
+  height: 33.333333333%;
+}
+
+.confused {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: -1;
+  text-align: center;
+
+  i {
+    display: block;
+  }
+}
+
+footer {
+  height: 18px;
+  background-image: linear-gradient( 110.3deg,  rgba(73,93,109,1) 4.3%, rgba(49,55,82,1) 96.7% );
+}

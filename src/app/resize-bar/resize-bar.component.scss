@@ -1,0 +1,10 @@
+:host {
+  width: var(--width-resize-bar);
+  background: #92C7A3 linear-gradient(to right, rgba(255, 255, 255, .3), rgba(0, 0, 0, 0));
+  cursor: ew-resize;
+  font-size: 13px;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
