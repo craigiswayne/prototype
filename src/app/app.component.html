@@ -14,8 +14,8 @@
       <i>Um... okay?</i>
     </div>
   </section>
-  <app-resize-bar (onResize)="this.editorCSSWidth = $event"/>
-  <app-preview />
+  <app-resize-bar (on_resize)="this.editorCSSWidth = $event"/>
+  <app-preview #preview_thing />
 </main>
 <footer></footer>
-<div #resizeStyles style="position: fixed;"></div>
+<a #download_link download='' href=''></a>

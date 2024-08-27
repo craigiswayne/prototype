@@ -1,4 +1,4 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, ElementRef, HostListener, ViewChild} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {PreviewComponent} from './preview/preview.component';
 import {ToolbarComponent} from './toolbar/toolbar.component';
@@ -15,9 +15,44 @@ import {EditorBoxComponent} from './editor-box/editor-box.component';
 })
 export class AppComponent {
   public editorCSSWidth: string = '';
+
+  @ViewChild(ToolbarComponent) toolbar!: ToolbarComponent;
+  @ViewChild(PreviewComponent) preview_component!: PreviewComponent;
+
   @HostListener('window:beforeunload', ['$event'])
   // @ts-ignore
   doSomething($event) {
-    $event.returnValue='Your data will be lost!';
+    // $event.returnValue='Your data will be lost!';
+  }
+
+  @ViewChild('download_link') download_link_ref?: ElementRef<HTMLAnchorElement>;
+
+  @HostListener('window:keydown', ['$event']) catch_save_action(event: KeyboardEvent) {
+
+    // Only care about save action
+    if( event.key !== 's'){
+      return;
+    }
+
+    // make sure either the CTRL (windows) or Command (mac) is being pressed as well
+    if(!event.metaKey && !event.ctrlKey){
+      return;
+    }
+
+    event.preventDefault();
+    this.save_this_shit();
+  }
+
+  public save_this_shit(): void {
+    const filename = this.toolbar.get_filename();
+    const download_link = this.download_link_ref?.nativeElement;
+    if(!filename || !download_link){
+      return;
+    }
+    const data = 'data:application/xml;charset=utf-8,' + encodeURIComponent(this.preview_component.full_code);
+
+    download_link.setAttribute('download',filename);
+    download_link.setAttribute('href',data);
+    download_link.click();
   }
 }

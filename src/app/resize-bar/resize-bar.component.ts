@@ -11,7 +11,7 @@ export class ResizeBarComponent {
   private resizing = false;
   private resize_start: number = 0;
 
-  @Output('onResize') onResize: EventEmitter<string> = new EventEmitter();
+  @Output('on_resize') on_resize: EventEmitter<string> = new EventEmitter();
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent) {
     this.resizing = true;
@@ -37,10 +37,10 @@ export class ResizeBarComponent {
   }
 
   public onlyEditor(): void {
-    this.onResize.emit('calc(100% - var(--width-resize-bar))');
+    this.on_resize.emit('calc(100% - var(--width-resize-bar))');
   }
 
   public noEditor(): void {
-    this.onResize.emit('0px');
+    this.on_resize.emit('0px');
   }
 }

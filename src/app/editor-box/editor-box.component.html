@@ -2,4 +2,4 @@
   {{language}}
   <app-toggle [checked]="!collapsed" />
 </header>
-<textarea #textarea (change)="changed.emit(textarea.value)"></textarea>
+<textarea #textarea (keyup)="trigger_change(textarea.value)"></textarea>

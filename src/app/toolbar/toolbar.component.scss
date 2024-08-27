@@ -6,10 +6,32 @@
   color: var(--color);
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 svg {
   fill: var(--color);
   margin: 0 0.8em;
   height: 100%;
+}
+
+input[type="text"] {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background: none;
+  border: none;
+  color:  inherit;
+  text-align: center;
+  height: 100%;
+  margin: 0;
+  width: 20vw;
+
+  &:hover {
+    background-color: rgba(255,255,255,0.1);
+  }
+
+  &:focus {
+    outline: none;
+  }
 }
