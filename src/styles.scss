@@ -1,6 +1,7 @@
 :root {
   --width-editor: 33.333%;
   --width-resize-bar: 15px;
+  --color-canvas: white;
 }
 body {
   margin: 0;
@@ -18,4 +19,10 @@ body {
 
 svg {
   max-width: 100%;
+}
+
+ngx-monaco-editor {
+  .monaco-editor, .editor-container {
+    min-height: 100%;
+  }
 }

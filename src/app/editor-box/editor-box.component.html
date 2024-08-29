@@ -2,4 +2,5 @@
   {{language}}
   <app-toggle [checked]="!collapsed" />
 </header>
-<textarea #textarea (keyup)="trigger_change(textarea.value)"></textarea>
+<ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code" *ngIf="editorOptions && editorOptions.language" (ngModelChange)="trigger_change($event)"></ngx-monaco-editor>
+

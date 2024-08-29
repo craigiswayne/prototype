@@ -1,4 +1,4 @@
-import {Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 import {CODE_OBJECT} from '../app.types';
 import {AppService} from '../app.service';
 
@@ -9,22 +9,26 @@ import {AppService} from '../app.service';
   templateUrl: './preview.component.html',
   styleUrl: './preview.component.scss'
 })
-export class PreviewComponent {
+export class PreviewComponent implements AfterViewInit {
+
   @ViewChild('iframe') iframe?: ElementRef<HTMLIFrameElement>;
-  private current_code: CODE_OBJECT = {
-    HTML: '',
-    CSS: '',
-    JAVASCRIPT: ''
-  }
 
   public full_code: string = '';
 
-  constructor(private readonly app_service: AppService) {
-    this.app_service.$code_object.subscribe(code_object => {
-      this.render(code_object);
-    })
+  private preview_document?: Document | null;
+  private current_code: CODE_OBJECT = {
+    html: '',
+    css: '',
+    javascript: ''
   }
 
+  constructor(private readonly app_service: AppService) {}
+
+  ngAfterViewInit(): void {
+    this.app_service.$code_object.subscribe(res => {
+      this.render(res);
+    });
+  }
 
   public render(code: CODE_OBJECT): void {
 
@@ -32,29 +36,29 @@ export class PreviewComponent {
       return;
     }
 
-    const native_element = this.iframe.nativeElement;
-    const preview_document = native_element.contentDocument;
-    if(!preview_document){
+    this.preview_document = this.preview_document || this.iframe.nativeElement.contentDocument;
+    if(!this.preview_document){
       return;
     }
 
     this.current_code = {...this.current_code, ...code};
 
     this.full_code = `<!DOCTYPE html>
-    <html>
+    <html lang="en">
         <head>
             <meta charset="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
-            <style>${this.current_code.CSS}</style>
-            <script>${this.current_code.JAVASCRIPT}</script>
+            <title>My Prototype</title>
+            <style>${this.current_code.css}</style>
+            <script>${this.current_code.javascript}</script>
         </head>
         <body>
-            ${this.current_code.HTML}
+            ${this.current_code.html}
         </body>
     </html>`;
 
-    preview_document.open();
-    preview_document.write(this.full_code);
-    preview_document.close();
+    this.preview_document.open();
+    this.preview_document.write(this.full_code);
+    this.preview_document.close();
   }
 }

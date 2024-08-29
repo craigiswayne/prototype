@@ -4,6 +4,7 @@
   --header-height: 25px;
   flex-grow: 1;
   overflow: hidden;
+  background-color: var(--color-canvas);
 
   &.collapsed {
     height: var(--header-height);
@@ -24,17 +25,10 @@ header {
   position: relative;
 }
 
-textarea {
+ngx-monaco-editor {
   min-width: 100%;
   max-width: 100%;
-  resize: none;
-  box-sizing: border-box;
   flex-grow: 1;
-  border: none;
-
-  &:focus {
-    outline: none;
-  }
 }
 
 

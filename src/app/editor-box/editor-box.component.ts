@@ -1,38 +1,56 @@
-import {Component, HostBinding, Input} from '@angular/core';
-import {NgClass} from '@angular/common';
+import {Component, HostBinding, Input, OnChanges, SimpleChange, SimpleChanges} from '@angular/core';
+import {NgClass, NgIf} from '@angular/common';
 import {ToggleComponent} from '../toggle/toggle.component';
 import {SUPPORTED_LANGUAGES} from '../app.types';
 import {AppService} from '../app.service';
+import {EditorBoxModule} from './editor-box.module';
 
 @Component({
   selector: 'app-editor-box',
   standalone: true,
   imports: [
     NgClass,
-    ToggleComponent
+    ToggleComponent,
+    EditorBoxModule,
+    NgIf
   ],
   templateUrl: './editor-box.component.html',
   styleUrl: './editor-box.component.scss'
 })
-export class EditorBoxComponent {
-  @Input() language: SUPPORTED_LANGUAGES = 'HTML';
+export class EditorBoxComponent implements OnChanges {
+  @Input() language!: SUPPORTED_LANGUAGES;
   @HostBinding('class.collapsed') collapsed: boolean = false;
 
+  /**
+   * @link https://microsoft.github.io/monaco-editor/typedoc/interfaces/editor.IStandaloneEditorConstructionOptions.html
+   */
+  public editorOptions?: { language: SUPPORTED_LANGUAGES, minimap: { enabled: boolean } };
+  @Input() code: string = '';
   private current_value: string = '';
 
   constructor(private readonly app_service: AppService) {}
 
-  public trigger_change(value: string): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    this.editorOptions = {
+      language: changes['language'].currentValue,
+      minimap: {
+        enabled: false
+      }
+    }
 
+    if(changes['code']){
+      this.trigger_change(changes['code'].currentValue);
+    }
+  }
+
+  public trigger_change(value: string): void {
     // make sure it is a different value
-    if(this.current_value === value){
+    if (this.current_value === value) {
       return;
     }
 
-    this.current_value = value;
-
     this.app_service.$code_object.next({
-      [this.language]: this.current_value
+      [this.language]: this.current_value = value
     })
   }
 }

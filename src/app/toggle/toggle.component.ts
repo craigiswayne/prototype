@@ -7,5 +7,5 @@ import {Component, HostBinding, Input} from '@angular/core';
   styleUrl: './toggle.component.scss'
 })
 export class ToggleComponent {
-  @HostBinding('class.checked') @Input()  checked?: boolean;
+  @HostBinding('class.checked') @Input() checked?: boolean;
 }

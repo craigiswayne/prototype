@@ -14,6 +14,7 @@ import {EditorBoxComponent} from './editor-box/editor-box.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+
   public editorCSSWidth: string = '';
 
   @ViewChild(ToolbarComponent) toolbar!: ToolbarComponent;
