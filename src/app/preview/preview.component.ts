@@ -19,7 +19,7 @@ export class PreviewComponent implements AfterViewInit {
   private current_code: CODE_OBJECT = {
     html: '',
     css: '',
-    javascript: ''
+    js: ''
   }
 
   constructor(private readonly app_service: AppService) {}
@@ -42,18 +42,19 @@ export class PreviewComponent implements AfterViewInit {
     }
 
     this.current_code = {...this.current_code, ...code};
-
+    const styles = this.current_code.css ? `<style>${this.current_code.css}</style>` : '';
+    const scripts = this.current_code.js ? `<script>${this.current_code.js}</script>` : '';
     this.full_code = `<!DOCTYPE html>
     <html lang="en">
         <head>
             <meta charset="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <title>My Prototype</title>
-            <style>${this.current_code.css}</style>
-            <script>${this.current_code.javascript}</script>
+            ${styles}
+            ${scripts}
         </head>
         <body>
-            ${this.current_code.html}
+           ${this.current_code.html}
         </body>
     </html>`;
 

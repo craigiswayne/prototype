@@ -1,5 +1,5 @@
 import {Component, HostBinding, Input, OnChanges, SimpleChange, SimpleChanges} from '@angular/core';
-import {NgClass, NgIf} from '@angular/common';
+import {NgClass, NgIf, UpperCasePipe} from '@angular/common';
 import {ToggleComponent} from '../toggle/toggle.component';
 import {SUPPORTED_LANGUAGES} from '../app.types';
 import {AppService} from '../app.service';
@@ -12,7 +12,8 @@ import {EditorBoxModule} from './editor-box.module';
     NgClass,
     ToggleComponent,
     EditorBoxModule,
-    NgIf
+    NgIf,
+    UpperCasePipe
   ],
   templateUrl: './editor-box.component.html',
   styleUrl: './editor-box.component.scss'
