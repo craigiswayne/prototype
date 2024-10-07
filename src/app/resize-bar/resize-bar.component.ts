@@ -9,9 +9,9 @@ import {Component, EventEmitter, HostListener, Output} from '@angular/core';
 })
 export class ResizeBarComponent {
   private resizing = false;
-  private resize_start: number = 0;
+  private resize_start = 0;
 
-  @Output('on_resize') on_resize: EventEmitter<string> = new EventEmitter();
+  @Output() resized = new EventEmitter<string>();
 
   @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent) {
     this.resizing = true;
@@ -20,6 +20,7 @@ export class ResizeBarComponent {
   }
 
   @HostListener('mouseup', ['$event']) onMouseUp(event: MouseEvent) {
+    console.log('event', event);
     this.resizing = false;
   }
 
@@ -37,10 +38,10 @@ export class ResizeBarComponent {
   }
 
   public onlyEditor(): void {
-    this.on_resize.emit('calc(100% - var(--width-resize-bar))');
+    this.resized.emit('calc(100% - var(--width-resize-bar))');
   }
 
   public noEditor(): void {
-    this.on_resize.emit('0px');
+    this.resized.emit('0px');
   }
 }

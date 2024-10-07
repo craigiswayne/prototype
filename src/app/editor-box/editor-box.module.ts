@@ -5,10 +5,12 @@ import {FormsModule} from '@angular/forms';
 const monacoConfig: NgxMonacoEditorConfig = {
   baseUrl: 'assets',
   defaultOptions: {
-    scrollBeyondLastLine: false
+    scrollBeyondLastLine: false,
+    automaticLayout: true
   },
   requireConfig: { preferScriptTags: true },
-  monacoRequire: (<any>window).monacoRequire
+  // @ts-expect-error not sure how to use global window objects
+  monacoRequire: (window as unknown).monacoRequire
 };
 
 @NgModule({

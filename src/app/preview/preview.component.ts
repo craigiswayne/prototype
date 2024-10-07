@@ -13,13 +13,13 @@ export class PreviewComponent implements AfterViewInit {
 
   @ViewChild('iframe') iframe?: ElementRef<HTMLIFrameElement>;
 
-  public full_code: string = '';
+  public full_code = '';
 
   private preview_document?: Document | null;
   private current_code: CODE_OBJECT = {
     html: '',
     css: '',
-    js: ''
+    javascript: ''
   }
 
   constructor(private readonly app_service: AppService) {}
@@ -43,7 +43,7 @@ export class PreviewComponent implements AfterViewInit {
 
     this.current_code = {...this.current_code, ...code};
     const styles = this.current_code.css ? `<style>${this.current_code.css}</style>` : '';
-    const scripts = this.current_code.js ? `<script>${this.current_code.js}</script>` : '';
+    const scripts = this.current_code.javascript ? `<script>${this.current_code.javascript}</script>` : '';
     this.full_code = `<!DOCTYPE html>
     <html lang="en">
         <head>

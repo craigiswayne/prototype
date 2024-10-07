@@ -1,9 +1,9 @@
 <app-toolbar />
 <main [ngStyle]="this.editorCSSWidth ? {'--width-editor': this.editorCSSWidth} : null">
   <section id="workbench">
-    <app-editor-box language="html" [code]="'<h1>hello world</h1>'" />
-    <app-editor-box language="css" [code]="'body {\n    padding: 1rem;\n    font-family: sans-serif;\n}'"/>
-    <app-editor-box language="js" />
+    <app-editor-box language="html" [code]="'<h1>Prototyping tool</h1>\n<p>like codepen</p>\n<p>...but offline</p>\n<p>just start typing...</p>'" #first_editor_box/>
+    <app-editor-box language="css" [code]="'* {\n    box-sizing: border-box;\n}\n\nbody {\n    padding: 1rem;\n    font-family: sans-serif;\n    font-size: 16px;\n}'"/>
+    <app-editor-box language="javascript" />
     <div class="confused">
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
         <path d="M11 15C12.6569 15 14 13.6569 14 12C14 10.3431 12.6569 9 11 9C9.34315 9 8 10.3431 8 12C8 13.6569 9.34315 15 11 15Z" fill="#212121"/>
@@ -14,8 +14,8 @@
       <i>Um... okay?</i>
     </div>
   </section>
-  <app-resize-bar (on_resize)="this.editorCSSWidth = $event"/>
+  <app-resize-bar (resized)="this.editorCSSWidth = $event"/>
   <app-preview #preview_thing />
 </main>
 <footer></footer>
-<a #download_link download='' href=''></a>
+<a id="download_link" #download_link download='' href='' [ngStyle]="{position: 'fixed'}">&nbsp;</a>

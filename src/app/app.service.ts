@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, ReplaySubject} from 'rxjs';
+import {ReplaySubject} from 'rxjs';
 import {CODE_OBJECT} from './app.types';
 
 @Injectable({

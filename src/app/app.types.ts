@@ -1,6 +1,6 @@
-export type CODE_OBJECT = {
+export interface CODE_OBJECT {
   html?: string,
   css?: string,
-  js?: string
+  javascript?: string
 }
 export type SUPPORTED_LANGUAGES = keyof CODE_OBJECT;

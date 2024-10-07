@@ -1,4 +1,4 @@
-import {Component, HostBinding, Input, OnChanges, SimpleChange, SimpleChanges} from '@angular/core';
+import {Component, HostBinding, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {NgClass, NgIf, UpperCasePipe} from '@angular/common';
 import {ToggleComponent} from '../toggle/toggle.component';
 import {SUPPORTED_LANGUAGES} from '../app.types';
@@ -20,14 +20,14 @@ import {EditorBoxModule} from './editor-box.module';
 })
 export class EditorBoxComponent implements OnChanges {
   @Input() language!: SUPPORTED_LANGUAGES;
-  @HostBinding('class.collapsed') collapsed: boolean = false;
+  @HostBinding('class.collapsed') collapsed = false;
 
   /**
    * @link https://microsoft.github.io/monaco-editor/typedoc/interfaces/editor.IStandaloneEditorConstructionOptions.html
    */
   public editorOptions?: { language: SUPPORTED_LANGUAGES, minimap: { enabled: boolean } };
-  @Input() code: string = '';
-  private current_value: string = '';
+  @Input() code = '';
+  private current_value = '';
 
   constructor(private readonly app_service: AppService) {}
 
