@@ -28,6 +28,7 @@ export class EditorBoxComponent implements OnChanges {
   public editorOptions?: { language: SUPPORTED_LANGUAGES, minimap: { enabled: boolean } };
   @Input() code = '';
   private current_value = '';
+  private editor: any;
 
   constructor(private readonly app_service: AppService) {}
 
@@ -53,5 +54,12 @@ export class EditorBoxComponent implements OnChanges {
     this.app_service.$code_object.next({
       [this.language]: this.current_value = value
     })
+  }
+
+  public onInit(initialized_editor: any): void {
+    this.editor = initialized_editor;
+    if(this.language === 'html'){
+      this.editor.focus();
+    }
   }
 }
