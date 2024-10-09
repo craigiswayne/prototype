@@ -4,6 +4,7 @@ import {ToggleComponent} from '../toggle/toggle.component';
 import {SUPPORTED_LANGUAGES} from '../app.types';
 import {AppService} from '../app.service';
 import {EditorBoxModule} from './editor-box.module';
+import {editor} from 'monaco-editor/esm/vs/editor/editor.api';
 
 @Component({
   selector: 'app-editor-box',
@@ -19,6 +20,7 @@ import {EditorBoxModule} from './editor-box.module';
   styleUrl: './editor-box.component.scss'
 })
 export class EditorBoxComponent implements OnChanges {
+
   @Input() language!: SUPPORTED_LANGUAGES;
   @HostBinding('class.collapsed') collapsed = false;
 
@@ -27,8 +29,9 @@ export class EditorBoxComponent implements OnChanges {
    */
   public editorOptions?: { language: SUPPORTED_LANGUAGES, minimap: { enabled: boolean } };
   @Input() code = '';
+  @Input() autofocus = false;
   private current_value = '';
-  private editor: any;
+  private editor!: editor.IStandaloneCodeEditor;
 
   constructor(private readonly app_service: AppService) {}
 
@@ -56,10 +59,25 @@ export class EditorBoxComponent implements OnChanges {
     })
   }
 
-  public onInit(initialized_editor: any): void {
+  public onInit(initialized_editor: editor.IStandaloneCodeEditor): void {
     this.editor = initialized_editor;
-    if(this.language === 'html'){
-      this.editor.focus();
+    this.maybeAutofocus();
+  }
+
+  private maybeAutofocus(): void {
+    if(!this.autofocus){
+      return;
     }
+
+    this.editor.focus();
+    const ranges = this.editor.getVisibleRanges();
+
+    this.editor.setSelection({
+      ...ranges[0],
+      ...{
+        startLineNumber: ranges[0].endLineNumber,
+        startColumn: ranges[0].endColumn
+      }
+    });
   }
 }
