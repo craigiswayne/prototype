@@ -5,6 +5,7 @@ import {ToolbarComponent} from './toolbar/toolbar.component';
 import {ResizeBarComponent} from './resize-bar/resize-bar.component';
 import {CommonModule} from '@angular/common';
 import {EditorBoxComponent} from './editor-box/editor-box.component';
+import {AppService} from './app.service';
 
 @Component({
   selector: 'app-root',
@@ -14,16 +15,30 @@ import {EditorBoxComponent} from './editor-box/editor-box.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-
   public editorCSSWidth = '';
 
   @ViewChild(ToolbarComponent) toolbar!: ToolbarComponent;
   @ViewChild(EditorBoxComponent) first_box_component!: EditorBoxComponent;
   @ViewChild(PreviewComponent) preview_component!: PreviewComponent;
 
-  @HostListener('window:beforeunload', ['$event'])
+  @HostListener('mouseup', ['$event']) onMouseUp() {
+    if(!this.app_service.resizing){
+      return;
+    }
+    this.app_service.resizing = false;
+  }
+
+  @HostListener('mousemove', ['$event']) onMouseMove(event: MouseEvent) {
+    if(!this.app_service.resizing){
+      return;
+    }
+    this.app_service.update_editor_width(event.clientX);
+  }
+
   // @ts-expect-error need to type the $event
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  // @HostListener('window:beforeunload', ['$event'])
+
   doSomething($event) {
     // $event.returnValue='Your data will be lost!';
   }
@@ -45,6 +60,8 @@ export class AppComponent {
     event.preventDefault();
     this.save_this_shit();
   }
+
+  constructor(private readonly app_service: AppService) {}
 
   public save_this_shit(): void {
     const filename = this.toolbar.get_filename();

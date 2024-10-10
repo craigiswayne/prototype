@@ -14,3 +14,6 @@
 * stylelint
 * custom monaco editor theme to look like the original prototype
 * load default code then format the boxes afterward
+* try resize off the browser, you'll notice that the resize event is still in event
+* laggy on the resize stuff (maybe set the style directly on the element and not use a variable)
+* do i really need to use an app service to track the resizing or can i use an event emitter

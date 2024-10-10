@@ -16,14 +16,35 @@ main {
   overflow: hidden;
   position: relative;
   z-index: 1;
+  resize: horizontal;
+  padding-right: var(--width-resize-bar);
+  box-shadow: rgba(0, 0, 0, 0.25) 0 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
-app-preview {
-  width: calc(100% - var(--width-resize-bar) - var(--width-editor));
+#resize_bar {
+  position: absolute;
+  right: 0;
+  height: 100%;
 }
 
-#workbench, app-preview {
-  transition: width 0.3s ease;
+#preview_container {
+  width: calc(100% - var(--width-editor));
+}
+
+#preview_container>* {
+  width: 100%;
+  min-height: 100%;
+}
+
+div#resize_mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+div#preview_container {
+  position: relative;
 }
 
 app-editor-box {

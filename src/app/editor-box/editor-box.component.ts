@@ -61,7 +61,44 @@ export class EditorBoxComponent implements OnChanges {
 
   public onInit(initialized_editor: editor.IStandaloneCodeEditor): void {
     this.editor = initialized_editor;
+    /*this.editor.getModel()?.onDidChangeContent((ev) => {
+      console.info('DEBUG: onDidChangeContent', ev);
+
+      console.info('DEBUG: onDidChangeContent', {
+        language: this.language
+      });
+    })
+    this.editor.onEndUpdate(() => {
+      console.info('DEBUG: onEndUpdate', {
+        language: this.language
+      });
+    })
+    this.editor.onDidChangeModel(() => {
+      console.info('DEBUG: onDidChangeModel', {
+        language: this.language
+      });
+    })
+    this.editor.onDidChangeConfiguration((config: editor.ConfigurationChangedEvent) => {
+      console.info('DEBUG: onDidChangeConfiguration', config);
+
+      console.info('DEBUG: onDidChangeConfiguration', {
+        language: this.language
+      });
+    })
+    this.editor.onDidCompositionEnd((config) => {
+      console.info('DEBUG: onDidCompositionEnd', config);
+      console.info('DEBUG: onDidCompositionEnd', {
+        language: this.language
+      });
+    })
+    this.editor.onDidChangeModelContent(() => {
+      console.info('DEBUG: onDidChangeModelContent', {
+        language: this.language
+      });
+    })*/
     this.maybeAutofocus();
+
+
   }
 
   private maybeAutofocus(): void {
@@ -79,5 +116,22 @@ export class EditorBoxComponent implements OnChanges {
         startColumn: ranges[0].endColumn
       }
     });
+  }
+
+  private maybeFormatCode(): void {
+    const action = this.editor.getAction('editor.action.formatDocument');
+    if(!action?.isSupported()){
+      return;
+    }
+
+    action.run();
+    // setTimeout(() => {
+    //   if(action){
+    //     // action.run();
+    //     console.info('DEBUG: formatting stuff', {
+    //       language: this.language
+    //     });
+    //   }
+    // }, 1000)
   }
 }

@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script>
+    window.addEventListener('message', (ev) => {
+      console.log('DEBUG: postMessage', ev)
+    })
+  </script>
   <meta charset="utf-8">
   <title>Prototype</title>
   <base href="/">

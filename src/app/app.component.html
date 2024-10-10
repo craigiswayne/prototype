@@ -13,9 +13,12 @@
       </svg>
       <i>Um... okay?</i>
     </div>
+    <app-resize-bar id="resize_bar" />
   </section>
-  <app-resize-bar (resized)="this.editorCSSWidth = $event"/>
-  <app-preview #preview_thing />
+  <div id="preview_container">
+    <div id="resize_mask"></div>
+    <app-preview #preview_thing />
+  </div>
 </main>
 <footer></footer>
 <a id="download_link" #download_link download='' href='' [ngStyle]="{position: 'fixed'}">&nbsp;</a>
