@@ -1,5 +1,4 @@
 import {Component, HostListener} from '@angular/core';
-import {AppService} from '../app.service';
 
 @Component({
   selector: 'app-resize-bar',
@@ -8,9 +7,34 @@ import {AppService} from '../app.service';
   styleUrl: './resize-bar.component.scss'
 })
 export class ResizeBarComponent {
-  constructor(private readonly app_service: AppService) {}
+
+  private resizing = false;
 
   @HostListener('mousedown') onMouseDown() {
-    this.app_service.resizing = true;
+    this.resizing = true;
+  }
+
+  @HostListener('window:mouseup') onMouseUp() {
+    if(!this.resizing){
+      return;
+    }
+    this.resizing = false;
+  }
+
+  @HostListener('window:mousemove', ['$event']) onMouseMove(event: MouseEvent) {
+    if(!this.resizing){
+      return;
+    }
+    this.update_editor_width(event.clientX);
+  }
+
+  private update_editor_width(pixels: number): void {
+    const dynamic_styles_id = 'dynamic_styles'
+    let dynamic_styles_tag = document.querySelector(`#${dynamic_styles_id}`);
+    if(!dynamic_styles_tag){
+      dynamic_styles_tag = document.createElement('style');
+      document.body.appendChild(dynamic_styles_tag);
+    }
+    dynamic_styles_tag.innerHTML = `:root { --width-editor: ${pixels}px; }`
   }
 }

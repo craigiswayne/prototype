@@ -1,5 +1,5 @@
 <app-toolbar />
-<main [ngStyle]="this.editorCSSWidth ? {'--width-editor': this.editorCSSWidth} : null">
+<main>
   <section id="workbench">
     <app-editor-box language="html" [autofocus]="true" [code]="'<h1>Prototyping tool</h1>\n<p>like codepen</p>\n<p>...but offline</p>\n<p>just start typing...</p>'" #first_editor_box/>
     <app-editor-box language="css" [code]="'* {box-sizing: border-box;\n}\n\nbody {\n    padding: 1rem;\n    font-family: sans-serif;\n    font-size: 16px;\n}'"/>
