@@ -11,7 +11,7 @@ describe('EditorBoxComponent', () => {
       imports: [EditorBoxComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(EditorBoxComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

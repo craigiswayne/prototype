@@ -1,16 +1,20 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import {CODE_OBJECT} from '../app.types';
 import {AppService} from '../app.service';
+import {NgStyle} from '@angular/common';
 
 @Component({
   selector: 'app-preview',
   standalone: true,
-  imports: [],
   templateUrl: './preview.component.html',
+  imports: [
+    NgStyle
+  ],
   styleUrl: './preview.component.scss'
 })
 export class PreviewComponent implements AfterViewInit {
 
+  @Input() show_mask = false;
   @ViewChild('iframe') iframe?: ElementRef<HTMLIFrameElement>;
 
   public full_code = '';
@@ -24,7 +28,7 @@ export class PreviewComponent implements AfterViewInit {
 
   constructor(private readonly app_service: AppService) {}
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.app_service.$code_object.subscribe(res => {
       this.render(res);
     });

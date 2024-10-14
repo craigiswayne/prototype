@@ -19,7 +19,6 @@ export class AppComponent {
   @ViewChild(EditorBoxComponent) first_box_component!: EditorBoxComponent;
   @ViewChild(PreviewComponent) preview_component!: PreviewComponent;
 
-  // TODO: maybe use a separate library or service?
   @HostListener('window:beforeunload', ['$event'])
   doSomething(event: BeforeUnloadEvent) {
     event.preventDefault();
@@ -28,7 +27,6 @@ export class AppComponent {
 
   @ViewChild('download_link') download_link_ref?: ElementRef<HTMLAnchorElement>;
 
-  // TODO: maybe move this to a service / library or component
   @HostListener('window:keydown', ['$event']) catch_save_action(event: KeyboardEvent) {
 
     // Only care about save action
@@ -47,28 +45,34 @@ export class AppComponent {
 
   public default_code = {
     html: `<h1>TODO:</h1>
-<ol>
-<li>dark mode with sun and moon icon in toolbar</li>
-<li>sidebar</li>
-<li>import from codepen</li>
-<li>export to codepen</li>
-<li>maybe we could implement a service worker for changes to each code box?</li>
-<li>check for errors before triggering render</li>
-<li>randomly display a different codepen as a startup?</li>
-<li>focus on the first editor box on load</li>
-<li>cache up to last 20 prototypes in the browsers local storage</li>
-<li>stylelint</li>
-<li>custom monaco editor theme to look like the original prototype</li>
-<li>format the boxes on load</li>
-<li>laggy on the resize stuff (maybe set the style directly on the element and not use a variable)</li>
-<li>find unused variables in html files</li>
-<li>preview component to fully house all the things</li>
-<li>download functionality to be standalone component</li>
-<li>editor box to have setting to have it collapsed by default</li>
-<li>when resizing, update the editor directly and dont use css variables</li>
-<li>allow workbench to be on the right instead of the left</li>
-<li>settings to set which boxes to be opened by default</li>
-</ol>`
+      <ol>
+      <li>dark mode with sun and moon icon in toolbar</li>
+      <li>sidebar</li>
+      <li>import from codepen</li>
+      <li>export to codepen</li>
+      <li>maybe we could implement a service worker for changes to each code box?</li>
+      <li>check for errors before triggering render</li>
+      <li>randomly display a different codepen as a startup?</li>
+      <li>focus on the first editor box on load</li>
+      <li>cache up to last 20 prototypes in the browsers local storage</li>
+      <li>stylelint</li>
+      <li>custom monaco editor theme to look like the original prototype</li>
+      <li>format the boxes on load</li>
+      <li>find unused angular variables in html files</li>
+      <li>download functionality to be standalone component</li>
+      <li>editor box to have setting to have it collapsed by default</li>
+      <li>when resizing, update the editor directly and dont use css variables</li>
+      <li>allow workbench to be on the right instead of the left</li>
+      <li>settings to set which boxes to be opened by default</li>
+      <li>toolbar to use angular material toolbar</li>
+      <li>angular material slide out menu</li>
+      <li>angular coverage tests</li>
+      <li>unit tests</li>
+      <li>lighthouse tests</li>
+      <li>auto-generate screenshots</li>
+      <li>window unload event as a separate standalone library or component?</li>
+      <li>save functionality as a separate standalone library or component?</li>
+      </ol>`
   }
 
   public save_this_shit(): void {

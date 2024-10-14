@@ -1,4 +1,4 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, EventEmitter, HostListener, Output} from '@angular/core';
 
 @Component({
   selector: 'app-resize-bar',
@@ -8,7 +8,7 @@ import {Component, HostListener} from '@angular/core';
 })
 export class ResizeBarComponent {
 
-  private resizing = false;
+  public resizing = false;
 
   @HostListener('mousedown') onMouseDown() {
     this.resizing = true;
@@ -33,6 +33,7 @@ export class ResizeBarComponent {
     let dynamic_styles_tag = document.querySelector(`#${dynamic_styles_id}`);
     if(!dynamic_styles_tag){
       dynamic_styles_tag = document.createElement('style');
+      dynamic_styles_tag.setAttribute('id', 'dynamic_styles');
       document.body.appendChild(dynamic_styles_tag);
     }
     dynamic_styles_tag.innerHTML = `:root { --width-editor: ${width}; }`
