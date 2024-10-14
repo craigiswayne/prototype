@@ -1,7 +1,7 @@
 <app-toolbar />
 <main>
   <section id="workbench">
-    <app-editor-box language="html" [autofocus]="true" [code]="'<h1>Prototyping tool</h1>\n<p>like codepen</p>\n<p>...but offline</p>\n<p>just start typing...</p>'" #first_editor_box/>
+    <app-editor-box language="html" [autofocus]="true" [code]="default_code.html"/>
     <app-editor-box language="css" [code]="'* {box-sizing: border-box;\n}\n\nbody {\n    padding: 1rem;\n    font-family: sans-serif;\n    font-size: 16px;\n}'"/>
     <app-editor-box language="javascript" />
     <div class="confused">
@@ -17,7 +17,7 @@
   </section>
   <div id="preview_container">
     <div id="resize_mask"></div>
-    <app-preview #preview_thing />
+    <app-preview />
   </div>
 </main>
 <footer></footer>

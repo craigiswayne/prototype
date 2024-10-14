@@ -45,6 +45,32 @@ export class AppComponent {
     this.save_this_shit();
   }
 
+  public default_code = {
+    html: `<h1>TODO:</h1>
+<ol>
+<li>dark mode with sun and moon icon in toolbar</li>
+<li>sidebar</li>
+<li>import from codepen</li>
+<li>export to codepen</li>
+<li>maybe we could implement a service worker for changes to each code box?</li>
+<li>check for errors before triggering render</li>
+<li>randomly display a different codepen as a startup?</li>
+<li>focus on the first editor box on load</li>
+<li>cache up to last 20 prototypes in the browsers local storage</li>
+<li>stylelint</li>
+<li>custom monaco editor theme to look like the original prototype</li>
+<li>format the boxes on load</li>
+<li>laggy on the resize stuff (maybe set the style directly on the element and not use a variable)</li>
+<li>find unused variables in html files</li>
+<li>preview component to fully house all the things</li>
+<li>download functionality to be standalone component</li>
+<li>editor box to have setting to have it collapsed by default</li>
+<li>when resizing, update the editor directly and dont use css variables</li>
+<li>allow workbench to be on the right instead of the left</li>
+<li>settings to set which boxes to be opened by default</li>
+</ol>`
+  }
+
   public save_this_shit(): void {
     const filename = this.toolbar.get_filename();
     const download_link = this.download_link_ref?.nativeElement;

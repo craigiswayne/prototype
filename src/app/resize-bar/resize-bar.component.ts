@@ -25,16 +25,16 @@ export class ResizeBarComponent {
     if(!this.resizing){
       return;
     }
-    this.update_editor_width(event.clientX);
+    this.update_editor_width(`${event.clientX}px`);
   }
 
-  private update_editor_width(pixels: number): void {
+  public update_editor_width(width: string): void {
     const dynamic_styles_id = 'dynamic_styles'
     let dynamic_styles_tag = document.querySelector(`#${dynamic_styles_id}`);
     if(!dynamic_styles_tag){
       dynamic_styles_tag = document.createElement('style');
       document.body.appendChild(dynamic_styles_tag);
     }
-    dynamic_styles_tag.innerHTML = `:root { --width-editor: ${pixels}px; }`
+    dynamic_styles_tag.innerHTML = `:root { --width-editor: ${width}; }`
   }
 }
