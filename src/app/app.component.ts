@@ -54,12 +54,10 @@ export class AppComponent {
       <li>maybe we could implement a service worker for changes to each code box?</li>
       <li>check for errors before triggering render</li>
       <li>randomly display a different codepen as a startup?</li>
-      <li>focus on the first editor box on load</li>
       <li>cache up to last 20 prototypes in the browsers local storage</li>
       <li>stylelint</li>
       <li>custom monaco editor theme to look like the original prototype</li>
       <li>format the boxes on load</li>
-      <li>find unused angular variables in html files</li>
       <li>download functionality to be standalone component</li>
       <li>editor box to have setting to have it collapsed by default</li>
       <li>allow workbench to be on the right instead of the left</li>
@@ -74,6 +72,7 @@ export class AppComponent {
       <li>save functionality as a separate standalone library or component?</li>
       <li>should be no vulnerabilities issues after install</li>
       <li>bottom drawer to show last 20 items saved?</li>
+      <li>extract webpage into code boxes</li>
       </ol>`
   }
 
