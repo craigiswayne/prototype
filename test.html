@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Prototype</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="assets/favicon.png">
+  <style>
+    :root {
+      --resizer-position-x: 33.3%;
+      --width-resize-bar: 15px;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    body {
+      margin: 0;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    #resizer {
+      width: var(--width-resize-bar, 15px);
+      background: #92C7A3 linear-gradient(to right, rgba(255, 255, 255, 0.3), rgba(0, 0, 0, 0));
+      cursor: ew-resize;
+      font-size: 13px;
+      padding: 10px 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: absolute;
+      left: min(var(--resizer-position-x, 33.3%), calc(100vw - var(--width-resize-bar)));
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+<div id="resizer"></div>
+<script>
+  let resizing = false;
+  const resizer_elem = document.getElementById('resizer');
+  resizer_elem.addEventListener('mousedown', () => {
+    resizing = true;
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (!resizing) {
+      return;
+    }
+    resizing = false;
+  });
+
+  window.addEventListener('mousemove', (event) => {
+    if (!resizing) {
+      return;
+    }
+    inject_resizer_style(event.clientX);
+  });
+
+
+  function inject_resizer_style(width) {
+    const resizer_style_id = 'resizer_styles'
+    let resizer_style_tag = document.querySelector(`#${resizer_style_id}`);
+
+    if (!resizer_style_tag) {
+      resizer_style_tag = document.createElement('style');
+      resizer_style_tag.setAttribute('id', resizer_style_id);
+      document.body.appendChild(resizer_style_tag);
+    }
+
+    resizer_style_tag.innerHTML = `:root { --resizer-position-x: ${width}px; }`
+  }
+</script>
+</body>
+</html>

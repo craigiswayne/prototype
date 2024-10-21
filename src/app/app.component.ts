@@ -69,9 +69,12 @@ export class AppComponent {
       <li>auto-generate screenshots for README / documentation purposes</li>
       <li>window unload event as a separate standalone library or component?</li>
       <li>save functionality as a separate standalone library or component?</li>
+      <li>save functionality doesn't work when clicking on the preview pane and then triggering the save</li>
       <li>should be no vulnerabilities issues after install</li>
       <li>bottom drawer to show last 20 items saved?</li>
       <li>extract webpage into code boxes</li>
+      <li>remove postMessage debug from index.html</li>
+      <li>investigate draggable resize bar?</li>
       </ol>`
   }
 
