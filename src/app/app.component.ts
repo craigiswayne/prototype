@@ -61,7 +61,6 @@ export class AppComponent {
       <li>find unused angular variables in html files</li>
       <li>download functionality to be standalone component</li>
       <li>editor box to have setting to have it collapsed by default</li>
-      <li>when resizing, update the editor directly and dont use css variables</li>
       <li>allow workbench to be on the right instead of the left</li>
       <li>settings to set which boxes to be opened by default</li>
       <li>toolbar to use angular material toolbar</li>
@@ -72,6 +71,9 @@ export class AppComponent {
       <li>auto-generate screenshots</li>
       <li>window unload event as a separate standalone library or component?</li>
       <li>save functionality as a separate standalone library or component?</li>
+      <li>should be no vulnerabilities issues after install</li>
+      <li>bottom drawer to show last 20 items saved?</li>
+      <li>full screen mode</li>
       </ol>`
   }
 

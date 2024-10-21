@@ -1,4 +1,4 @@
-import {Component, EventEmitter, HostListener, Output} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 
 @Component({
   selector: 'app-resize-bar',
@@ -25,17 +25,19 @@ export class ResizeBarComponent {
     if(!this.resizing){
       return;
     }
-    this.update_editor_width(`${event.clientX}px`);
+    this.inject_resizer_style(`${event.clientX}px`);
   }
 
-  public update_editor_width(width: string): void {
-    const dynamic_styles_id = 'dynamic_styles'
-    let dynamic_styles_tag = document.querySelector(`#${dynamic_styles_id}`);
-    if(!dynamic_styles_tag){
-      dynamic_styles_tag = document.createElement('style');
-      dynamic_styles_tag.setAttribute('id', 'dynamic_styles');
-      document.body.appendChild(dynamic_styles_tag);
+  public inject_resizer_style(width: string): void {
+    const resizer_style_id = 'resizer_styles'
+    let resizer_style_tag = document.querySelector(`#${resizer_style_id}`);
+
+    if(!resizer_style_tag){
+      resizer_style_tag = document.createElement('style');
+      resizer_style_tag.setAttribute('id', resizer_style_id);
+      document.body.appendChild(resizer_style_tag);
     }
-    dynamic_styles_tag.innerHTML = `:root { --width-editor: ${width}; }`
+
+    resizer_style_tag.innerHTML = `:root { --width-resizer: ${width}; }`
   }
 }
