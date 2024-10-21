@@ -59,7 +59,6 @@ export class AppComponent {
       <li>custom monaco editor theme to look like the original prototype</li>
       <li>format the boxes on load</li>
       <li>download functionality to be standalone component</li>
-      <li>editor box to have setting to have it collapsed by default</li>
       <li>allow workbench to be on the right instead of the left</li>
       <li>settings to set which boxes to be opened by default</li>
       <li>toolbar to use angular material toolbar</li>

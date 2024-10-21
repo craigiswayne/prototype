@@ -22,7 +22,7 @@ import {editor} from 'monaco-editor/esm/vs/editor/editor.api';
 export class EditorBoxComponent implements OnChanges {
 
   @Input() language!: SUPPORTED_LANGUAGES;
-  @HostBinding('class.collapsed') collapsed = false;
+  @Input() @HostBinding('class.collapsed') collapsed = false;
 
   /**
    * @link https://microsoft.github.io/monaco-editor/typedoc/interfaces/editor.IStandaloneEditorConstructionOptions.html
