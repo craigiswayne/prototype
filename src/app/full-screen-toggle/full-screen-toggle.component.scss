@@ -1,0 +1,7 @@
+svg {
+  height: var(--full-screen-toggle-height, 15px);
+  path {
+    fill: white;
+  }
+  cursor: pointer;
+}

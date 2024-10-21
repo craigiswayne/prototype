@@ -5,11 +5,12 @@ import {ToolbarComponent} from './toolbar/toolbar.component';
 import {ResizeBarComponent} from './resize-bar/resize-bar.component';
 import {CommonModule} from '@angular/common';
 import {EditorBoxComponent} from './editor-box/editor-box.component';
+import {FullScreenToggleComponent} from './full-screen-toggle/full-screen-toggle.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, PreviewComponent, ToolbarComponent, ResizeBarComponent, EditorBoxComponent],
+  imports: [CommonModule, RouterOutlet, PreviewComponent, ToolbarComponent, ResizeBarComponent, EditorBoxComponent, FullScreenToggleComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -68,12 +69,11 @@ export class AppComponent {
       <li>angular coverage tests</li>
       <li>unit tests</li>
       <li>lighthouse tests</li>
-      <li>auto-generate screenshots</li>
+      <li>auto-generate screenshots for README / documentation purposes</li>
       <li>window unload event as a separate standalone library or component?</li>
       <li>save functionality as a separate standalone library or component?</li>
       <li>should be no vulnerabilities issues after install</li>
       <li>bottom drawer to show last 20 items saved?</li>
-      <li>full screen mode</li>
       </ol>`
   }
 
