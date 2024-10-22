@@ -33,7 +33,7 @@ main[dir=rtl] {
   }
 
   app-preview {
-    width: var(--width-from-resizer);
+    width: var(--width-from-resizer, 33.333%);
     flex-grow: unset;
   }
 }

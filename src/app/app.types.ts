@@ -6,6 +6,7 @@ export interface CODE_OBJECT {
 export type SUPPORTED_LANGUAGES = keyof CODE_OBJECT;
 
 export interface APP_SETTINGS {
+  color_scheme: 'light',
   direction: 'ltr' | 'rtl';
   editors: {
     html: {
