@@ -1,5 +1,5 @@
-<app-toolbar />
-<main>
+<app-toolbar (layout_changed)="main_element.dir = $event"/>
+<main #main_element>
   <section id="workbench">
     <div class="confused">
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
@@ -13,8 +13,8 @@
     <app-editor-box language="html" [autofocus]="true" [code]="default_code.html"/>
     <app-editor-box language="css" [code]="'* {box-sizing: border-box;\n}\n\nbody {\n    padding: 1rem;\n    font-family: sans-serif;\n    font-size: 16px;\n}'"/>
     <app-editor-box language="javascript" [collapsed]="true" />
-    <app-resize-bar #resize_bar />
   </section>
+  <app-resize-bar #resize_bar />
   <app-preview [show_mask]="resize_bar.resizing"/>
 </main>
 <footer>

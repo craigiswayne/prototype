@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, isDevMode, ViewChild} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {PreviewComponent} from './preview/preview.component';
 import {ToolbarComponent} from './toolbar/toolbar.component';
@@ -22,6 +22,9 @@ export class AppComponent {
 
   @HostListener('window:beforeunload', ['$event'])
   doSomething(event: BeforeUnloadEvent) {
+    if(isDevMode()){
+      return;
+    }
     event.preventDefault();
     return 'All your work will be erased!';
   }
@@ -59,8 +62,6 @@ export class AppComponent {
       <li>custom monaco editor theme to look like the original prototype</li>
       <li>format the boxes on load</li>
       <li>download functionality to be standalone component</li>
-      <li>allow workbench to be on the right instead of the left</li>
-      <li>settings to set which boxes to be opened by default</li>
       <li>toolbar to use angular material toolbar</li>
       <li>angular material slide out menu</li>
       <li>angular coverage tests</li>
@@ -74,7 +75,6 @@ export class AppComponent {
       <li>bottom drawer to show last 20 items saved?</li>
       <li>extract webpage into code boxes</li>
       <li>remove postMessage debug from index.html</li>
-      <li>investigate draggable resize bar?</li>
       </ol>`
   }
 

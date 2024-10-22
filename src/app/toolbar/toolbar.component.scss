@@ -8,6 +8,12 @@
   display: flex;
   align-items: center;
   position: relative;
+  justify-content: space-between;
+}
+
+:host > section {
+  display: flex;
+  align-items: center;
 }
 
 svg {
@@ -34,5 +40,25 @@ input[type="text"] {
 
   &:focus {
     outline: none;
+  }
+}
+
+.actions {
+
+  > * {
+    cursor: pointer;
+  }
+
+  svg {
+    width: 18px;
+  }
+}
+
+.icon.layout {
+  transform: rotate(-90deg);
+  transition: transform 0.2s;
+
+  :host.rtl & {
+    transform: rotate(90deg);
   }
 }

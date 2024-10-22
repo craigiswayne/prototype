@@ -5,6 +5,7 @@
   flex-grow: 1;
   overflow: hidden;
   background-color: var(--color-canvas);
+  direction: ltr;
 
   &.collapsed {
     height: var(--header-height);

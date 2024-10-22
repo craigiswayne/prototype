@@ -38,6 +38,6 @@ export class ResizeBarComponent {
       document.body.appendChild(resizer_style_tag);
     }
 
-    resizer_style_tag.innerHTML = `:root { --width-resizer: ${width}; }`
+    resizer_style_tag.innerHTML = `:root { --width-from-resizer: ${width}; }`
   }
 }

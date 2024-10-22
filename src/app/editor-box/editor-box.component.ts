@@ -1,6 +1,6 @@
 import {Component, HostBinding, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {NgClass, NgIf, UpperCasePipe} from '@angular/common';
-import {ToggleComponent} from '../toggle/toggle.component';
+import {SlideToggleComponent} from '../slide-toggle/slide-toggle.component';
 import {SUPPORTED_LANGUAGES} from '../app.types';
 import {AppService} from '../app.service';
 import {EditorBoxModule} from './editor-box.module';
@@ -11,7 +11,7 @@ import {editor} from 'monaco-editor/esm/vs/editor/editor.api';
   standalone: true,
   imports: [
     NgClass,
-    ToggleComponent,
+    SlideToggleComponent,
     EditorBoxModule,
     NgIf,
     UpperCasePipe

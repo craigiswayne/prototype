@@ -1,5 +1,5 @@
 <header (click)="collapsed = !collapsed">
   {{language|uppercase}}
-  <app-toggle [checked]="!collapsed" />
+  <app-slide-toggle [checked]="!collapsed" />
 </header>
 <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code" *ngIf="editorOptions && editorOptions.language" (ngModelChange)="trigger_change($event)" (onInit)="onInit($event)" />

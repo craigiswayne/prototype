@@ -1,11 +1,11 @@
 import {Component, HostBinding, Input} from '@angular/core';
 
 @Component({
-  selector: 'app-toggle',
+  selector: 'app-slide-toggle',
   template: '',
   standalone: true,
-  styleUrl: './toggle.component.scss'
+  styleUrl: './slide-toggle.component.scss'
 })
-export class ToggleComponent {
+export class SlideToggleComponent {
   @HostBinding('class.checked') @Input() checked?: boolean;
 }

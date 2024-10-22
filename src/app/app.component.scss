@@ -13,26 +13,29 @@ main {
 }
 
 #workbench {
-  width: var(--width-resizer);
+  width: var(--width-from-resizer, 33.333%);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  z-index: 1;
-  resize: horizontal;
-  padding-right: var(--width-resize-bar);
   background-color: #bdbdbd;
-  box-shadow: rgba(0, 0, 0, 0.25) 0 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-}
-
-app-resize-bar {
-  position: absolute;
-  right: 0;
-  height: 100%;
+  z-index: 2;
 }
 
 app-preview {
-  width: calc(100% - var(--width-resizer));
+  flex-grow: 1;
+}
+
+main[dir=rtl] {
+  #workbench {
+    width: auto;
+    flex-grow: 1;
+  }
+
+  app-preview {
+    width: var(--width-from-resizer);
+    flex-grow: unset;
+  }
 }
 
 app-editor-box {
