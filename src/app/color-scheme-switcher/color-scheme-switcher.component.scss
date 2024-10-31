@@ -1,0 +1,31 @@
+/**
+ * inspiration: https://hashnode.com/feed
+ */
+:host {
+  display: flex;
+}
+
+svg {
+  transition: transform 0.3s ease;
+}
+
+:host[color_scheme="dark"] {
+
+  svg {
+    transform: rotate(0deg);
+  }
+
+  #path-light {
+    display: none;
+  }
+}
+
+:host[color_scheme="light"] {
+  svg {
+    transform: rotate(135deg);
+  }
+
+  #path-dark {
+    display: none;
+  }
+}

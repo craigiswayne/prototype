@@ -6,12 +6,5 @@ import {CODE_OBJECT} from './app.types';
   providedIn: 'root'
 })
 export class AppService {
-
   public $code_object = new ReplaySubject<CODE_OBJECT>(3);
-
-  constructor() {
-      this.$code_object.pipe( $obs => {
-        return $obs;
-      })
-  }
 }

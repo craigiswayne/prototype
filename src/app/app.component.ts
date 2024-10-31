@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, isDevMode, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, isDevMode, OnInit, ViewChild} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {PreviewComponent} from './preview/preview.component';
 import {ToolbarComponent} from './toolbar/toolbar.component';
@@ -6,15 +6,16 @@ import {ResizeBarComponent} from './resize-bar/resize-bar.component';
 import {CommonModule} from '@angular/common';
 import {EditorBoxComponent} from './editor-box/editor-box.component';
 import {FullScreenToggleComponent} from './full-screen-toggle/full-screen-toggle.component';
+import {ColorSchemeSwitcherService} from './color-scheme-switcher/color-scheme-switcher.service';
 
 @Component({
-  selector: 'app-root',
   standalone: true,
+  selector: 'app-root',
   imports: [CommonModule, RouterOutlet, PreviewComponent, ToolbarComponent, ResizeBarComponent, EditorBoxComponent, FullScreenToggleComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   @ViewChild(ToolbarComponent) toolbar!: ToolbarComponent;
   @ViewChild(EditorBoxComponent) first_box_component!: EditorBoxComponent;
@@ -31,25 +32,36 @@ export class AppComponent {
 
   @ViewChild('download_link') download_link_ref?: ElementRef<HTMLAnchorElement>;
 
-  @HostListener('window:keydown', ['$event']) catch_save_action(event: KeyboardEvent) {
-
-    // Only care about save action
-    if (event.key !== 's') {
-      return;
-    }
-
-    // make sure either the CTRL (windows) or Command (mac) is being pressed as well
-    if (!event.metaKey && !event.ctrlKey) {
-      return;
-    }
-
+  /**
+   * Catch the Save action
+   * @link https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values
+   * @link https://github.com/angular/angular/blob/35d7ca55b2141c7d9a3e86163e85dd883f60c171/adev/src/content/guide/templates/event-listeners.md?plain=1#L96
+   */
+  @HostListener('window:keydown.code.control.KeyS', ['$event']) catch_save_action(event: KeyboardEvent) {
     event.preventDefault();
     this.save_this_shit();
   }
 
+  constructor(public schemeService: ColorSchemeSwitcherService) {}
+
+  public ngOnInit() {
+    this.schemeService.$observable
+      .subscribe(scheme => {
+        const theme_to_use = scheme === 'light' ? 'vs-light' : 'vs-dark';
+
+        // @ts-expect-error todo
+        if(undefined === window?.monaco){
+          return;
+        }
+
+        // @ts-expect-error todo
+        window.monaco.editor.setTheme(theme_to_use);
+      })
+  }
+
   public default_code = {
     html: `<h1>TODO:</h1>
-      <ol>
+    <ol>
       <li>dark mode with sun and moon icon in toolbar</li>
       <li>sidebar</li>
       <li>import from codepen</li>

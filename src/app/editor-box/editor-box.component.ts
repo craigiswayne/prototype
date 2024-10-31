@@ -6,6 +6,17 @@ import {AppService} from '../app.service';
 import {EditorBoxModule} from './editor-box.module';
 import {editor} from 'monaco-editor/esm/vs/editor/editor.api';
 
+/**
+ * @link https://microsoft.github.io/monaco-editor/typedoc/interfaces/editor.IStandaloneEditorConstructionOptions.html
+ */
+interface IStandaloneEditorConstructionOptions {
+  language: SUPPORTED_LANGUAGES;
+  minimap: {
+    enabled: boolean
+  }
+  theme?: 'vs' | 'vs-dark' | 'hc-black' | 'hc-light';
+}
+
 @Component({
   selector: 'app-editor-box',
   standalone: true,
@@ -24,10 +35,8 @@ export class EditorBoxComponent implements OnChanges {
   @Input() language!: SUPPORTED_LANGUAGES;
   @Input() @HostBinding('class.collapsed') collapsed = false;
 
-  /**
-   * @link https://microsoft.github.io/monaco-editor/typedoc/interfaces/editor.IStandaloneEditorConstructionOptions.html
-   */
-  public editorOptions?: { language: SUPPORTED_LANGUAGES, minimap: { enabled: boolean } };
+
+  public editorOptions?: IStandaloneEditorConstructionOptions;
   @Input() code = '';
   @Input() autofocus = false;
   private current_value = '';
@@ -97,8 +106,6 @@ export class EditorBoxComponent implements OnChanges {
       });
     })*/
     this.maybeAutofocus();
-
-
   }
 
   private maybeAutofocus(): void {

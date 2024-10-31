@@ -34,13 +34,13 @@
   }
 
   &:after,&:before {
-    border-color: #C1C1C1;
-    background-color: #fff
+    border-color: #fff;
+    background-color: #fff;
   }
 
   &.checked {
     &:after,&:before {
-      border-color: #e5a62e;
+      border-color: var(--color-accent);
     }
 
     &:after {
@@ -49,8 +49,8 @@
     }
 
     &:before {
-      border-color: #e5a62e;
-      background-color: #e5a62e;
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
     }
   }
 }

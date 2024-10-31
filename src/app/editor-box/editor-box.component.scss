@@ -4,7 +4,6 @@
   --header-height: 25px;
   flex-grow: 1;
   overflow: hidden;
-  background-color: var(--color-canvas);
   direction: ltr;
 
   &.collapsed {
@@ -16,9 +15,9 @@
 header {
   cursor: pointer;
   font-size: 1em;
-  background-color: #3CA2A2;
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, .3), rgba(0, 0, 0, 0));
-  color: #fff;
+  background-color: var(--color-palette-2);
+  background-image: var(--gradient-2);
+  color: var(--color-text);
   padding: 0 10px;
   line-height: var(--header-height);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .5);

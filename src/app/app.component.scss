@@ -18,7 +18,7 @@ main {
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  background-color: #bdbdbd;
+  background-color: var(--color-muted);
   z-index: 2;
 }
 
@@ -51,15 +51,21 @@ app-editor-box {
   z-index: -1;
   text-align: center;
 
+  path {
+    fill: var(--color-inverted);
+  }
+
   i {
     display: block;
+    color: var(--color-inverted);
   }
 }
 
 footer {
   height: var(--height-footer, 24px);
   min-height: var(--height-footer, 24px);
-  background-image: linear-gradient( 110.3deg,  rgba(73,93,109,1) 4.3%, rgba(49,55,82,1) 96.7% );
+  background-color: var(--color-1);
+  background-image: var(--gradient-1);
   display: flex;
   justify-content: flex-end;
   align-items: center;

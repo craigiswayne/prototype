@@ -1,6 +1,7 @@
 :host {
   --color: white;
-  background-image: linear-gradient(76.3deg, rgb(44, 62, 78) 12.6%, rgb(69, 103, 131) 82.8%);
+  background-color: var(--color-1);
+  background-image: var(--gradient-1);
   height: var(--height-toolbar, 32px);
   min-height: var(--height-toolbar, 32px);
   font-size: 1.25em;
@@ -60,54 +61,5 @@ input[type="text"] {
 
   :host[layout="rtl"] & {
     transform: rotate(-90deg);
-  }
-}
-
-//@media (prefers-color-scheme: dark) {
-//  --color-scheme: 'dark';
-//}
-//
-//@media (prefers-color-scheme: light) {
-//  --color-scheme: light;
-//}
-
-/**
- * inspo: https://hashnode.com/feed
- */
-:host[color_scheme] {
-
-  .icon.color-scheme {
-    //transition-property: transform;
-    //transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    //transition-duration: 0.1s;
-    //transform: rotate(0deg);
-    animation-fill-mode: forwards;
-    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    //animation-timing-function: ease-in-out;
-    animation-duration: 0.3s;
-  }
-
-  &[color_scheme="dark"] .icon.color-scheme.night {
-    //transform: rotate(45deg);
-    //display: none;
-    animation-name: rotate_and_fade_out;
-  }
-  &[color_scheme="light"] .icon.color-scheme.day {
-    //display: none;
-    animation-name: rotate_and_fade_out;
-  }
-}
-
-@keyframes rotate_and_fade_out {
-  0% {
-    transform: rotate(0deg);
-    opacity: 1;
-  }
-  99% {
-    transform: rotate(90deg);
-    //opacity: 0;
-  }
-  100% {
-    //display: none;
   }
 }
