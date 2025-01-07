@@ -1,0 +1,64 @@
+<link rel="stylesheet" href="core.css"/>
+<script src="core.js" defer></script>
+<main>
+    <section id="game_board"></section>
+</main>
+<button onclick="trigger_spin()">spin</button>
+
+
+<section id="info">
+    <div>
+        <ol>
+            <li><input type="checkbox" checked />only 1 extra row, hidden by overflow</li>
+            <li><input type="checkbox" checked />can spin indefinitely</li>
+            <li><input type="checkbox" checked />tiles move independently</li>
+            <li>TODO: increase speed</li>
+            <li>TODO: pay lines</li>
+            <li>TODO: tile highlighting</li>
+            <li>TODO: slam stop</li>
+            <li>TODO: gentle stop</li>
+            <li>TODO: bouncy stop</li>
+            <li>BUG: tile drift</li>
+        </ol>
+    </div>
+    <div id="logs">
+
+    </div>
+</section>
+
+<script>
+  function setup_game_board() {
+      // for(let column_index = 0; column_index < config.grid.columns; column_index++) {
+      for(let column_index = 0; column_index < 1; column_index++) {
+          // for(let row_index = 0; row_index < (config.grid.rows+1); row_index++) {
+          for(let row_index = 0; row_index < 1; row_index++) {
+              const tile = new Tile(column_index, row_index);
+              game_board.appendChild(tile);
+          }
+      }
+  }
+
+  function trigger_spin() {
+      api_call()
+      document.querySelectorAll('.tile').forEach((tile, index) => {
+          const column = parseInt((index/config.grid.columns).toString())
+          setTimeout(async () => {
+              while(!api_request_finished) {
+                  await spin(tile)
+              }
+          }, column * config.spin.column_delay_ms)
+      })
+  }
+
+  async function spin(tile){
+      return new Promise(resolve => {
+          const current_y_coordinate = get_y_coordinate(tile)
+          let new_y_coordinate = current_y_coordinate + config.spin.increment_pixels;
+          if(current_y_coordinate >= (config.grid.rows * config.tile_size)){
+              new_y_coordinate = -1 * config.tile_size
+          }
+          tile.style.top = new_y_coordinate + 'px';
+          setTimeout(resolve, 0.1);
+      });
+  }
+</script>

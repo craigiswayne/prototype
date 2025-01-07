@@ -1,0 +1,25 @@
+<link rel="stylesheet" href="core.css"/>
+<script src="core.js" defer></script>
+<main>
+    <section id="game_board"></section>
+</main>
+<button onclick="spin()">spin</button>
+
+<script>
+  function setup_game_board(config) {
+      for(let column_index = 0; column_index < config.grid.columns; column_index++) {
+          const reel = Reel();
+          for(let row_index = 0; row_index < (config.grid.rows+1); row_index++) {
+              const tile = new Tile(column_index, row_index);
+              reel.appendChild(tile);
+          }
+          game_board.appendChild(reel)
+      }
+  }
+
+  function spin() {
+      document.querySelectorAll('.reel').forEach((el) => {
+
+      })
+  }
+</script>

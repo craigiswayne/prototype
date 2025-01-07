@@ -1,0 +1,79 @@
+<link rel="stylesheet" href="core.css"/>
+<script src="core.js" defer></script>
+<style>
+  .tile {
+    transition: top 0.3s linear
+  }
+</style>
+<main>
+  <section id="game_board"></section>
+</main>
+<button onclick="spin()">spin</button>
+<button onclick="stop()">STOP</button>
+
+<section id="info">
+  <div>
+    <ol>
+      <li><input type="checkbox" checked/>only 2 extra row invisible rows</li>
+      <li><input type="checkbox" checked/>spins indefinitely</li>
+      <li><input type="checkbox" checked/>tiles move independently</li>
+      <li>TODO: increase speed</li>
+      <li>TODO: pay lines</li>
+      <li>TODO: tile highlighting</li>
+      <li>TODO: slam stop</li>
+      <li>TODO: gentle stop</li>
+      <li>TODO: bouncy stop</li>
+      <li>BUG: tile drift</li>
+    </ol>
+  </div>
+  <div id="logs">
+
+  </div>
+</section>
+
+<script>
+  function setup_game_board() {
+    log(JSON.stringify(config))
+    // for(let column_index = 0; column_index < config.grid.columns; column_index++) {
+    for (let column_index = 0; column_index < 1; column_index++) {
+      const reel = new Reel();
+      for (let row_index = 0; row_index < (config.grid.rows + config.grid.invisible_rows); row_index++) {
+      // for (let row_index = 0; row_index < 2; row_index++) {
+        const tile = new Tile(column_index, row_index);
+        reel.appendChild(tile);
+      }
+      game_board.appendChild(reel)
+    }
+  }
+
+  async function spin() {
+    api_call()
+    let count = 0;
+    const promises = [];
+    while(count < 200 && !api_request_finished){
+      promises.push(move_tile(document.querySelector('.tile:nth-child(6n+1)')))
+      promises.push(move_tile(document.querySelector('.tile:nth-child(6n+2)')))
+      promises.push(move_tile(document.querySelector('.tile:nth-child(6n+3)')))
+      promises.push(move_tile(document.querySelector('.tile:nth-child(6n+4)')))
+      promises.push(move_tile(document.querySelector('.tile:nth-child(6n+5)')))
+      promises.push(move_tile(document.querySelector('.tile:nth-child(6n+6)')))
+      await Promise.all(promises)
+      count++;
+    }
+  }
+
+  async function move_tile(tile) {
+    return new Promise(resolve => {
+      tile.ontransitionend = resolve
+      let current_row_index = parseInt(tile.getAttribute('row'));
+      const next_row_index = current_row_index === 6 ? 1 : current_row_index + 1;
+      tile.setAttribute('row', next_row_index)
+
+      // Ensures that this tile is in front of tiles moving back up to the top of the reel
+      tile.style.zIndex = next_row_index
+
+      tile.style.top = y_coordinate_for_row_index(next_row_index)
+    });
+  }
+
+</script>
