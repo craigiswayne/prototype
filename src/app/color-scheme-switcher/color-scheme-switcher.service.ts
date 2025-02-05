@@ -7,21 +7,22 @@ type COLOR_SCHEME = 'light' | 'dark';
   providedIn: 'root',
 })
 export class ColorSchemeSwitcherService {
-  public $behaviour = new BehaviorSubject<COLOR_SCHEME>(this.get_initial_color_scheme());
+  public $behaviour = new BehaviorSubject<COLOR_SCHEME>(this.users_initial_preference);
   public $observable: Observable<COLOR_SCHEME>;
   private renderer: Renderer2;
 
   constructor(private readonly rendererFactor: RendererFactory2) {
     this.renderer = this.rendererFactor.createRenderer(null, null);
-    this.$observable = this.$behaviour.asObservable().pipe(
-      tap(scheme => {
-        this.renderer.setAttribute(document.body, 'data-color-scheme', scheme);
-      })
-    )
+    this.$observable = this.$behaviour
+      .asObservable()
+      .pipe(
+        tap(scheme => {
+          this.renderer.setAttribute(document.body, 'data-color-scheme', scheme);
+        })
+      );
   }
 
-
-  private get_initial_color_scheme(): COLOR_SCHEME {
+  private get users_initial_preference(): COLOR_SCHEME {
     if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
       return 'dark';
     }

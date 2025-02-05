@@ -44,7 +44,8 @@ export class AppComponent implements OnInit {
 
   constructor(public schemeService: ColorSchemeSwitcherService) {}
 
-  public ngOnInit() {
+
+  public ngOnInit():void  {
     this.schemeService.$observable
       .subscribe(scheme => {
         const theme_to_use = scheme === 'light' ? 'vs-light' : 'vs-dark';
@@ -54,7 +55,7 @@ export class AppComponent implements OnInit {
           return;
         }
 
-        // @ts-expect-error todo
+        // @ts-expect-error todo move this to somewhere else
         window.monaco.editor.setTheme(theme_to_use);
       })
   }
@@ -87,6 +88,8 @@ export class AppComponent implements OnInit {
       <li>bottom drawer to show last 20 items saved?</li>
       <li>extract webpage into code boxes</li>
       <li>remove postMessage debug from index.html</li>
+      <li>ability to turn off automatic render, see js fiddle run button</li>
+      <li>diff comparer</li>
       </ol>`
   }
 
@@ -102,4 +105,5 @@ export class AppComponent implements OnInit {
     download_link.setAttribute('href', data);
     download_link.click();
   }
+
 }

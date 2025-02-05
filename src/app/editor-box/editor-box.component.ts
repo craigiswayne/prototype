@@ -5,6 +5,9 @@ import {SUPPORTED_LANGUAGES} from '../app.types';
 import {AppService} from '../app.service';
 import {EditorBoxModule} from './editor-box.module';
 import {editor} from 'monaco-editor/esm/vs/editor/editor.api';
+import {ColorSchemeSwitcherService} from "../color-scheme-switcher/color-scheme-switcher.service";
+import {window} from "rxjs";
+import {LoggerService} from "../logger.service";
 
 /**
  * @link https://microsoft.github.io/monaco-editor/typedoc/interfaces/editor.IStandaloneEditorConstructionOptions.html
@@ -42,10 +45,11 @@ export class EditorBoxComponent implements OnChanges {
   private current_value = '';
   private editor!: editor.IStandaloneCodeEditor;
 
-  constructor(private readonly app_service: AppService) {}
+  constructor(private readonly app_service: AppService, private schemeService: ColorSchemeSwitcherService, private logger: LoggerService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     this.editorOptions = {
+      theme: this.schemeService.$behaviour.getValue() === 'light' ? 'vs' : 'vs-dark',
       language: changes['language'].currentValue,
       minimap: {
         enabled: false
@@ -70,42 +74,42 @@ export class EditorBoxComponent implements OnChanges {
 
   public onInit(initialized_editor: editor.IStandaloneCodeEditor): void {
     this.editor = initialized_editor;
-    /*this.editor.getModel()?.onDidChangeContent((ev) => {
-      console.info('DEBUG: onDidChangeContent', ev);
+    this.editor.getModel()?.onDidChangeContent((ev) => {
+      this.logger.debug('onDidChangeContent', ev);
 
-      console.info('DEBUG: onDidChangeContent', {
+      this.logger.debug('onDidChangeContent', {
         language: this.language
       });
     })
     this.editor.onEndUpdate(() => {
-      console.info('DEBUG: onEndUpdate', {
+      this.logger.debug('onEndUpdate', {
         language: this.language
       });
     })
     this.editor.onDidChangeModel(() => {
-      console.info('DEBUG: onDidChangeModel', {
+      this.logger.debug('onDidChangeModel', {
         language: this.language
       });
     })
     this.editor.onDidChangeConfiguration((config: editor.ConfigurationChangedEvent) => {
-      console.info('DEBUG: onDidChangeConfiguration', config);
+      this.logger.debug('onDidChangeConfiguration', config);
 
-      console.info('DEBUG: onDidChangeConfiguration', {
+      this.logger.debug('onDidChangeConfiguration', {
         language: this.language
       });
     })
     this.editor.onDidCompositionEnd((config) => {
-      console.info('DEBUG: onDidCompositionEnd', config);
-      console.info('DEBUG: onDidCompositionEnd', {
+      this.logger.debug('onDidCompositionEnd', config);
+      this.logger.debug('onDidCompositionEnd', {
         language: this.language
       });
     })
     this.editor.onDidChangeModelContent(() => {
-      console.info('DEBUG: onDidChangeModelContent', {
+      this.logger.debug('onDidChangeModelContent', {
         language: this.language
       });
-    })*/
-    this.maybeAutofocus();
+    })
+    // this.maybeAutofocus();
   }
 
   private maybeAutofocus(): void {
@@ -135,7 +139,7 @@ export class EditorBoxComponent implements OnChanges {
     // setTimeout(() => {
     //   if(action){
     //     // action.run();
-    //     console.info('DEBUG: formatting stuff', {
+    //     this.logger.debug('formatting stuff', {
     //       language: this.language
     //     });
     //   }
