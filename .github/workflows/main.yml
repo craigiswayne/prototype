@@ -31,8 +31,8 @@ jobs:
 #          docker build -t ${{ env.APP_NAME }}:${{ env.VERSION }} .
 #          docker tag my-app:${{ env.VERSION }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_NAME }}:${{ env.VERSION }}
 
-      - name: Push Docker Image
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{env.APP_NAME}}:${{ env.VERSION }}
+#      - name: Push Docker Image
+#        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{env.APP_NAME}}:${{ env.VERSION }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
