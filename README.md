@@ -3,7 +3,8 @@
 ### Testing pipeline
 make changes
 ```shell
-$VERSION="v0.0.18"
+$VERSION="v0.0.19"
+git fetch --all --prune --prune-tags
 git commit -am "Testing pipeline: $VERSION"
 git tag -a $VERSION -m "Release $VERSION"
 git push
