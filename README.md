@@ -1,12 +1,14 @@
 # Prototype
 
 ### Testing pipeline
-* make changes
-* `git add .`
-* `git commit -m 'Your message'`
-* `git tag -a v0.0.7 -m 'Release v0.0.7'`
-* `git push`
-* `git push --tags`
+make changes
+```shell
+git add -p
+git commit -m 'Your message'
+git tag -a v0.0.7 -m 'Release v0.0.7'
+git push
+git push --tags
+```
 
 ### Docker
 ```shell
