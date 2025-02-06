@@ -12,16 +12,21 @@ permissions:
   contents: write
 
 jobs:
-  build-and-containerize:
+  build_and_containerize:
     runs-on: ubuntu-latest
+
+    outputs:
+      new_version: ${{steps.get_version.outputs.version}}
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Extract Version Tag
+      - name: get_version
         id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        run: |
+          echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          echo "version=${{env.VERSION}}" >> "$GITHUB_OUTPUT"
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
@@ -38,10 +43,14 @@ jobs:
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{env.APP_NAME}}:${{ env.VERSION }}
 
   release:
-    needs: [ build-and-containerize ]
+    needs: build_and_containerize
     runs-on: ubuntu-latest
 
     steps:
+      - env:
+          OUTPUT1: ${{needs.build_and_containerize.outputs.new_version}}
+        run: echo "NEW VERSION = $OUTPUT1"
+
       - name: 'test echos'
         run: "echo ENV VERSION: ${{env.VERSION}}"
 
