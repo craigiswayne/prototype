@@ -38,9 +38,13 @@ jobs:
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{env.APP_NAME}}:${{ env.VERSION }}
 
   release:
+    needs: [ build-and-containerize ]
     runs-on: ubuntu-latest
 
     steps:
+      - name: 'test echos'
+        run: "echo ENV VERSION: ${{env.VERSION}}"
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:

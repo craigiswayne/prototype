@@ -3,9 +3,10 @@
 ### Testing pipeline
 make changes
 ```shell
+$VERSION="v0.0.11"
 git add -p
 git commit -m 'Your message'
-git tag -a v0.0.7 -m 'Release v0.0.7'
+git tag -a $VERSION -m 'Release $VERSION'
 git push
 git push --tags
 ```
