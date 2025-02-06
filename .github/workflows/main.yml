@@ -34,8 +34,6 @@ jobs:
         run: |
           echo "version from env = ${{ env.VERSION }}"
           echo "version from output = ${{ steps.get_version.outputs.VERSION }}"
-          echo "version from output = ${{ get_version.outputs.VERSION }}"
-          echo "version from output = ${{ outputs.VERSION }}"
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
