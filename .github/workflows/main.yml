@@ -27,13 +27,13 @@ jobs:
         id: get_version
         run: |
           echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-          # saving version to output storage
           echo "version=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+# TODO maybe save the version into one variable and reference that variable instead of doing the regex again?
 
-      - name: test_echos
-        run: |
-          echo "version from env = ${{ env.VERSION }}"
-          echo "version from output = ${{ steps.get_version.outputs.VERSION }}"
+#      - name: test_echos
+#        run: |
+#          echo "version from env = ${{ env.VERSION }}"
+#          echo "version from output = ${{ steps.get_version.outputs.VERSION }}"
 
       - name: Login to DockerHub
         uses: docker/login-action@v2
@@ -49,16 +49,14 @@ jobs:
       - name: Push Docker Image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{env.APP_NAME}}:${{ env.VERSION }}
 
+      # TODO delete old docker tags that dont match any of the git-tags
+      # This is dangerous, so be sure you want to do it, cause it may be the last accessible point of that image
+
   release:
     needs: build_and_containerize
     runs-on: ubuntu-latest
 
     steps:
-      - name: 'test echos'
-        run: "echo ENV VERSION: ${{env.VERSION}}"
-        env:
-            VERSION: ${{needs.build_and_containerize.outputs.new_version}}
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
