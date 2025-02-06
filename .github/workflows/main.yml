@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 jobs:
-  build-and-release:
+  build-and-containerize:
     runs-on: ubuntu-latest
 
     steps:
@@ -37,6 +37,10 @@ jobs:
       - name: Push Docker Image
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{env.APP_NAME}}:${{ env.VERSION }}
 
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
