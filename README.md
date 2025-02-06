@@ -3,7 +3,7 @@
 ### Testing pipeline
 make changes
 ```shell
-$VERSION="v0.0.17"
+$VERSION="v0.0.18"
 git commit -am "Testing pipeline: $VERSION"
 git tag -a $VERSION -m "Release $VERSION"
 git push
