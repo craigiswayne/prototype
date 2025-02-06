@@ -2,8 +2,9 @@
 
 ### Testing pipeline
 * make changes
-* commit
-* `git tag -a v0.0.6 -m 'Release v0.0.6'`
+* `git add .`
+* `git commit -m 'Your message'`
+* `git tag -a v0.0.7 -m 'Release v0.0.7'`
 * `git push`
 * `git push --tags`
 
