@@ -3,11 +3,12 @@
 ### Testing pipeline
 make changes
 ```shell
-$VERSION="v0.0.12"
-git commit -am 'Testing pipeline'
-git tag -a $VERSION -m 'Release $VERSION'
+$VERSION="v0.0.14"
+git commit -am "Testing pipeline: $VERSION"
+git tag -a $VERSION -m "Release $VERSION"
 git push
 git push --tags
+echo 'Done :)'
 ```
 
 ### Docker
