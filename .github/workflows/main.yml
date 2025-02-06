@@ -54,12 +54,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - env:
-          VERSION: ${{needs.build_and_containerize.outputs.new_version}}
-        run: echo "NEW VERSION = $VERSION"
-
       - name: 'test echos'
         run: "echo ENV VERSION: ${{env.VERSION}}"
+        env:
+            VERSION: ${{needs.build_and_containerize.outputs.new_version}}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -70,3 +68,5 @@ jobs:
           name: Release ${{ env.VERSION }}
           draft: false
           prerelease: false
+        env:
+          VERSION: ${{needs.build_and_containerize.outputs.new_version}}
