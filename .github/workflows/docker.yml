@@ -43,11 +43,14 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t ${{ env.APP_NAME }}:${{ env.VERSION }} .
+          docker build --platform="linux/arm64/v8" -t ${{ env.APP_NAME }}:${{ env.VERSION }} .
           docker tag ${{ env.APP_NAME }}:${{ env.VERSION }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_NAME }}:${{ env.VERSION }}
 
-      - name: Push Docker Image
+      - name: Push Image (current version)
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{env.APP_NAME}}:${{ env.VERSION }}
+
+      - name: Push Image (latest)
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{env.APP_NAME}}:latest
 
       # TODO delete old docker tags that dont match any of the git-tags
       # This is dangerous, so be sure you want to do it, cause it may be the last accessible point of that image
