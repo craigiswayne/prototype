@@ -11,9 +11,3 @@ git push
 git push --tags
 echo 'Done :)'
 ```
-
-```shell
-docker build -t prototype .
-docker build -t prototype:latest .
-docker run -p 8080: 80 prototype
-```
