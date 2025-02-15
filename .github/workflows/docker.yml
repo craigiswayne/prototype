@@ -43,7 +43,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build --platform="linux/arm64/v8" -t ${{ env.APP_NAME }}:${{ env.VERSION }} .
+          docker build -t ${{ env.APP_NAME }}:${{ env.VERSION }} .
           docker tag ${{ env.APP_NAME }}:${{ env.VERSION }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_NAME }}:${{ env.VERSION }}
 
       - name: Push Image (current version)
