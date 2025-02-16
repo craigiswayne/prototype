@@ -1,5 +1,7 @@
 # Prototype
 
+![docker badge](http://dockeri.co/image/craigiswayne/prototype)
+
 ### Testing pipeline
 make changes
 ```shell
