@@ -42,14 +42,11 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build Docker Image
-        run: |
-          docker build -t ${{ env.APP_NAME }}:${{ env.VERSION }} .
-          docker build -t ${{ env.APP_NAME }}:${{ env.VERSION }}-lean . -f Dockerfile-nginx-only
+        run: docker build -t ${{ env.APP_NAME }}:${{ env.VERSION }} .
 
       - name: Tag Docker Images
         run: |
           docker tag ${{ env.APP_NAME }}:${{ env.VERSION }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_NAME }}:${{ env.VERSION }}
-          docker tag ${{ env.APP_NAME }}:${{ env.VERSION }}-lean ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_NAME }}:${{ env.VERSION }}-lean
           docker tag ${{ env.APP_NAME }}:${{ env.VERSION }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_NAME }}:latest
 
       - name: Push Docker Images

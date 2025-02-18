@@ -5,7 +5,7 @@
 ### Testing pipeline
 make changes
 ```shell
-VERSION="v0.0.27"
+VERSION="v0.0.28"
 git fetch --all --prune --prune-tags
 git commit -am "Testing pipeline: $VERSION"
 git tag -a $VERSION -m "Release $VERSION"
