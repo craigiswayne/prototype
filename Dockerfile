@@ -1,3 +1,5 @@
+LABEL description="Like codepen...\
+...but offline"
 FROM node:alpine AS build
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
