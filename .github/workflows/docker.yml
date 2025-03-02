@@ -36,7 +36,7 @@ jobs:
 #          echo "version from output = ${{ steps.get_version.outputs.VERSION }}"
 
       - name: Login to DockerHub
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
