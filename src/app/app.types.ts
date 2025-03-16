@@ -1,7 +1,16 @@
 export interface CODE_OBJECT {
-  html?: string,
-  css?: string,
-  javascript?: string
+  html?:  {
+    value: '',
+    options: []
+  },
+  css?:  {
+    value: '',
+    options: []
+  },
+  javascript?:  {
+    value: '',
+    options: []
+  }
 }
 
 export type SUPPORTED_LANGUAGES = keyof CODE_OBJECT;

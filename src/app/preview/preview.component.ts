@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, inject, input, viewChild} from '@angular/core';
 import {CODE_OBJECT} from '../app.types';
 import {AppService} from '../app.service';
 import {NgStyle} from '@angular/common';
@@ -7,47 +7,57 @@ import {NgStyle} from '@angular/common';
   selector: 'app-preview',
   standalone: true,
   templateUrl: './preview.component.html',
-  imports: [
-    NgStyle
-  ],
   styleUrl: './preview.component.scss'
 })
 export class PreviewComponent implements AfterViewInit {
 
-  @Input() show_mask = false;
-  @ViewChild('iframe') iframe?: ElementRef<HTMLIFrameElement>;
+  private _iframe = viewChild<ElementRef<HTMLIFrameElement>>('iframe');
 
   public full_code = '';
 
-  private preview_document?: Document | null;
-  private current_code: CODE_OBJECT = {
-    html: '',
-    css: '',
-    javascript: ''
+  private _preview_document?: Document | null;
+  private _current_code: CODE_OBJECT = {
+    html: {
+      value: '',
+      options: []
+    },
+    css:  {
+      value: '',
+      options: []
+    },
+    javascript:  {
+      value: '',
+      options: []
+    }
   }
-
-  constructor(private readonly app_service: AppService) {}
+  private _app_service = inject(AppService);
 
   public ngAfterViewInit(): void {
-    this.app_service.$code_object.subscribe(res => {
+    this._app_service.$code_object.subscribe(res => {
       this.render(res);
     });
   }
 
   public render(code: CODE_OBJECT): void {
 
-    if(!this.iframe){
+    if(!this._iframe){
       return;
     }
 
-    this.preview_document = this.preview_document || this.iframe.nativeElement.contentDocument;
-    if(!this.preview_document){
+    this._preview_document = this._preview_document || this._iframe()!.nativeElement.contentDocument;
+    if(!this._preview_document){
       return;
     }
 
-    this.current_code = {...this.current_code, ...code};
-    const styles = this.current_code.css ? `<style>${this.current_code.css}</style>` : '';
-    const scripts = this.current_code.javascript ? `<script>${this.current_code.javascript}</script>` : '';
+    this._current_code = {...this._current_code, ...code};
+    const styles = this._current_code.css?.value ? `<style>${this._current_code.css.value}</style>` : '';
+    let scripts = '';
+    if(this._current_code.javascript?.value){
+      if(this._current_code.javascript?.options){
+        console.log('options', this._current_code.javascript?.options);
+      }
+      scripts = `<script>${this._current_code.javascript.value}</script>`
+    }
     this.full_code = `<!DOCTYPE html>
     <html lang="en">
         <head>
@@ -58,12 +68,12 @@ export class PreviewComponent implements AfterViewInit {
             ${scripts}
         </head>
         <body>
-           ${this.current_code.html}
+           ${this._current_code.html?.value}
         </body>
     </html>`;
 
-    this.preview_document.open();
-    this.preview_document.write(this.full_code);
-    this.preview_document.close();
+    this._preview_document.open();
+    this._preview_document.write(this.full_code);
+    this._preview_document.close();
   }
 }

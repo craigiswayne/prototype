@@ -1,22 +1,22 @@
-import {Component, HostBinding, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {NgClass, NgIf, UpperCasePipe} from '@angular/common';
+import {Component, HostBinding, inject, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {NgIf, UpperCasePipe} from '@angular/common';
 import {SlideToggleComponent} from '../slide-toggle/slide-toggle.component';
 import {SUPPORTED_LANGUAGES} from '../app.types';
 import {AppService} from '../app.service';
 import {EditorBoxModule} from './editor-box.module';
 import {editor} from 'monaco-editor/esm/vs/editor/editor.api';
 import {ColorSchemeSwitcherService} from "../color-scheme-switcher/color-scheme-switcher.service";
-import {window} from "rxjs";
 import {LoggerService} from "../logger.service";
+import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 
 /**
  * @link https://microsoft.github.io/monaco-editor/typedoc/interfaces/editor.IStandaloneEditorConstructionOptions.html
  */
-interface IStandaloneEditorConstructionOptions {
+interface EditorOptions {
   language: SUPPORTED_LANGUAGES;
   minimap: {
     enabled: boolean
-  }
+  };
   theme?: 'vs' | 'vs-dark' | 'hc-black' | 'hc-light';
 }
 
@@ -24,11 +24,11 @@ interface IStandaloneEditorConstructionOptions {
   selector: 'app-editor-box',
   standalone: true,
   imports: [
-    NgClass,
     SlideToggleComponent,
     EditorBoxModule,
     NgIf,
-    UpperCasePipe
+    UpperCasePipe,
+    ReactiveFormsModule
   ],
   templateUrl: './editor-box.component.html',
   styleUrl: './editor-box.component.scss'
@@ -39,11 +39,16 @@ export class EditorBoxComponent implements OnChanges {
   @Input() @HostBinding('class.collapsed') collapsed = false;
 
 
-  public editorOptions?: IStandaloneEditorConstructionOptions;
+  public editorOptions?: EditorOptions;
   @Input() code = '';
   @Input() autofocus = false;
+  @Input() header_dropdown: string[] = [];
   private current_value = '';
   private editor!: editor.IStandaloneCodeEditor;
+  private form_builder = inject(FormBuilder);
+  public form = this.form_builder.group({
+    header_dropdown: [this.header_dropdown[0], [Validators.required]]
+  })
 
   constructor(private readonly app_service: AppService, private schemeService: ColorSchemeSwitcherService, private logger: LoggerService) {}
 
@@ -55,9 +60,13 @@ export class EditorBoxComponent implements OnChanges {
         enabled: false
       }
     }
-
     if(changes['code']){
       this.trigger_change(changes['code'].currentValue);
+    }
+    if(changes['header_dropdown']){
+      this.form.patchValue({
+        header_dropdown: changes['header_dropdown'].currentValue[0]
+      })
     }
   }
 
@@ -68,7 +77,10 @@ export class EditorBoxComponent implements OnChanges {
     }
 
     this.app_service.$code_object.next({
-      [this.language]: this.current_value = value
+      [this.language]: {
+        value: this.current_value = value,
+        options: this.form.value
+      }
     })
   }
 

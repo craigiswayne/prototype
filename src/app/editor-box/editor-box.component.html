@@ -1,5 +1,16 @@
 <header (click)="collapsed = !collapsed">
-  {{language|uppercase}}
-  <app-slide-toggle [checked]="!collapsed" />
+  <span>{{language|uppercase}}</span>
+  <div>
+<!--    <form [formGroup]="form">-->
+<!--      @if(header_dropdown && header_dropdown.length){-->
+<!--        <select (click)="$event.stopPropagation()" formControlName="header_dropdown">-->
+<!--        @for(item of header_dropdown; track item){-->
+<!--            <option [value]="item">{{item}}</option>-->
+<!--        }-->
+<!--        </select>-->
+<!--      }-->
+<!--    </form>-->
+    <app-slide-toggle [checked]="!collapsed" />
+  </div>
 </header>
 <ngx-monaco-editor [options]="editorOptions" [(ngModel)]="code" *ngIf="editorOptions && editorOptions.language" (ngModelChange)="trigger_change($event)" (onInit)="onInit($event)" />

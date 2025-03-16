@@ -1,5 +1,4 @@
-import {Component, ElementRef, HostListener, isDevMode, OnInit, ViewChild} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
+import {Component, ElementRef, HostListener, inject, isDevMode, OnInit, viewChild, ViewChild} from '@angular/core';
 import {PreviewComponent} from './preview/preview.component';
 import {ToolbarComponent} from './toolbar/toolbar.component';
 import {ResizeBarComponent} from './resize-bar/resize-bar.component';
@@ -11,7 +10,7 @@ import {ColorSchemeSwitcherService} from './color-scheme-switcher/color-scheme-s
 @Component({
   standalone: true,
   selector: 'app-root',
-  imports: [CommonModule, RouterOutlet, PreviewComponent, ToolbarComponent, ResizeBarComponent, EditorBoxComponent, FullScreenToggleComponent],
+  imports: [CommonModule, PreviewComponent, ToolbarComponent, ResizeBarComponent, EditorBoxComponent, FullScreenToggleComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -20,6 +19,8 @@ export class AppComponent implements OnInit {
   @ViewChild(ToolbarComponent) toolbar!: ToolbarComponent;
   @ViewChild(EditorBoxComponent) first_box_component!: EditorBoxComponent;
   @ViewChild(PreviewComponent) preview_component!: PreviewComponent;
+
+  private _scheme_service = inject(ColorSchemeSwitcherService);
 
   @HostListener('window:beforeunload', ['$event'])
   doSomething(event: BeforeUnloadEvent) {
@@ -30,7 +31,7 @@ export class AppComponent implements OnInit {
     return 'All your work will be erased!';
   }
 
-  @ViewChild('download_link') download_link_ref?: ElementRef<HTMLAnchorElement>;
+  private _download_link_ref = viewChild.required<ElementRef<HTMLAnchorElement>>('download_link');
 
   /**
    * Catch the Save action
@@ -38,15 +39,18 @@ export class AppComponent implements OnInit {
    * @link https://github.com/angular/angular/blob/35d7ca55b2141c7d9a3e86163e85dd883f60c171/adev/src/content/guide/templates/event-listeners.md?plain=1#L96
    */
   @HostListener('window:keydown.code.control.KeyS', ['$event']) catch_save_action(event: KeyboardEvent) {
+    event.stopPropagation();
+    event.preventDefault();
+    this.save_this_shit();
+  }
+  @HostListener('window:keydown.code.meta.KeyS', ['$event']) listener(event: KeyboardEvent) {
+    event.stopPropagation();
     event.preventDefault();
     this.save_this_shit();
   }
 
-  constructor(public schemeService: ColorSchemeSwitcherService) {}
-
-
   public ngOnInit():void  {
-    this.schemeService.$observable
+    this._scheme_service.$observable
       .subscribe(scheme => {
         const theme_to_use = scheme === 'light' ? 'vs-light' : 'vs-dark';
 
@@ -73,7 +77,7 @@ export class AppComponent implements OnInit {
       <li>stylelint</li>
       <li>custom monaco editor theme to look like the original prototype</li>
       <li>format the boxes on load</li>
-      <li>download functionality to be standalone component</li>
+      <li>save functionality as a separate standalone library or component?</li>
       <li>toolbar to use angular material toolbar</li>
       <li>angular material slide out menu</li>
       <li>angular coverage tests</li>
@@ -81,20 +85,17 @@ export class AppComponent implements OnInit {
       <li>lighthouse tests</li>
       <li>auto-generate screenshots for README / documentation purposes</li>
       <li>window unload event as a separate standalone library or component?</li>
-      <li>save functionality as a separate standalone library or component?</li>
-      <li>save functionality doesn't work when clicking on the preview pane and then triggering the save</li>
       <li>should be no vulnerabilities issues after install</li>
       <li>bottom drawer to show last 20 items saved?</li>
       <li>extract webpage into code boxes</li>
-      <li>remove postMessage debug from index.html</li>
       <li>ability to turn off automatic render, see js fiddle run button</li>
       <li>diff comparer</li>
       </ol>`
   }
 
   public save_this_shit(): void {
-    const filename = this.toolbar.get_filename();
-    const download_link = this.download_link_ref?.nativeElement;
+    const filename = this.toolbar.filename;
+    const download_link = this._download_link_ref().nativeElement;
     if (!filename || !download_link) {
       return;
     }
