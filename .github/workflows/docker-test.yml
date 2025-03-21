@@ -11,10 +11,6 @@ jobs:
   build_and_tag:
     runs-on: ubuntu-latest
 
-    # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/passing-information-between-jobs
-    outputs:
-      new_version: ${{steps.get_version.outputs.version}}
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -23,11 +19,10 @@ jobs:
         run: |
           echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
 
-      - name: get_version
-        id: get_version
+      - name: Get Latest Tag
         run: |
-          echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-          echo "version=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+          LATEST_TAG=$(git describe --tags --abbrev=0)
+          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
@@ -36,9 +31,9 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build Docker Image
-        run: docker build -t $REPO_NAME:${{ env.VERSION }} .
+        run: docker build -t $REPO_NAME:${{ env.LATEST_TAG }} .
 
       - name: Tag Docker Images
         run: |
-          docker tag $REPO_NAME:${{ env.VERSION }} ${{github.repository_owner}}"/:${{ env.VERSION }}
+          docker tag $REPO_NAME:${{ env.VERSION }} ${{github.repository_owner}}"/:${{ env.LATEST_TAG }}
           docker tag $REPO_NAME:${{ env.VERSION }} ${{github.repository_owner}}"/$REPO_NAME:latest
