@@ -63,7 +63,6 @@ export class AppComponent implements OnInit {
   public default_code = {
     html: `<h1>TODO:</h1>
     <ol>
-      <li>dark mode with sun and moon icon in toolbar</li>
       <li>sidebar</li>
       <li>import from codepen</li>
       <li>export to codepen</li>
