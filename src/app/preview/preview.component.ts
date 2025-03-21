@@ -38,6 +38,24 @@ export class PreviewComponent implements AfterViewInit {
     });
   }
 
+  public force_refresh(): void {
+    if(this._iframe() !== undefined){
+      return;
+    }
+
+    this._preview_document = this._preview_document || this._iframe()!.nativeElement.contentDocument;
+    if(!this._preview_document){
+      return;
+    }
+
+    if(!this._iframe()!.nativeElement?.contentWindow){
+      return;
+    }
+
+    this._iframe()!.nativeElement.contentWindow!.location.reload();
+    this.render(this._current_code);
+  }
+
   public render(code: CODE_OBJECT): void {
 
     if(!this._iframe){

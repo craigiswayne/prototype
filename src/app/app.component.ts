@@ -7,6 +7,16 @@ import {EditorBoxComponent} from './editor-box/editor-box.component';
 import {FullScreenToggleComponent} from './full-screen-toggle/full-screen-toggle.component';
 import {ColorSchemeSwitcherService} from './color-scheme-switcher/color-scheme-switcher.service';
 
+declare global {
+  interface Window {
+    monaco?: {
+      editor: {
+        setTheme: (theme: string) => void
+      }
+    }
+  }
+}
+
 @Component({
   standalone: true,
   selector: 'app-root',
@@ -54,12 +64,10 @@ export class AppComponent implements OnInit {
       .subscribe(scheme => {
         const theme_to_use = scheme === 'light' ? 'vs-light' : 'vs-dark';
 
-        // @ts-expect-error todo
-        if(undefined === window?.monaco){
+        if(undefined === window.monaco){
           return;
         }
 
-        // @ts-expect-error todo move this to somewhere else
         window.monaco.editor.setTheme(theme_to_use);
       })
   }
@@ -101,7 +109,7 @@ export class AppComponent implements OnInit {
     }
     const data = 'data:application/xml;charset=utf-8,' + encodeURIComponent(this.preview_component.full_code);
 
-    download_link.setAttribute('download', filename);
+    download_link.setAttribute('download', `captured-`  + filename );
     download_link.setAttribute('href', data);
     download_link.click();
   }
