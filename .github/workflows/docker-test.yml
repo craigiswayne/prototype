@@ -37,8 +37,9 @@ jobs:
 
       - name: Tag Docker Images
         run: |
-          docker tag ${{ env.REPO_NAME }}:${{ env.VERSION }} ${{github.repository_owner}}/${{ env.REPO_NAME }}:${{ env.LATEST_TAG }}
-          docker tag ${{ env.REPO_NAME }}:${{ env.VERSION }} ${{github.repository_owner}}/${{ env.REPO_NAME }}:latest
+          echo "docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]"
+          docker tag ${{ env.REPO_NAME }}:${{ env.LATEST_TAG }} ${{github.repository_owner}}/${{ env.REPO_NAME }}:${{ env.LATEST_TAG }}
+          docker tag ${{ env.REPO_NAME }}:${{ env.LATEST_TAG }} ${{github.repository_owner}}/${{ env.REPO_NAME }}:latest
 
 # TODO
 # remove secrets
@@ -46,3 +47,5 @@ jobs:
 # delete old tags,
 # delete old releases
 # cleanup docker repo
+#          SOURCE_IMAGE_WITH_TAG="${{ env.REPO_NAME }}:${{ env.LATEST_TAG }}"
+
