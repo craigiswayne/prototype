@@ -33,9 +33,16 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build Docker Image
-        run: docker build -t $REPO_NAME:${{ env.LATEST_TAG }} .
+        run: docker build -t ${{ env.REPO_NAME }}:${{ env.LATEST_TAG }} .
 
       - name: Tag Docker Images
         run: |
-          docker tag $REPO_NAME:${{ env.VERSION }} ${{github.repository_owner}}"/$REPO_NAME:${{ env.LATEST_TAG }}
-          docker tag $REPO_NAME:${{ env.VERSION }} ${{github.repository_owner}}"/$REPO_NAME:latest
+          docker tag ${{ env.REPO_NAME }}:${{ env.VERSION }} ${{github.repository_owner}}/${{ env.REPO_NAME }}:${{ env.LATEST_TAG }}
+          docker tag ${{ env.REPO_NAME }}:${{ env.VERSION }} ${{github.repository_owner}}/${{ env.REPO_NAME }}:latest
+
+# TODO
+# remove secrets
+# change $REPO_NAME -> ${{ env.REPO_NAME }}
+# delete old tags,
+# delete old releases
+# cleanup docker repo
