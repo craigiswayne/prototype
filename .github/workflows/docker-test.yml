@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   build_and_tag:
-    uses: craigiswayne/ci-cd/.github/workflows/publish-docker-hub.yml@main
+    uses: craigiswayne/ci-cd/.github/workflows/publish-docker-hub.yml@feature/reusable-workflow
     with:
       docker_hub_username: 'craigiswayne'
       docker_hub_repository: 'prototype'
