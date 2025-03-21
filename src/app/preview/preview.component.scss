@@ -1,14 +1,15 @@
 :host {
   position: relative;
   background: var(--color-canvas);
+  --toolbar-height-preview: 25px;
 }
 
 iframe, .mask {
   position: absolute;
-  top: 0;
+  top: var(--toolbar-height-preview);
   left: 0;
   width: 100%;
-  height: 100%;
+  height: calc(100% - var(--toolbar-height-preview));
 }
 
 iframe {
@@ -17,4 +18,10 @@ iframe {
 
 .mask {
   z-index: 1;
+}
+
+.toolbar {
+  width: 100%;
+  height: var(--toolbar-height-preview);
+  background: red;
 }

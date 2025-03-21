@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
    * @link https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values
    * @link https://github.com/angular/angular/blob/35d7ca55b2141c7d9a3e86163e85dd883f60c171/adev/src/content/guide/templates/event-listeners.md?plain=1#L96
    */
-  @HostListener('window:keydown.code.control.KeyS', ['$event']) catch_save_action(event: KeyboardEvent) {
+  @HostListener('document:keydown.code.control.KeyS', ['$event']) catch_save_action(event: KeyboardEvent) {
     event.preventDefault();
     this.save_this_shit();
   }
@@ -101,7 +101,7 @@ export class AppComponent implements OnInit {
     }
     const data = 'data:application/xml;charset=utf-8,' + encodeURIComponent(this.preview_component.full_code);
 
-    download_link.setAttribute('download', filename);
+    download_link.setAttribute('download', `captured-`  + filename );
     download_link.setAttribute('href', data);
     download_link.click();
   }
