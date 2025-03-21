@@ -9,43 +9,18 @@ permissions:
 
 jobs:
   build_and_tag:
-    runs-on: ubuntu-latest
+    uses: craigiswayne/ci-cd/.github/workflows/publish-docker-hub.yml@
+    with:
+      docker_hub_username: 'craigiswayne'
+      docker_hub_repository: 'prototype'
+    secrets:
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Extract Repo Name
-        run: |
-          echo "REPO_NAME=${GITHUB_REPOSITORY#$GITHUB_REPOSITORY_OWNER/}" >> $GITHUB_ENV
-
-      - name: Get Latest Tag
-        run: |
-          LATEST_TAG=$(git describe --tags --abbrev=0)
-          echo "LATEST_TAG=$LATEST_TAG" >> $GITHUB_ENV
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v3
-        with:
-          username: ${{github.repository_owner}}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Build Docker Image
-        run: docker build -t ${{ env.REPO_NAME }}:${{ env.LATEST_TAG }} .
-
-      - name: Tag Docker Images
-        run: |
-          SOURCE_IMAGE_WITH_TAG="${{ env.REPO_NAME }}:${{ env.LATEST_TAG }}"
-          docker tag $SOURCE_IMAGE_WITH_TAG ${{github.repository_owner}}/${{ env.REPO_NAME }}:${{ env.LATEST_TAG }}
-          docker tag $SOURCE_IMAGE_WITH_TAG ${{github.repository_owner}}/${{ env.REPO_NAME }}:latest
-
+#    uses: craigiswayne/ci-cd/.github/workflows/publish-docker-hub.yml@v1
 # TODO
 # remove secrets
 # change $REPO_NAME -> ${{ env.REPO_NAME }}
 # delete old tags,
 # delete old releases
 # cleanup docker repo
-#          SOURCE_IMAGE_WITH_TAG="${{ env.REPO_NAME }}:${{ env.LATEST_TAG }}"
 
