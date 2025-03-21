@@ -1,0 +1,45 @@
+name: Publish to Docker
+
+on:
+  push:
+    branches: ["feature/angular"]
+
+permissions:
+  contents: write
+
+jobs:
+  build_and_containerize:
+    runs-on: ubuntu-latest
+
+    # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/passing-information-between-jobs
+    outputs:
+      new_version: ${{steps.get_version.outputs.version}}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Extract Repo Name
+        run: |
+          REPO_NAME=$(basename ${{ github.repository }})
+          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
+
+      - name: get_version
+        id: get_version
+        run: |
+          echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+          echo "version=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{github.repository_owner}}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Docker Image
+        run: docker build -t ${{ env.REPO_NAME }}:${{ env.VERSION }} .
+
+      - name: Tag Docker Images
+        run: |
+          docker tag ${{ env.REPO_NAME }}:${{ env.VERSION }} ${{github.repository_owner}}"/:${{ env.VERSION }}
+          docker tag ${{ env.REPO_NAME }}:${{ env.VERSION }} ${{github.repository_owner}}"/${{ env.REPO_NAME }}:latest
