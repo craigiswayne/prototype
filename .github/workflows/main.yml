@@ -27,7 +27,7 @@ jobs:
           echo "value=$LATEST_GIT_TAG" >> "$GITHUB_OUTPUT"
 
   publish_to_docker_hub:
-    uses: craigiswayne/ci-cd/.github/workflows/publish-docker-hub.yml@feature/reusable-workflow
+    uses: craigiswayne/ci-cd/.github/workflows/docker-image-to-docker-hub.yml@feature/reusable-workflow
     with:
       docker_hub_username: 'craigiswayne'
       docker_hub_repository: 'prototype'
