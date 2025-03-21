@@ -9,14 +9,13 @@ permissions:
 
 jobs:
   build_and_tag:
-    uses: craigiswayne/ci-cd/.github/workflows/publish-docker-hub.yml@
+    uses: craigiswayne/ci-cd/.github/workflows/publish-docker-hub.yml@v1
     with:
       docker_hub_username: 'craigiswayne'
       docker_hub_repository: 'prototype'
     secrets:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
-#    uses: craigiswayne/ci-cd/.github/workflows/publish-docker-hub.yml@v1
 # TODO
 # remove secrets
 # change $REPO_NAME -> ${{ env.REPO_NAME }}
