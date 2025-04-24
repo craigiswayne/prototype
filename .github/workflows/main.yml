@@ -2,7 +2,6 @@ name: Docker Test
 
 on:
   push:
-    branches: ["feature/angular"]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -12,6 +11,12 @@ permissions:
   contents: write
 
 jobs:
+  npm:
+    uses: craigiswayne/ci-cd/.github/workflows/_npm-install-build-lint-test.yml@v0.0.5
+    with:
+      test_command: 'test:ci'
+      run_lint: false
+
   determine_version:
     runs-on: ubuntu-latest
 
@@ -31,6 +36,9 @@ jobs:
           echo "value=$LATEST_GIT_TAG" >> "$GITHUB_OUTPUT"
 
   publish_to_docker_hub:
+    needs: [
+      npm
+    ]
     uses: craigiswayne/ci-cd/.github/workflows/docker-image-to-docker-hub.yml@feature/reusable-workflow
     with:
       docker_hub_username: 'craigiswayne'
@@ -39,7 +47,11 @@ jobs:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
   release:
-    needs: [determine_version, publish_to_docker_hub]
+    needs: [
+      npm,
+      determine_version,
+      publish_to_docker_hub
+    ]
     runs-on: ubuntu-latest
 
     steps:
