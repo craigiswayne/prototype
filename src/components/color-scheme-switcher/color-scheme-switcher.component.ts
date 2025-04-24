@@ -1,5 +1,5 @@
 import {Component, HostBinding} from '@angular/core';
-import {ColorSchemeSwitcherService} from './color-scheme-switcher.service';
+import {ColorSchemeSwitcherService} from '../../services/color-scheme-switcher.service';
 
 @Component({
   standalone: true,

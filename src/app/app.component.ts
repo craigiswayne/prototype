@@ -1,11 +1,11 @@
 import {Component, ElementRef, HostListener, inject, isDevMode, OnInit, viewChild, ViewChild} from '@angular/core';
-import {PreviewComponent} from './preview/preview.component';
-import {ToolbarComponent} from './toolbar/toolbar.component';
-import {ResizeBarComponent} from './resize-bar/resize-bar.component';
+import {PreviewComponent} from '../components/preview/preview.component';
+import {ToolbarComponent} from '../components/toolbar/toolbar.component';
+import {ResizeBarComponent} from '../components/resize-bar/resize-bar.component';
 import {CommonModule} from '@angular/common';
-import {EditorBoxComponent} from './editor-box/editor-box.component';
-import {FullScreenToggleComponent} from './full-screen-toggle/full-screen-toggle.component';
-import {ColorSchemeSwitcherService} from './color-scheme-switcher/color-scheme-switcher.service';
+import {EditorBoxComponent} from '../components/editor-box/editor-box.component';
+import {FullScreenToggleComponent} from '../components/full-screen-toggle/full-screen-toggle.component';
+import {ColorSchemeSwitcherService} from '../services/color-scheme-switcher.service';
 
 declare global {
   interface Window {

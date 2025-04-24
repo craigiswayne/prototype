@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, HostListener, inject, input, viewChild} from '@angular/core';
-import {CODE_OBJECT} from '../app.types';
-import {AppService} from '../app.service';
+import {CODE_OBJECT} from '../../app/app.types';
+import {AppService} from '../../app/app.service';
 import {NgStyle} from '@angular/common';
 
 @Component({

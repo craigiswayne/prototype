@@ -1,12 +1,12 @@
 import {Component, HostBinding, inject, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {NgIf, UpperCasePipe} from '@angular/common';
 import {SlideToggleComponent} from '../slide-toggle/slide-toggle.component';
-import {SUPPORTED_LANGUAGES} from '../app.types';
-import {AppService} from '../app.service';
+import {SUPPORTED_LANGUAGES} from '../../app/app.types';
+import {AppService} from '../../app/app.service';
 import {EditorBoxModule} from './editor-box.module';
 import {editor} from 'monaco-editor/esm/vs/editor/editor.api';
-import {ColorSchemeSwitcherService} from "../color-scheme-switcher/color-scheme-switcher.service";
-import {LoggerService} from "../logger.service";
+import {ColorSchemeSwitcherService} from "../../services/color-scheme-switcher.service";
+import {LoggerService} from "../../services/logger.service";
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 
 /**
