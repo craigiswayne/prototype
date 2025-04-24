@@ -15,54 +15,59 @@ jobs:
     uses: craigiswayne/ci-cd/.github/workflows/_npm-install-build-lint-test.yml@v0.0.5
     with:
       test_command: 'test:ci'
-      run_lint: false
 
-  determine_version:
-    runs-on: ubuntu-latest
+  publish_to_ghcr:
+    uses: craigiswayne/ci-cd/.github/workflows/docker-image-to-ghcr.yml@v0.0.5
+    permissions:
+      contents: read
+      packages: write
 
-    outputs:
-      latest_git_version: ${{steps.get_latest_git_version.outputs.value}}
+#  determine_version:
+#    runs-on: ubuntu-latest
+#
+#    outputs:
+#      latest_git_version: ${{steps.get_latest_git_version.outputs.value}}
+#
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#
+#      - name: Get latest git version
+#        id: get_latest_git_version
+#        run: |
+#          LATEST_GIT_TAG=$(git describe --tags --abbrev=0)
+#          echo "LATEST_GIT_TAG=$LATEST_GIT_TAG" >> $GITHUB_ENV
+#          echo "value=$LATEST_GIT_TAG" >> "$GITHUB_OUTPUT"
 
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+#  publish_to_docker_hub:
+#    needs: [
+#      npm
+#    ]
+#    uses: craigiswayne/ci-cd/.github/workflows/docker-image-to-docker-hub.yml@v0.0.5
+#    with:
+#      docker_hub_username: 'craigiswayne'
+#      docker_hub_repository: 'prototype'
+#    secrets:
+#      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Get latest git version
-        id: get_latest_git_version
-        run: |
-          LATEST_GIT_TAG=$(git describe --tags --abbrev=0)
-          echo "LATEST_GIT_TAG=$LATEST_GIT_TAG" >> $GITHUB_ENV
-          echo "value=$LATEST_GIT_TAG" >> "$GITHUB_OUTPUT"
-
-  publish_to_docker_hub:
-    needs: [
-      npm
-    ]
-    uses: craigiswayne/ci-cd/.github/workflows/docker-image-to-docker-hub.yml@v0.0.5
-    with:
-      docker_hub_username: 'craigiswayne'
-      docker_hub_repository: 'prototype'
-    secrets:
-      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-
-  release:
-    needs: [
-      npm,
-      determine_version,
-      publish_to_docker_hub
-    ]
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          generate_release_notes: true
-          make_latest: true
-          tag_name: ${{ env.VERSION }}
-          name: Release ${{ env.VERSION }}
-          draft: false
-          prerelease: false
-        env:
-          VERSION: ${{needs.determine_version.outputs.latest_git_version}}
+#  release:
+#    needs: [
+#      npm,
+#      determine_version,
+#      publish_to_docker_hub
+#    ]
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - name: Create GitHub Release
+#        uses: softprops/action-gh-release@v2
+#        with:
+#          generate_release_notes: true
+#          make_latest: true
+#          tag_name: ${{ env.VERSION }}
+#          name: Release ${{ env.VERSION }}
+#          draft: false
+#          prerelease: false
+#        env:
+#          VERSION: ${{needs.determine_version.outputs.latest_git_version}}

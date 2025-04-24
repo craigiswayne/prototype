@@ -110,8 +110,7 @@ export class EditorBoxComponent implements OnChanges {
         language: this.language
       });
     })
-    this.editor.onDidCompositionEnd((config) => {
-      this.logger.debug('onDidCompositionEnd', config);
+    this.editor.onDidCompositionEnd(() => {
       this.logger.debug('onDidCompositionEnd', {
         language: this.language
       });

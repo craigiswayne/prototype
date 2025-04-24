@@ -48,12 +48,13 @@ export class AppComponent implements OnInit {
    * @link https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values
    * @link https://github.com/angular/angular/blob/35d7ca55b2141c7d9a3e86163e85dd883f60c171/adev/src/content/guide/templates/event-listeners.md?plain=1#L96
    */
-  @HostListener('window:keydown.code.control.KeyS', ['$event']) catch_save_action(event: KeyboardEvent) {
+  @HostListener('window:keydown.code.control.KeyS', ['$event']) catch_save_action_windows(event: KeyboardEvent) {
     event.stopPropagation();
     event.preventDefault();
     this.save_this_shit();
   }
-  @HostListener('window:keydown.code.meta.KeyS', ['$event']) listener(event: KeyboardEvent) {
+
+  @HostListener('window:keydown.code.meta.KeyS', ['$event']) catch_save_action_mac(event: KeyboardEvent) {
     event.stopPropagation();
     event.preventDefault();
     this.save_this_shit();
