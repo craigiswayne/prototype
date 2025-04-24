@@ -39,7 +39,7 @@ jobs:
     needs: [
       npm
     ]
-    uses: craigiswayne/ci-cd/.github/workflows/docker-image-to-docker-hub.yml@feature/reusable-workflow
+    uses: craigiswayne/ci-cd/.github/workflows/docker-image-to-docker-hub.yml@v0.0.5
     with:
       docker_hub_username: 'craigiswayne'
       docker_hub_repository: 'prototype'
