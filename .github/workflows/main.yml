@@ -16,6 +16,7 @@ jobs:
     with:
       test_command: 'test:ci'
       build_artifact_path: 'dist/prototype'
+      build_artifact_name: 'prototype-build-artifact'
 
 
 #  download_artifact:
