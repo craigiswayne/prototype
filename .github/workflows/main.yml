@@ -12,15 +12,43 @@ permissions:
 
 jobs:
   npm:
-    uses: craigiswayne/ci-cd/.github/workflows/_npm-install-build-lint-test.yml@v0.0.5
+    uses: craigiswayne/ci-cd/.github/workflows/_npm-install-build-lint-test.yml@feature/upload-build-artifact-npm-workflow
     with:
       test_command: 'test:ci'
+      build_artifact_path: 'dist/prototype'
 
-  publish_to_ghcr:
-    uses: craigiswayne/ci-cd/.github/workflows/docker-image-to-ghcr.yml@v0.0.5
-    permissions:
-      contents: read
-      packages: write
+
+  download_artifact:
+    needs: [npm]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download windows artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: artifact
+          path: artifacts/my-test-artifact
+
+#  checkout:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#          fetch-tags: true
+#
+#      - name: Upload artifacts
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: gdextension-web-${{ env.GODOT_TAG }}
+#          path: spine-godot/example-v4-extension/bin/web/*.wasm
+
+#  publish_to_ghcr:
+#    uses: craigiswayne/ci-cd/.github/workflows/docker-image-to-ghcr.yml@v0.0.5
+#    permissions:
+#      contents: read
+#      packages: write
+#    with:
+#      artifact_name: 'my-artifact'
 
 #  determine_version:
 #    runs-on: ubuntu-latest
