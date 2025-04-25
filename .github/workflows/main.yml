@@ -18,15 +18,16 @@ jobs:
       build_artifact_path: 'dist/prototype'
 
 
-  download_artifact:
-    needs: [npm]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download windows artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: artifact
-          path: artifacts/my-test-artifact
+#  download_artifact:
+#    needs: [npm]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Download Build Artifact
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: artifact
+#          # where to download to
+#          path: artifacts/my-test-artifact
 
 #  checkout:
 #    runs-on: ubuntu-latest
