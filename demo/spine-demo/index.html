@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Spine Demo</title>
+  <style>* {
+    box-sizing: border-box;
+  }
+
+  body {
+    padding: 1rem;
+    font-family: sans-serif;
+    font-size: 16px;
+  }
+  </style>
+  <script>var spinePlayer;
+  document.addEventListener('DOMContentLoaded', () => {
+    spinePlayer = new spine.SpinePlayer("player-container", {
+      // Absolute URLs
+      skeleton: "skeleton.json",
+      atlas: "skeleton.atlas",
+      showControls: true,
+      alpha: true,
+      backgroundColor: "#00000000",
+      fullScreenBackgroundColor: "#00000000",
+      // success: function (player) {
+      //     // player.setAnimation("Chest Open", true);
+      //     player.pla
+      // }
+    });
+
+  })</script>
+</head>
+<body>
+<script src="https://unpkg.com/@esotericsoftware/spine-player@4.2.*/dist/iife/spine-player.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/@esotericsoftware/spine-player@4.2.*/dist/spine-player.css">
+<div id="player-container" style="width: 640px; height: 480px;"></div>
+
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<html>
+    <meta charset="UTF-8">
+    <head>
+        <title>Sprite Sheet Animator</title>
+        <link rel="stylesheet" href="jquery/jquery-ui.css">
+        <script type="text/javascript" src="jquery/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="jquery/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="jsgif/LZWEncoder.js"></script>
+        <script type="text/javascript" src="jsgif/NeuQuant.js"></script>
+        <script type="text/javascript" src="jsgif/GIFEncoder.js"></script>
+        <script type="text/javascript" src="jsgif/b64.js"></script>
+    </head>
+    <body onLoad="setInterval(Update, 16);" style="text-align:center;">
+        <h1 style="margin-bottom:5px;">Sprite Sheet Animator</h1>
+        <h5 style="margin-top:0px;">v2.1 by InanZen</h5>
+        <br/>
+        <canvas id="imgCanvas" width="64" height="64" style="border:1px solid black;"></canvas><br/>
+        <img id="image" src="" alt="your image" style="display:none"/>
+        <div id="ui" style="width:auto; height:auto; margin:auto; margin-top:10px;">
+            <div id="frameSlider" style="width:85%;margin:auto;  margin-bottom:5px; min-width: 250px; max-width: 800px;"></div>
+            <div id="frameControls">
+                <input type="button" id="frameStepBack" value="⧏" style="display: inline; border: 0px solid black;"/>
+                <input type="button" id="framePlayBack" value="◁" style="display: inline;"/>
+                <input type="button" id="frameStop" value="◻" style="display: inline;"/>
+                <input type="button" id="framePlayForward" value="▷" style="display: inline;"/>
+                <input type="button" id="frameStepForward" value="⧐" style="display: inline; border: 0px solid black;"/>
+            </div>
+            <div id="imgInfo" style="width:auto; height:auto; margin:auto;" ></div>
+        </div>
+        <br/>
+        <form id="form1" style="margin:auto;">
+            From the web: <input type='text' id="imgUrl" /><input type="button" id="load" value="Load"/><br/>
+            From your computer: <input type='file' accept="image/*" id="imgInp" /><br/><br/>
+            Sprite Width: <input type='number' id="spriteW" size="6" value="64"/><br/>
+            Sprite Height: <input type='number' id="spriteH" size="6" value="64"/><br/>
+            <br/>
+            Sheet padding (edge of the sheet): <br/>
+            left:<input type='number' id="padLeft" size="6" value="0"/>  top:<input type='number' id="padTop" size="6" value="0"/>
+            <br/>
+            Sheet spacing (between sprites): <br/>
+            horizontal:<input type='number' id="spacingHor" size="6" value="0"/>  vertical:<input type='number' id="spacingVer" size="6" value="0"/><br/>
+            <br/>
+            Frame Count: <input type='number' id="frameCount" size="6" value="4" min="1"/><br/>
+            Frame Time: <input type='number' id="frameTime" size="6" value="100"/><br/>
+            Start Frame: <input type='number' id="frameStart" size="6" value="1" min="1"/><br/>
+            <br/>
+            Zoom: <input type='number' id="zoom" size="6" max="100" value="1"/><br/>
+            <br/>
+            Background color: <input type='text' id="color" size="6" value="white"/><br/>
+            Border: <input type='checkbox' id="border" checked="checked"/><br/>
+            <br/>
+            <input type='checkbox' id="uiSlider" checked="checked"/> Slider &nbsp;&nbsp;
+            <input type='checkbox' id="uiFrameControls" checked="checked"/> Frame controls &nbsp;&nbsp;
+            <input type='checkbox' id="uiFrameNum" checked="checked"/> Frame info<br/>
+            <br/>
+            <input type='button' id="gif" value="Generate GIF"/>
+            <input type='checkbox' id="gifloop" checked="checked"/> Loop  
+            Quality: <input type='number' id="gifquality" size="3" max="255" value="1" style="width:50px;"/> (1=best  255=worst)<br/>
+            <input type='checkbox' id="gifshow" checked="checked"/> Show Gif (direct download might be blocked by some browsers)
+            <br/>
+            <img id="gifimg" src="" />
+            <br/>
+            <br/>
+            <input type='button' id="save" value="Save settings"/>
+            <input type='button' id="generate" value="Generate link"/></br>
+
+
+            <input type="textarea" id="imgsrc" style="display:none"/>
+        </form>
+        <div id="linkarea" style="margin-top:10px; display: none;">
+            <input type="textarea" id="link" style="width:100%; height:auto; margin:auto; overflow: auto; resize:both;" readonly/>
+            <input type="button" id="copylink" value="Copy to clipboard"/>
+        </div>
+        <br/>
+        <div id="debug"></div>
+        <div id="about">Made by InanZen. Licence: CC0. Download and run localy: <a href="SpriteSheetAnimator_v2.1.zip">SpriteSheetAnimator_v2.1.zip</a></div>
+        <script type="text/javascript" src="animator.js"></script>
+    </body>
+</html>

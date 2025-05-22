@@ -1,0 +1,230 @@
+-
+  const ALL_ITEMS = [
+    {
+      name: "THE STORM",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/THESTORM/THESTORM-tile?updatedAt=1732626757773"
+    },
+    {
+      name: "FOXY HUXIAN",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/FOXYHUXI/FOXYHUXI-tile?updatedAt=1732626665908",
+      link: "https://gamedemos.uroc.com/games/5x3_foxy/?session=6669996666999&hfgid=7&gamengine=5x3_HFG_LV",
+      enabled: true
+    },
+    {
+      name: "DIANMU BOLTS",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/DIANMUBO/DIANMUBO-tile?updatedAt=1732626602749",
+    },
+    {
+      name: "Chang'e Elixir",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/CHANGEE/CHANGEE-tile?updatedAt=1732626482000",
+    },
+    {
+      name: "BALDURS'S HEROES",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/BALDURS/BALDURS-tile?updatedAt=1732626410554",
+    },
+    {
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/ATTILAS/ATTILAS-tile?updatedAt=1732625976991",
+    },
+    {
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/ARTHURS/ARTHURS-tile?updatedAt=1732625869419",
+    },
+    {
+      name: "APUS MOUNTAIN",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/APUSMOU/APUSMOU-tile?updatedAt=1732625709110"
+    },
+    {
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/APOLLOS/APOLLOS-tile?updatedAt=1732625632602",
+    },
+    {
+      name: "XIANGZI FLUTE",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/XIANGZIF/XIANGZIF-tile?updatedAt=1732619248078",
+    },
+    {
+      name: "APHRODITE HEARTS",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/APHRODITE/APHRODITE-tile?updatedAt=1732619108579",
+    },
+    {
+      name: "GOTHS PLUNDER",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/GOTHSPLU/GOTHSPLU-tile?updatedAt=1732618134729",
+    },
+    {
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/DOC80/DOC80-tile?updatedAt=1732613204375",
+    },
+    {
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/HARVEST/HARVEST-tile?updatedAt=1732611898647",
+      enabled: true
+    },
+    {
+      name: "EAGLE STRIKE",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/EAGLESTRIKE/EagleStrike.png?updatedAt=1747051560094",
+      // link: "https://gamedemos.uroc.com/games/baldeagle_5x3C/?session=6669996666999&hfgid=8&gamengine=5x3_HFG_20W_LV",
+      link: "https://gamedemos.uroc.com/games/eaglestrike/?session=6669996666999&hfgid=8&gamengine=5x3_HFG_20W_LV",
+      enabled: true
+    },
+    {
+      name: "HOT AMIGOS",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/HOTAMIGOS/HotAmigos_Card.png?updatedAt=1747065453259",
+      // link: "https://gamedemos.uroc.com/games/hotamigos_5x3C/?session=6669996666999&hfgid=8&gamengine=5x3_HFG_20W_LV",
+      link: "https://gamedemos.uroc.com/games/hotamigo/?session=6669996666999&hfgid=8&gamengine=5x3_HFG_20W_LV",
+      enabled: true
+    },
+    {
+      name: "TEEFZ BOOM BUFFET",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/TEEFZ/Teefz%20Card.png?updatedAt=1747065399231",
+      link: "https://gamedemos.uroc.com/games/teefz/",
+      enabled: true
+    },
+    {
+      name: "REZA'S CAR GAME",
+      image: "https://ik.imagekit.io/bmp6bnlpn/uroc/Uroc-Bg%20Linked.png?updatedAt=1733491318823",
+      link: "https://gamedemos.uroc.com/games/reza/car/index.html",
+      enabled: false
+    },
+    {
+      name: "REZA'S SPACEMAN GAME",
+      image: "https://ik.imagekit.io/bmp6bnlpn/uroc/Uroc-Bg%20Linked.png?updatedAt=1733491318823",
+      link: "https://gamedemos.uroc.com/games/reza/spaceman/index.html",
+      enabled: false
+    },
+    {
+      name: "REZA'S FISHING GAME",
+      image: "https://ik.imagekit.io/bmp6bnlpn/uroc/Uroc-Bg%20Linked.png?updatedAt=1733491318823",
+      link: "https://gamedemos.uroc.com/games/reza/fishing/",
+      enabled: false
+    },
+    {
+      image: "https://ik.imagekit.io/bmp6bnlpn/uroc/Uroc-Bg%20Linked.png?updatedAt=1733491318823",
+      link: "https://gamedemos.uroc.com/games/robo/",
+      enabled: false
+    },
+    {
+      name: "HOUNDS OF HADES",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/HOUNDSOF/HOUNDSOF-tile?updatedAt=1732613644990",
+      link: "https://gamedemos.uroc.com/games/unity/",
+      enabled: true
+    },
+    {
+      name: "BARNEY'S HFG",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/BARNEYS/BARNEYS-tile?updatedAt=1732613108338",
+      link: "https://gamedemos.uroc.com/games/barney_hfgc/?session=6669996666999&hfgid=8&gamengine=5x3_HFG_20W_LV",
+      enabled: true
+    },
+    {
+      name: "NIGIRI SUSHI (ipad)",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/NIGIRIS/NigriCard.png?updatedAt=1747065423727",
+      link: "https://gamedemos.uroc.com/games/3x3_IPAD_NIGIRI/?session=6669996666999&hfgid=5&gamengine=3x3_HFG",
+      enabled: true
+    },
+    {
+      image: "https://ik.imagekit.io/bmp6bnlpn/uroc/Uroc-Bg%20Linked.png?updatedAt=1733491318823",
+      link: "https://gamedemos.uroc.com/games/scratch/8_2/Scratch_8_2.html",
+      enabled: false
+    },
+    {
+      image: "https://ik.imagekit.io/bmp6bnlpn/uroc/Uroc-Bg%20Linked.png?updatedAt=1733491318823",
+      link: "https://gamedemos.uroc.com/games/slots/0_1_0_6/Slots_0_1_0_6.html",
+      enabled: false
+    },
+    {
+      image: "https://ik.imagekit.io/bmp6bnlpn/uroc/Uroc-Bg%20Linked.png?updatedAt=1733491318823",
+      link: "https://gamedemos.uroc.com/games/scratch/0_1_0_1/Scratch_0_1_0_1.html",
+      enabled: false
+    },
+    {
+      image: "https://ik.imagekit.io/bmp6bnlpn/uroc/Uroc-Bg%20Linked.png?updatedAt=1733491318823",
+      link: "https://gamedemos.uroc.com/games/slots/0_1_0_5/Slots_0_1_0_5.html",
+      enabled: false
+    },
+    {
+      image: "https://ik.imagekit.io/bmp6bnlpn/uroc/Uroc-Bg%20Linked.png?updatedAt=1733491318823",
+      link: "https://gamedemos.uroc.com/games/holdforgold/",
+      enabled: false
+    },
+    {
+      name: "ROCKET FLAPS",
+      image: "https://ik.imagekit.io/bmp6bnlpn/uroc/Uroc-Bg%20Linked.png?updatedAt=1733491318823",
+      link: "https://gamedemos.uroc.com/games/reza/rocketFlaps/index.html",
+      enabled: false
+    },
+    {
+      name: "SIX SHOT SLOTS",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/SIXSHOT/SizShotSlots.png?updatedAt=1747051626687",
+      link: "https://gamedemos.uroc.com/games/sixshot_5x3C/?session=6669996666999&hfgid=8&gamengine=5x3_HFG_20W_LV",
+      // link: "https://gamedemos.uroc.com/games/sixshot_5x3C_u/?session=6669996666999&hfgid=8&gamengine=5x3_HFG_20W_LV",
+      enabled: true
+    },
+    {
+      name: "NIGIRI SUSHI",
+      image: "https://ik.imagekit.io/bmp6bnlpn/games/NIGIRIS/NigriCard.png?updatedAt=1747065423727",
+      link: "https://gamedemos.uroc.com/games/3x3_Sushi/?session=6669996666999&hfgid=5&gamengine=3x3_HFG",
+      enabled: true
+    },
+  ]
+
+html
+  head
+    meta(charset="utf-8")
+    title UROC Demo Launcher
+    meta(name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1")
+    link(rel="icon" href="https://ik.imagekit.io/bmp6bnlpn/uroc/uroc_favicon_16x16.png?updatedAt=1747122756900" type="image/png" sizes="16x16")
+    link(rel='stylesheet' href='launcher/coverflow.css')
+    script(type='module' src='launcher/coverflow.js')
+    script(src='launcher/ui.js')
+  body
+
+    header
+      img#company-logo(src="https://ik.imagekit.io/bmp6bnlpn/uroc/uroc-logo.svg?updatedAt=1747060391308")
+      section
+        a.active(href="#") SLOTS
+        a(href="scratch.html") SCRATCH
+        a(href="ext-slots.html") ext SLOTS
+    .boxes
+      - let b = 0
+      - let items = ALL_ITEMS.filter(i => i.image && i.image !== '' && i.link && i.link !== '' && i.enabled && i.enabled !== false);
+      while b < items.length
+        div.box(style=`--src: url(${items[b].image})` href=`${items[b].link}`)
+          span= b + 1
+          img(src=items[b].image)
+          label= items[b].name
+        - b++
+
+      .controls
+        button.next
+          span Previous album
+          svg(viewBox="0 0 448 512" width="100" title="Previous Album")
+            path(d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z")
+        button.prev
+          span Next album
+          svg(viewBox="0 0 448 512" width="100" title="Next Album")
+            path(d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z")
+
+    svg.scroll-icon(viewBox="0 0 24 24")
+      path(fill="currentColor" d="M20 6H23L19 2L15 6H18V18H15L19 22L23 18H20V6M9 3.09C11.83 3.57 14 6.04 14 9H9V3.09M14 11V15C14 18.3 11.3 21 8 21S2 18.3 2 15V11H14M7 9H2C2 6.04 4.17 3.57 7 3.09V9Z")
+    .drag-proxy
+
+    aside
+      label.toggle(data-callback='toggle_fullscreen')
+        input(type='checkbox')
+        svg.off(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 256 256')
+          rect(width='256' height='256' fill='none')
+          polyline(points='160 48 208 48 208 96' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+          line(x1='152' y1='104' x2='208' y2='48' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+          polyline(points='96 208 48 208 48 160' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+          line(x1='104' y1='152' x2='48' y2='208' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+          polyline(points='208 160 208 208 160 208' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+          line(x1='152' y1='152' x2='208' y2='208' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+          polyline(points='48 96 48 48 96 48' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+          line(x1='104' y1='104' x2='48' y2='48' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+        svg.on(xmlns='http://www.w3.org/2000/svg' viewbox='0 0 256 256')
+          rect(width='256' height='256' fill='none')
+          polyline(points='192 104 152 104 152 64' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+          line(x1='208' y1='48' x2='152' y2='104' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+          polyline(points='64 152 104 152 104 192' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+          line(x1='48' y1='208' x2='104' y2='152' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+          polyline(points='152 192 152 152 192 152' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+          line(x1='208' y1='208' x2='152' y2='152' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+          polyline(points='104 64 104 104 64 104' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+          line(x1='48' y1='48' x2='104' y2='104' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='16')
+    div#rotate-to-landscape
+      .phone
+      p Please rotate your device

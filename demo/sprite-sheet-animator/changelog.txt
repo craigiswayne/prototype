@@ -1,0 +1,12 @@
+ 2018-09-10 v2.1
+ - implemented saving animation to GIF
+ 
+ 2018-06-23 v2.0
+ - implemented animation with Canvas element for nicer up-scaling
+ - added UI controls (slider, buttons, frame number)
+ - added option to reverse animation
+ - added sheet spacing option
+ - added option to save settings to local storage
+ 
+ 2013-07-31 v1.0
+ - initial release

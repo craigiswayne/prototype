@@ -1,0 +1,15 @@
+name: "Pull Request Checks"
+
+on:
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  npm:
+    uses: craigiswayne/ci-cd/.github/workflows/_npm-install-build-lint-test.yml@v0.0.5
+    with:
+      test_command: 'test:ci'
+      run_lint: false

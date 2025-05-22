@@ -1,0 +1,96 @@
+<style>
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    padding: 1rem;
+    font-family: sans-serif;
+    font-size: 16px;
+  }
+
+  canvas {
+    left: 0;
+    right: 0;
+    width: 440px;
+    height: 300px;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: -webkit-crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+</style>
+<canvas width="240px" height="220px"></canvas>
+
+<script>
+  const SPRITE_WIDTH = 240;
+  const SPRITE_HEIGHT = 220;
+  const BORDER_WIDTH = 0;
+  const SPACING_WIDTH = 0;
+
+  function spritePositionToImagePosition(row, col) {
+    return {
+      x: (
+        BORDER_WIDTH +
+        col * (SPACING_WIDTH + SPRITE_WIDTH)
+      ),
+      y: (
+        BORDER_WIDTH +
+        row * (SPACING_WIDTH + SPRITE_HEIGHT)
+      )
+    }
+  }
+
+  var canvas = document.querySelector('canvas');
+  var context = canvas.getContext('2d');
+
+  // var spriteSheetURL = 'https://local.prototype.io/assets/bomb_animation.png';
+  var spriteSheetURL = 'https://local.prototype.io/assets/spritesheet.png';
+  var image = new Image();
+  image.src = spriteSheetURL;
+  image.crossOrigin = true;
+  image.addEventListener('load', function () {
+    console.log('Dimensions', this.width, this.height)
+    console.log('Dimensions', this.naturalWidth, this.naturalHeight)
+  });
+  // document.body.appendChild(image);
+  // image.load()
+
+
+  var row = 0;
+  var col = 0;
+
+  function animate() {
+    // once we hit the end of the sheet,
+    // go back to the beginning
+    if (col === 26) {
+      col = 0;
+    }
+
+    // make an image position using the
+    // current row and colum
+    var position = spritePositionToImagePosition(row, col);
+    context.clearRect(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+    context.drawImage(
+      image,
+      position.x,
+      position.y,
+      SPRITE_WIDTH,
+      SPRITE_HEIGHT,
+      0,
+      0,
+      SPRITE_WIDTH,
+      SPRITE_HEIGHT
+    );
+    col += 1;
+  }
+
+  image.onload = function () {
+    setInterval(animate, 30);
+  };
+</script>
