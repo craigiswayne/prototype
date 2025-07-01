@@ -3,7 +3,6 @@
   "version": "2.0.3",
   "scripts": {
     "ng": "ng",
-    "pug": "pug",
     "start": "ng serve --ssl",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
@@ -44,7 +43,6 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "pug": "^3.0.3",
     "pug-cli": "^1.0.0-alpha6",
     "typescript": "~5.4.2",
     "typescript-eslint": "8.27.0"
