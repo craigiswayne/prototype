@@ -1,11 +1,11 @@
 import {Component, ElementRef, HostListener, inject, isDevMode, OnInit, viewChild, ViewChild} from '@angular/core';
-import {PreviewComponent} from './preview/preview.component';
-import {ToolbarComponent} from './toolbar/toolbar.component';
-import {ResizeBarComponent} from './resize-bar/resize-bar.component';
+import {PreviewComponent} from '../components/preview/preview.component';
+import {ToolbarComponent} from '../components/toolbar/toolbar.component';
+import {ResizeBarComponent} from '../components/resize-bar/resize-bar.component';
 import {CommonModule} from '@angular/common';
-import {EditorBoxComponent} from './editor-box/editor-box.component';
-import {FullScreenToggleComponent} from './full-screen-toggle/full-screen-toggle.component';
-import {ColorSchemeSwitcherService} from './color-scheme-switcher/color-scheme-switcher.service';
+import {EditorBoxComponent} from '../components/editor-box/editor-box.component';
+import {FullScreenToggleComponent} from '../components/full-screen-toggle/full-screen-toggle.component';
+import {ColorSchemeSwitcherService} from '../services/color-scheme-switcher.service';
 
 declare global {
   interface Window {
@@ -48,12 +48,13 @@ export class AppComponent implements OnInit {
    * @link https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values
    * @link https://github.com/angular/angular/blob/35d7ca55b2141c7d9a3e86163e85dd883f60c171/adev/src/content/guide/templates/event-listeners.md?plain=1#L96
    */
-  @HostListener('window:keydown.code.control.KeyS', ['$event']) catch_save_action(event: KeyboardEvent) {
+  @HostListener('window:keydown.code.control.KeyS', ['$event']) catch_save_action_windows(event: KeyboardEvent) {
     event.stopPropagation();
     event.preventDefault();
     this.save_this_shit();
   }
-  @HostListener('window:keydown.code.meta.KeyS', ['$event']) listener(event: KeyboardEvent) {
+
+  @HostListener('window:keydown.code.meta.KeyS', ['$event']) catch_save_action_mac(event: KeyboardEvent) {
     event.stopPropagation();
     event.preventDefault();
     this.save_this_shit();

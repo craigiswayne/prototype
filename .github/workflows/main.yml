@@ -4,10 +4,47 @@ on:
   push:
     branches: ["feature/angular"]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
 jobs:
+  npm:
+    uses: craigiswayne/ci-cd/.github/workflows/_npm-install-build-lint-test.yml@v0.0.6
+    with:
+      test_command: 'test:ci'
+      build_artifact_path: 'dist/prototype'
+      build_artifact_name: 'prototype-build-artifact'
+
+#  download_artifact:
+#    needs: [npm]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Download Build Artifact
+#        uses: actions/download-artifact@v4
+#        with:
+#          name: artifact
+#          # where to download to
+#          path: artifacts/my-test-artifact
+
+#  checkout:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
+#          fetch-tags: true
+
+  publish_to_ghcr:
+    needs: [npm]
+    uses: craigiswayne/ci-cd/.github/workflows/docker-image-to-ghcr.yml@v0.0.6
+    permissions:
+      contents: read
+      packages: write
+
   determine_version:
     runs-on: ubuntu-latest
 
@@ -27,7 +64,10 @@ jobs:
           echo "value=$LATEST_GIT_TAG" >> "$GITHUB_OUTPUT"
 
   publish_to_docker_hub:
-    uses: craigiswayne/ci-cd/.github/workflows/docker-image-to-docker-hub.yml@feature/reusable-workflow
+    needs: [
+      npm
+    ]
+    uses: craigiswayne/ci-cd/.github/workflows/docker-image-to-docker-hub.yml@v0.0.5
     with:
       docker_hub_username: 'craigiswayne'
       docker_hub_repository: 'prototype'
@@ -35,7 +75,11 @@ jobs:
       DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
   release:
-    needs: [determine_version, publish_to_docker_hub]
+    needs: [
+      npm,
+      determine_version,
+      publish_to_docker_hub
+    ]
     runs-on: ubuntu-latest
 
     steps:

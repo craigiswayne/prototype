@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostBinding, Output, viewChild, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostBinding, Output, viewChild} from '@angular/core';
 import {ColorSchemeSwitcherComponent} from '../color-scheme-switcher/color-scheme-switcher.component';
 
 @Component({

@@ -4,13 +4,13 @@ import {Injectable, isDevMode} from '@angular/core';
   providedIn: 'root'
 })
 export class LoggerService {
-  public info(message: string, data: any): void {
+  public info(message: string, data: object): void {
     console.info(message, data);
   }
-  public debug(message: string, data: any): void {
+  public debug(message: string, data: object): void {
     if(!isDevMode()){
       return
     }
-    console.info(message, data);
+    this.info(message, data);
   }
 }

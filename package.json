@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:ci": "npm run test -- --no-watch --no-progress --browsers=ChromeHeadless --code-coverage",
     "lint": "ng lint"
   },
   "engines": {
@@ -31,16 +32,19 @@
     "@angular-devkit/build-angular": "^18.2.1",
     "@angular/cli": "^18.2.1",
     "@angular/compiler-cli": "^18.2.1",
+    "@eslint/js": "^9.25.1",
     "@types/jasmine": "~5.1.0",
-    "angular-eslint": "18.3.1",
-    "eslint": "^9.9.1",
+    "angular-eslint": "19.3.0",
+    "eslint": "^9.23.0",
+    "globals": "^16.0.0",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "pug-cli": "^1.0.0-alpha6",
     "typescript": "~5.4.2",
-    "typescript-eslint": "8.2.0"
+    "typescript-eslint": "8.27.0"
   }
 }

@@ -1,4 +1,4 @@
-<header (click)="collapsed = !collapsed">
+<header tabindex="0" (click)="collapsed = !collapsed" (keyup.enter)="collapsed = !collapsed">
   <span>{{language|uppercase}}</span>
   <div>
 <!--    <form [formGroup]="form">-->
