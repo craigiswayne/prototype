@@ -18,6 +18,7 @@ iframe {
 
 .mask {
   z-index: 1;
+  pointer-events: none;
 }
 
 .toolbar {
