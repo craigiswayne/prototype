@@ -1,38 +1,35 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, effect, signal} from '@angular/core';
 
 @Component({
   selector: 'app-resize-bar',
   standalone: true,
   templateUrl: './resize-bar.component.html',
+  host: {
+    '(mousedown)': 'resizing.set(true)',
+    '(window:mouseup)': 'this.resizing.set(false)',
+    '(window:mousemove)': 'inject_resizer_style($event.clientX + "px")'
+  },
   styleUrl: './resize-bar.component.scss'
 })
 export class ResizeBarComponent {
 
-  public resizing = false;
+  protected resizing = signal(false);
 
-  @HostListener('mousedown') onMouseDown() {
-    this.resizing = true;
-  }
+  private on_resizing_change = effect(() => {
+    const resizing = this.resizing();
+    // document.documentElement.style.setProperty('--resizing', resizing ? 'true' : 'false');
+    document.documentElement.classList.toggle('resizing', resizing);
+  })
 
-  @HostListener('window:mouseup') onMouseUp() {
-    if(!this.resizing){
-      return;
+  protected inject_resizer_style(width: string): void {
+    if(!this.resizing()){
+      return
     }
-    this.resizing = false;
-  }
 
-  @HostListener('window:mousemove', ['$event']) onMouseMove(event: MouseEvent) {
-    if(!this.resizing){
-      return;
-    }
-    this.inject_resizer_style(`${event.clientX}px`);
-  }
-
-  public inject_resizer_style(width: string): void {
     const resizer_style_id = 'resizer_styles'
     let resizer_style_tag = document.querySelector(`#${resizer_style_id}`);
 
-    if(!resizer_style_tag){
+    if (!resizer_style_tag) {
       resizer_style_tag = document.createElement('style');
       resizer_style_tag.setAttribute('id', resizer_style_id);
       document.body.appendChild(resizer_style_tag);

@@ -62,3 +62,7 @@ ngx-monaco-editor {
     min-height: 100%;
   }
 }
+
+:root.resizing #resize-helper-overlay {
+  pointer-events: all;
+}

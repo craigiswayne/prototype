@@ -74,32 +74,8 @@ export class AppComponent implements OnInit {
   }
 
   public default_code = {
-    html: `<h1>TODO:</h1>
-    <ol>
-      <li>sidebar</li>
-      <li>import from codepen</li>
-      <li>export to codepen</li>
-      <li>maybe we could implement a service worker for changes to each code box?</li>
-      <li>check for errors before triggering render</li>
-      <li>randomly display a different codepen as a startup?</li>
-      <li>cache up to last 20 prototypes in the browsers local storage</li>
-      <li>stylelint</li>
-      <li>custom monaco editor theme to look like the original prototype</li>
-      <li>format the boxes on load</li>
-      <li>save functionality as a separate standalone library or component?</li>
-      <li>toolbar to use angular material toolbar</li>
-      <li>angular material slide out menu</li>
-      <li>angular coverage tests</li>
-      <li>unit tests</li>
-      <li>lighthouse tests</li>
-      <li>auto-generate screenshots for README / documentation purposes</li>
-      <li>window unload event as a separate standalone library or component?</li>
-      <li>should be no vulnerabilities issues after install</li>
-      <li>bottom drawer to show last 20 items saved?</li>
-      <li>extract webpage into code boxes</li>
-      <li>ability to turn off automatic render, see js fiddle run button</li>
-      <li>diff comparer</li>
-      </ol>`
+    html: `<h1>TODO:</h1>\n<ol>\n\t<li>sidebar</li>\n\t<li>import from codepen</li>\n\t<li>export to codepen</li>\n\t<li>maybe we could implement a service worker for changes to each code box?</li>\n\t<li>check for errors before triggering render</li>\n\t<li>randomly display a different codepen as a startup?</li>\n\t<li>cache up to last 20 prototypes in the browsers local storage</li>\n\t<li>stylelint</li>\n\t<li>custom monaco editor theme to look like the original prototype</li>\n\t<li>format the boxes on load</li>\n\t<li>save functionality as a separate standalone library or component?</li>\n\t<li>toolbar to use angular material toolbar</li>\n\t<li>angular material slide out menu</li>\n\t<li>angular coverage tests</li>\n\t<li>unit tests</li>\n\t<li>lighthouse tests</li>\n\t<li>auto-generate screenshots for README / documentation purposes</li>\n\t<li>window unload event as a separate standalone library or component?</li>\n\t<li>should be no vulnerabilities issues after install</li>\n\t<li>bottom drawer to show last 20 items saved?</li>\n\t<li>extract webpage into code boxes</li>\n\t<li>ability to turn off automatic render, see js fiddle run button</li>\n\t<li>diff comparer</li>\n</ol>`,
+    css: `* {\n\tbox-sizing: border-box;\n}\n\nbody {\n\tbackground-color: white;\n\tfont-family: sans-serif;\n\tfont-size: 16px;\n\tpadding: 1rem;\n}`
   }
 
   public save_this_shit(): void {

@@ -4,7 +4,7 @@
   --toolbar-height-preview: 25px;
 }
 
-iframe, .mask {
+iframe, #resize-helper-overlay {
   position: absolute;
   top: var(--toolbar-height-preview);
   left: 0;
@@ -16,7 +16,7 @@ iframe {
   border: none;
 }
 
-.mask {
+#resize-helper-overlay {
   z-index: 1;
   pointer-events: none;
 }
