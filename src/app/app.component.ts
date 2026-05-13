@@ -22,6 +22,15 @@ declare global {
   selector: 'app-root',
   imports: [CommonModule, PreviewComponent, ToolbarComponent, ResizeBarComponent, EditorBoxComponent, FullScreenToggleComponent],
   templateUrl: './app.component.html',
+  /**
+   * Catch the Save action
+   * @link https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values
+   * @link https://github.com/angular/angular/blob/35d7ca55b2141c7d9a3e86163e85dd883f60c171/adev/src/content/guide/templates/event-listeners.md?plain=1#L96
+   **/
+  host: {
+    '(window:keydown.code.control.KeyS)': 'save_this_shit($event)',
+    '(window:keydown.code.meta.KeyS)': 'save_this_shit($event)'
+  },
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
@@ -43,23 +52,6 @@ export class AppComponent implements OnInit {
 
   private _download_link_ref = viewChild.required<ElementRef<HTMLAnchorElement>>('download_link');
 
-  /**
-   * Catch the Save action
-   * @link https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_code_values
-   * @link https://github.com/angular/angular/blob/35d7ca55b2141c7d9a3e86163e85dd883f60c171/adev/src/content/guide/templates/event-listeners.md?plain=1#L96
-   */
-  @HostListener('window:keydown.code.control.KeyS', ['$event']) catch_save_action_windows(event: KeyboardEvent) {
-    event.stopPropagation();
-    event.preventDefault();
-    this.save_this_shit();
-  }
-
-  @HostListener('window:keydown.code.meta.KeyS', ['$event']) catch_save_action_mac(event: KeyboardEvent) {
-    event.stopPropagation();
-    event.preventDefault();
-    this.save_this_shit();
-  }
-
   public ngOnInit():void  {
     this._scheme_service.$observable
       .subscribe(scheme => {
@@ -78,7 +70,10 @@ export class AppComponent implements OnInit {
     css: `* {\n\tbox-sizing: border-box;\n}\n\nbody {\n\tbackground-color: white;\n\tfont-family: sans-serif;\n\tfont-size: 16px;\n\tpadding: 1rem;\n}`
   }
 
-  public save_this_shit(): void {
+  protected save_this_shit($event: KeyboardEvent): void {
+    $event.stopPropagation();
+    $event.preventDefault();
+
     const filename = this.toolbar.filename;
     const download_link = this._download_link_ref().nativeElement;
     if (!filename || !download_link) {
