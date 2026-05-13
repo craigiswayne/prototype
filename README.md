@@ -13,3 +13,8 @@ git push
 git push --tags
 echo 'Done :)'
 ```
+
+### Test Docker Locally
+```shell
+docker build -f Dockerfile-slim -t craigiswayne/prototype:local-test .
+```
